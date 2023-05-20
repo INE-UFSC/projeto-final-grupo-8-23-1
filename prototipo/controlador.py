@@ -17,6 +17,10 @@ class Controlador:
         self.tempo_na_fase = 0
         self.tempo_troca_de_fase = 10000
 
+        #self.hud = Hud(self.pontuacao, self.tempo, self.vidas)
+
+        self.entidades = []
+
         comprimento_tela = 900
         altura_tela = 600
         self.janela = pygame.display.set_mode((comprimento_tela, altura_tela))
@@ -33,9 +37,17 @@ class Controlador:
         pass
 
     def atualizar_hud(self):
-        #Hud(self.pontuacao, self.tempo, self.vidas)
+        #self.hud = Hud(self.pontuacao, self.tempo, self.vidas)
         pass
 
+    def mudar_jogo(self):
+
+        jogos_disponiveis = self.jogos.copy()
+        jogos_disponiveis.remove(self.jogo_atual)
+
+        self.jogo_atual = random.choice(jogos_disponiveis)
+
+        self.num_fases += 1
 
     def update(self):
 
@@ -47,24 +59,18 @@ class Controlador:
         self.contar_pontuacao()
         self.atualizar_hud()
 
-    
-    def mudar_jogo(self):
-
-        jogos_disponiveis = self.jogos.copy()
-        jogos_disponiveis.remove(self.jogo_atual)
-
-        self.jogo_atual = random.choice(jogos_disponiveis)
-
-        self.num_fases += 1
-
-
     def run(self):
-
+        
+        jogo = self.jogo_atual(self.entidades)
         while self.running:
-
+        
             self.update()
+            jogo.update(self.tempo, self.tempo_na_fase, self.num_fases)
 
             if self.tempo_na_fase >= self.tempo_troca_de_fase:
+
+                self.entidades = jogo.entidades
                 self.mudar_jogo()
+                jogo = self.jogo_atual(self.entidades)
 
         pygame.quit()
