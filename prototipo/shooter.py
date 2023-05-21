@@ -1,25 +1,35 @@
-import pygame
+from entidade import Enemy, Platform, Player
+from sistemas import SistemaDesenho, SistemaInimigos,\
+    SistemaGravidade, SistemaPlataformas
 from jogoabstrato import JogoAbstrato
+
 
 class Shooter(JogoAbstrato):
     def __init__(self, entidades):
         self.entidades = entidades
-    
-    def adicionar_entidade(self):
-        #adicionar_entidades
-        pass
+        super().__init__(entidades)
 
-    def remover_entidade(self):
-        #remover_entidades
-        pass
+    def inicializar_entidades(self, entidades=[]):
+        self.player = Player()
+        self.enemies = [Enemy(300, 500)]
+        self.platform = [Platform()]
 
-    def lidar_fisica(self):
-        #lidar_fisica
-        pass
+        self.entidades.append(self.player)
+        for inimigo in self.enemies:
+            self.entidades.append(inimigo)
+        for plataforma in self.platform:
+            self.entidades.append(plataforma)
 
-    def checar_colisao(self):
-        #checar_colisao
-        pass
+    def inicializar_sistemas(self):
+        self.sistemas = []
+        self.inimigos = SistemaInimigos([Enemy(300, 500)], self.player)
+        self.sistemas.append(self.inimigos)
 
-    def update(self, tempo, tempo_na_fase, num_fases):
-        print(f"Jogo: Shooter / Tempo: {tempo} / Tempo na fase: {tempo_na_fase} / Fase: {num_fases}")
+        gravidade = SistemaGravidade([self.player], self.platform)
+        self.sistemas.append(gravidade)
+
+        plataformas = SistemaPlataformas(self.platform)
+        self.sistemas.append(plataformas)
+
+        desenho = SistemaDesenho([plataformas, gravidade, self.inimigos], self.player, self.screen)
+        self.sistemas.append(desenho)
