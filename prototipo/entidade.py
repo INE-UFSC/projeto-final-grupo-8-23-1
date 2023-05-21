@@ -9,6 +9,8 @@ class Entity:
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.vel_x = 0
+        self.vel_y = 0
 
 
 class Player(Entity):
@@ -19,6 +21,7 @@ class Player(Entity):
         self.is_invincible = False
         self.invincible_ticks = 0
         self.lives = 3
+        self.acceleration = 1
 
     def jump(self):
         self.velocity = -15

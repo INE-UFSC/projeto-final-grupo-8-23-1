@@ -1,6 +1,6 @@
 from entidade import Enemy, Platform, Player
 from sistemas import SistemaDesenho, SistemaInimigosMario, SistemaGravidade,\
-        SistemaPlataformas, PlayerMarioSistema
+        SistemaPlataformas, PlayerMarioSistema, SistemaMovimento
 from jogoabstrato import JogoAbstrato
 
 
@@ -36,3 +36,6 @@ class Mario(JogoAbstrato):
 
         desenho = SistemaDesenho([plataformas, gravidade, self.inimigos], self.player, self.screen)
         self.sistemas.append(desenho)
+
+        movimento = SistemaMovimento([self.inimigos], self.player)
+        self.sistemas.append(movimento)

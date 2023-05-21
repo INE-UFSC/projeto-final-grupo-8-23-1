@@ -1,6 +1,6 @@
 from entidade import Enemy, Platform, Player, ShooterEnemy
 from sistemas import SistemaDesenho, SistemaInimigosShooter,\
-    SistemaGravidade, SistemaPlataformas, PlayerShooterSistema
+    SistemaGravidade, SistemaPlataformas, PlayerShooterSistema, SistemaMovimento
 from jogoabstrato import JogoAbstrato
 
 
@@ -37,3 +37,6 @@ class Shooter(JogoAbstrato):
 
         desenho = SistemaDesenho([plataformas, gravidade, self.inimigos], self.player, self.screen)
         self.sistemas.append(desenho)
+
+        movimento = SistemaMovimento([self.inimigos], self.player)
+        self.sistemas.append(movimento)

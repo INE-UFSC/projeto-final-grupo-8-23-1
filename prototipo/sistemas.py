@@ -65,6 +65,25 @@ class SistemaInimigosMario(Sistema):
         return self.removed
 
 
+class SistemaMovimento(Sistema):
+    def __init__(self, listas, player):
+        self.__lista = []
+        self.__lista.append(player)
+        for lista in listas:
+            for entidade in lista.get_entidades():
+                self.__lista.append(entidade)
+        super().__init__(self.__lista)
+
+    def tick(self):
+        for entidade in self.entidades:
+            entidade.rect.x += entidade.vel_x
+            entidade.rect.y += entidade.vel_y
+            if entidade.vel_x > 0:
+                entidade.vel_x = max(0, entidade.vel_x - entidade.acceleration)
+            elif entidade.vel_x < 0:
+                entidade.vel_x = min(0, entidade.vel_x + entidade.acceleration)
+
+
 class SistemaGravidade(Sistema):
     def __init__(self, lista, plataformas):
         self.__plataformas = plataformas
@@ -133,9 +152,9 @@ class PlayerMarioSistema(Sistema):
         for player in self.entidades:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_a]:
-                player.rect.x -= 5
+                player.vel_x = -5
             if keys[pygame.K_d]:
-                player.rect.x += 5
+                player.vel_x = 5
             if keys[pygame.K_SPACE] and not player.is_jumping:
                 player.jump()
             if player.is_invincible:
