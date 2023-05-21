@@ -8,15 +8,7 @@ class JogoAbstrato:
         #adicionar_entidades
         pass
 
-    def remover_entidade(self):
-        #remover_entidades
-        pass
-
-    def checar_colisao(self):
-        #checar_colisao
-        pass
-
-    def lidar_fisica(self):
+    def rodar_sistemas(self):
         #lidar_fisica
         pass
 
