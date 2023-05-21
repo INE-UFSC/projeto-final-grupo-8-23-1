@@ -1,6 +1,6 @@
-from entidade import Enemy, Platform, Player
-from sistemas import SistemaDesenho, SistemaInimigos,\
-    SistemaGravidade, SistemaPlataformas
+from entidade import Enemy, Platform, Player, ShooterEnemy
+from sistemas import SistemaDesenho, SistemaInimigosShooter,\
+    SistemaGravidade, SistemaPlataformas, PlayerShooterSistema
 from jogoabstrato import JogoAbstrato
 
 
@@ -11,7 +11,7 @@ class Shooter(JogoAbstrato):
 
     def inicializar_entidades(self, entidades=[]):
         self.player = Player()
-        self.enemies = [Enemy(300, 500)]
+        self.enemies = [ShooterEnemy(300, 500)]
         self.platform = [Platform()]
 
         self.entidades.append(self.player)
@@ -22,7 +22,11 @@ class Shooter(JogoAbstrato):
 
     def inicializar_sistemas(self):
         self.sistemas = []
-        self.inimigos = SistemaInimigos([Enemy(300, 500)], self.player)
+
+        self.player_sys = PlayerShooterSistema(self.player)
+        self.sistemas.append(self.player_sys)
+
+        self.inimigos = SistemaInimigosShooter(self.enemies, self.player)
         self.sistemas.append(self.inimigos)
 
         gravidade = SistemaGravidade([self.player], self.platform)

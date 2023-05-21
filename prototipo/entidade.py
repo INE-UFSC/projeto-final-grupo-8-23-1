@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 class Entity:
@@ -23,23 +24,18 @@ class Player(Entity):
         self.velocity = -15
         self.is_jumping = True
 
-    def update(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            self.rect.x -= 5
-        if keys[pygame.K_d]:
-            self.rect.x += 5
-        if keys[pygame.K_SPACE] and not self.is_jumping:
-            self.jump()
-        if self.is_invincible:
-            if pygame.time.get_ticks() - self.invincible_ticks > 1200:
-                self.is_invincible = False
-
 
 class Enemy(Entity):
     def __init__(self, x, y):
         super().__init__(50, 50, x, y, (255, 0, 0))
         self.direction = 2
+
+
+class ShooterEnemy(Enemy):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.direction = [random.uniform(-2, 2), random.uniform(-2, 2)]
+        self.start_ticks = pygame.time.get_ticks()
 
 
 class Platform(Entity):

@@ -31,7 +31,6 @@ class JogoAbstrato:
                 pygame.quit()
                 sys.exit()
         self.screen.fill((0, 0, 0))
-        self.player.update()
         self.rodar_sistemas()
 
         if self.player.lives <= 0:

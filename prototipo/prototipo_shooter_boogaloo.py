@@ -1,70 +1,40 @@
 import pygame
 import sys
 import random
+from sistemas import SistemaDesenho, SistemaInimigos, SistemaGravidade,\
+        SistemaPlataformas
+from jogoabstrato import JogoAbstrato
 
 
-class Game:
-    def __init__(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((800, 600))
-        self.clock = pygame.time.Clock()
-        self.player = Player(self)
-        self.enemies = [Enemy(self, random.randint(0, 750), random.randint(0, 500)) for _ in range(4)]
-        self.platform = Platform(self)
-        self.font = pygame.font.Font(None, 36)
-        self.start_ticks = pygame.time.get_ticks()
-        self.hud = Hud(self)
+class Shooter(JogoAbstrato):
+    def __init__(self, entidades=[]):
+        super().__init__(entidades)
 
-    def run(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+    def inicializar_entidades(self, entidades=[]):
+        self.player = Player()
+        self.enemies = [Enemy(random.randint(0, 750), random.randint(0, 500))
+                        for _ in range(4)]
+        self.platform = [Platform()]
 
-            self.screen.fill((0, 0, 0))
+        self.entidades.append(self.player)
+        for inimigo in self.enemies:
+            self.entidades.append(inimigo)
+        for plataforma in self.platform:
+            self.entidades.append(plataforma)
 
-            self.player.update()
-            self.platform.update()
+    def inicializar_sistemas(self):
+        self.sistemas = []
+        self.inimigos = SistemaInimigos(self.enemies, self.player)
+        self.sistemas.append(self.inimigos)
 
-            for enemy in self.enemies:
-                enemy.update()
-                if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
-                    self.enemies.remove(enemy)
-                #elif not self.player.is_invincible:
-                    #if pygame.time.get_ticks() % 9000 <= 10:
-                        #self.player.lives -= 1
-                        #self.enemies.remove(enemy)
+        gravidade = SistemaGravidade([self.player], self.platform)
+        self.sistemas.append(gravidade)
 
-            if self.player.lives <= 0:
-                print("O tyska te pegou!")
-                pygame.quit()
-                sys.exit()
+        plataformas = SistemaPlataformas(self.platform)
+        self.sistemas.append(plataformas)
 
-            self.hud.update()
-
-            pygame.display.flip()
-            self.clock.tick(90)
-
-
-class Hud:
-    def __init__(self, game):
-        self.game = game
-        self.font = pygame.font.Font(None, 36)
-        self.start_ticks = pygame.time.get_ticks()
-
-    def update(self):
-        seconds = (pygame.time.get_ticks() - self.start_ticks) / 1000
-        timer_text = self.font.render("Tempo: " + str(seconds), True, (255, 255, 255))
-        self.game.screen.blit(timer_text, (620, 10))
-
-        lives_text = self.font.render("Vidas: ", True, (255, 255, 255))
-        self.game.screen.blit(lives_text, (20, 10))
-
-        lives_text = self.font.render(str(self.game.player.lives), True, (255, 0, 0))
-        self.game.screen.blit(lives_text, (100, 10))
-
-
+        desenho = SistemaDesenho([plataformas, gravidade, self.inimigos], self.player, self.screen)
+        self.sistemas.append(desenho)
 
 
 class Entity:
@@ -78,6 +48,7 @@ class Entity:
 
     def update(self):
         self.game.screen.blit(self.image, self.rect)
+
 
 class Player(Entity):
     def __init__(self, game):
@@ -97,6 +68,7 @@ class Player(Entity):
         if keys[pygame.K_s]:
             self.rect.y += 5
 
+
 class Enemy(Entity):
     def __init__(self, game, x, y):
         super().__init__(game, 50, 50, x, y, (255, 0, 0))
@@ -105,19 +77,3 @@ class Enemy(Entity):
 
     def update(self):
         super().update()
-        self.rect.x += self.direction[0]
-        self.rect.y += self.direction[1]
-
-        if self.rect.x + self.rect.width >= 800 or self.rect.x <= 0:
-            self.direction[0] *= -1
-        if self.rect.y + self.rect.height >= 550 or self.rect.y <= 0:
-            self.direction[1] *= -1
-
-
-class Platform(Entity):
-    def __init__(self, game):
-        super().__init__(game, 800, 50, 0, 550, (0, 255, 0))
-
-
-game = Game()
-game.run()

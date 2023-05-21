@@ -18,7 +18,30 @@ class Sistema:
         pass
 
 
-class SistemaInimigos(Sistema):
+class SistemaInimigosShooter(Sistema):
+    def __init__(self, inimigos, player):
+        self.player = player
+        super().__init__(inimigos)
+
+    def tick(self):
+        self.removed = []
+        for enemy in self.entidades:
+            enemy.rect.x += enemy.direction[0]
+            enemy.rect.y += enemy.direction[1]
+            if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
+                self.removed.append(enemy)
+                self.remover_entidade(enemy)
+
+            if enemy.rect.x + enemy.rect.width >= 800 or enemy.rect.x <= 0:
+                enemy.direction[0] *= -1
+            if enemy.rect.y + enemy.rect.height >= 550 or enemy.rect.y <= 0:
+                enemy.direction[1] *= -1
+
+    def check_removed(self):
+        return self.removed
+
+
+class SistemaInimigosMario(Sistema):
     def __init__(self, inimigos, player):
         self.player = player
         super().__init__(inimigos)
@@ -83,3 +106,38 @@ class SistemaPlataformas(Sistema):
 
     def tick(self):
         pass
+
+
+class PlayerShooterSistema(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
+
+    def tick(self):
+        for player in self.entidades:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                player.rect.x -= 5
+            if keys[pygame.K_d]:
+                player.rect.x += 5
+            if keys[pygame.K_w]:
+                player.rect.y -= 5
+            if keys[pygame.K_s]:
+                player.rect.y += 5
+
+
+class PlayerMarioSistema(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
+
+    def tick(self):
+        for player in self.entidades:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                player.rect.x -= 5
+            if keys[pygame.K_d]:
+                player.rect.x += 5
+            if keys[pygame.K_SPACE] and not player.is_jumping:
+                player.jump()
+            if player.is_invincible:
+                if pygame.time.get_ticks() - player.invincible_ticks > 1200:
+                    player.is_invincible = False
