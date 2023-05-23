@@ -4,6 +4,7 @@ import random
 
 class Entity:
     def __init__(self, width, height, x, y, color):
+        self.height = height
         self.image = pygame.Surface((width, height))
         self.image.fill(color)
         self.rect = self.image.get_rect()
@@ -31,7 +32,10 @@ class Player(Entity):
 class Enemy(Entity):
     def __init__(self, x, y):
         super().__init__(50, 50, x, y, (255, 0, 0))
-        self.direction = 2
+        self.acceleration = 1
+        self.is_jumping = False
+        self.velocity = 0
+        self.direction = [2, 2]
 
 
 class ShooterEnemy(Enemy):

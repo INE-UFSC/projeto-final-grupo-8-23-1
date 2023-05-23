@@ -1,23 +1,23 @@
-from entidade import Enemy, Platform, Player, ShooterEnemy
+import random
+from entidade import Enemy
 from sistemas import SistemaDesenho, SistemaInimigosShooter,\
-    SistemaGravidade, SistemaPlataformas, PlayerShooterSistema, SistemaMovimento
+     SistemaPlataformas, PlayerShooterSistema, SistemaMovimento
 from jogoabstrato import JogoAbstrato
 
 
 class Shooter(JogoAbstrato):
-    def __init__(self, entidades):
-        self.entidades = entidades
-        super().__init__(entidades)
+    def __init__(self, screen, entidades, player, inimigos, plataformas):
+        self.entidades = []
+        super().__init__(screen, entidades, player, inimigos, plataformas)
 
     def inicializar_entidades(self, entidades=[]):
-        self.player = Player()
-        self.enemies = [ShooterEnemy(300, 500)]
-        self.platform = [Platform()]
-
+        if len(self.inimigos) < 5:
+            for _ in range(5 - len(self.inimigos)):
+                self.inimigos.append(Enemy(random.uniform(100, 450), random.uniform(100, 300)))
         self.entidades.append(self.player)
-        for inimigo in self.enemies:
+        for inimigo in self.inimigos:
             self.entidades.append(inimigo)
-        for plataforma in self.platform:
+        for plataforma in self.plataformas:
             self.entidades.append(plataforma)
 
     def inicializar_sistemas(self):
@@ -26,17 +26,14 @@ class Shooter(JogoAbstrato):
         self.player_sys = PlayerShooterSistema(self.player)
         self.sistemas.append(self.player_sys)
 
-        self.inimigos = SistemaInimigosShooter(self.enemies, self.player)
-        self.sistemas.append(self.inimigos)
+        self.inimigos_sys = SistemaInimigosShooter(self.inimigos, self.player)
+        self.sistemas.append(self.inimigos_sys)
 
-        gravidade = SistemaGravidade([self.player], self.platform)
-        self.sistemas.append(gravidade)
-
-        plataformas = SistemaPlataformas(self.platform)
+        plataformas = SistemaPlataformas(self.plataformas)
         self.sistemas.append(plataformas)
 
-        desenho = SistemaDesenho([plataformas, gravidade, self.inimigos], self.player, self.screen)
+        desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
         self.sistemas.append(desenho)
 
-        movimento = SistemaMovimento([self.inimigos], self.player)
+        movimento = SistemaMovimento([self.inimigos_sys], self.player)
         self.sistemas.append(movimento)

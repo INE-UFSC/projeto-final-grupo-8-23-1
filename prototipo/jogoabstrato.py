@@ -4,22 +4,24 @@ from hud import Hud
 
 
 class JogoAbstrato:
-    def __init__(self, entidades=[]):
-        # pygame.init()
-        self.screen = pygame.display.set_mode((800, 600))
+    def __init__(self, screen, entidades, player, inimigos=[], plataformas=[]):
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 36)
         self.start_ticks = pygame.time.get_ticks()
         self.hud = Hud(self)
+        self.screen = screen
 
-        self.entidades = []
+        self.entidades = entidades
+        self.player = player
+        self.inimigos = inimigos
+        self.plataformas = plataformas
+
         self.inicializar_entidades()
         self.inicializar_sistemas()
 
     def rodar_sistemas(self):
         for sistema in self.sistemas:
             sistema.tick()
-        list_removed = self.inimigos.check_removed()
+        list_removed = self.inimigos_sys.check_removed()
         for removed in list_removed:
             for sistema in self.sistemas:
                 if removed in sistema.get_entidades():
@@ -42,8 +44,14 @@ class JogoAbstrato:
         pygame.display.flip()
         self.clock.tick(90)
 
-    def get_entidades(self):
-        return self.entidades
+    def get_player(self):
+        return self.player
+
+    def get_inimigos(self):
+        return self.inimigos
+
+    def get_plataformas(self):
+        return self.plataformas
 
     def inicializar_entidades(self):
         pass

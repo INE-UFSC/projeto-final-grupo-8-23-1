@@ -45,13 +45,13 @@ class SistemaInimigosMario(Sistema):
     def __init__(self, inimigos, player):
         self.player = player
         super().__init__(inimigos)
+        self.removed = []
 
     def tick(self):
-        self.removed = []
         for enemy in self.entidades:
-            enemy.rect.x += enemy.direction
+            enemy.rect.x += enemy.direction[0]
             if enemy.rect.x + enemy.rect.width >= 800 or enemy.rect.x <= 0:
-                enemy.direction *= -1
+                enemy.direction[0] *= -1
             if self.player.rect.colliderect(enemy.rect) and self.player.is_jumping:
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
@@ -85,22 +85,23 @@ class SistemaMovimento(Sistema):
 
 
 class SistemaGravidade(Sistema):
-    def __init__(self, lista, plataformas):
+    def __init__(self, player, plataformas, inimigos):
         self.__plataformas = plataformas
         self.gravidade = 1
-        super().__init__(lista)
+        self.__lista = inimigos.copy()
+        self.__lista.append(player)
+        super().__init__(self.__lista)
 
     def tick(self):
         for entidade in self.entidades:
-            if entidade.is_jumping:
-                entidade.rect.y += entidade.velocity
-                entidade.velocity += self.gravidade
-                for plataforma in self.__plataformas:
-                    if entidade.rect.colliderect(plataforma):
-                        entidade.is_jumping = False
-                        entidade.rect.y = 450
-                        entidade.velocity = 0
-                        break
+            entidade.rect.y += entidade.velocity
+            entidade.velocity += self.gravidade
+            for plataforma in self.__plataformas:
+                if entidade.rect.colliderect(plataforma):
+                    entidade.is_jumping = False
+                    entidade.rect.y = plataforma.rect.y - entidade.height
+                    entidade.velocity = 0
+                    break
 
 
 class SistemaDesenho(Sistema):
