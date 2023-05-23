@@ -1,6 +1,6 @@
 import pygame
 import random
-from entidade import ShooterEnemy, Enemy, Player, Platform
+from entidade import Enemy, Player, Platform
 from mario import Mario
 from shooter import Shooter
 
@@ -49,11 +49,6 @@ class Controlador:
 
     def change_enemy(self):
         for inimigo in self.inimigos:
-            if self.jogo_atual == Mario:
-                inimigo.__class__ = Enemy
-                inimigo.rect.y -= 10
-            else:
-                inimigo.__class__ = ShooterEnemy
                 inimigo.rect.y -= 10
 
     def run(self):
