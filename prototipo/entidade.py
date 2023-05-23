@@ -16,7 +16,7 @@ class Entity:
 
 class Player(Entity):
     def __init__(self):
-        super().__init__(50, 100, 500, 450, (255, 255, 255))
+        super().__init__(50, 50, 500, 450, (255, 255, 255))
         self.velocity = 0
         self.is_jumping = False
         self.is_invincible = False
@@ -35,15 +35,7 @@ class Enemy(Entity):
         self.acceleration = 1
         self.is_jumping = False
         self.velocity = 0
-        self.direction = [2, 2]
-
-
-class ShooterEnemy(Enemy):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.direction = [random.uniform(-2, 2), random.uniform(-2, 2)]
-        self.start_ticks = pygame.time.get_ticks()
-
+        self.direction = [random.choice([-2, 2]), random.choice([-2, 2])]
 
 class Platform(Entity):
     def __init__(self):
