@@ -14,6 +14,7 @@ class Controlador:
         self.inimigos = []
         self.plataforma = [Platform()]
         self.configurar()
+        self.total_score = 0;
 
     def configurar(self):
         self.pontuacao = 0
@@ -49,7 +50,7 @@ class Controlador:
 
     def change_enemy(self):
         for inimigo in self.inimigos:
-                inimigo.rect.y -= 10
+            inimigo.rect.y -= 10
 
     def run(self):
         jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
@@ -62,6 +63,9 @@ class Controlador:
                 self.inimigos = jogo.get_inimigos()
                 self.player = jogo.get_player()
                 self.plataforma = jogo.get_plataformas()
+                self.total_score += 20
+                self.total_score += 5 * (5 - len(jogo.get_inimigos()))
+                print(self.total_score)
 
                 self.change_enemy()
 
