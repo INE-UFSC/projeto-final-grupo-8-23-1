@@ -3,17 +3,22 @@ import random
 from entidade import Enemy, Player, Platform
 from mario import Mario
 from shooter import Shooter
+from pong import Pong
+from bricks import Bricks
 
 
 class Controlador:
-    def __init__(self):
-        self.jogos = [Mario, Shooter]
-        self.jogo_atual = random.choice(self.jogos)
-        self.screen = pygame.display.set_mode((800, 600))
+    def __init__(self, screen):
+        self.jogos = {'Mario': Mario, 'Shooter': Shooter}
+        self.jogo_atual = random.choice(list(self.jogos.values()))
+        self.screen = screen
         self.player = Player()
         self.inimigos = []
         self.plataforma = [Platform()]
         self.configurar()
+
+    def set_jogo(self, jogo_nome):
+        self.jogo_atual = self.jogos[jogo_nome]
 
     def configurar(self):
         self.pontuacao = 0
@@ -35,7 +40,7 @@ class Controlador:
         pass
 
     def mudar_jogo(self):
-        jogos_disponiveis = self.jogos.copy()
+        jogos_disponiveis = list(self.jogos.values()).copy()
         jogos_disponiveis.remove(self.jogo_atual)
         self.jogo_atual = random.choice(jogos_disponiveis)
         self.num_fases += 1
