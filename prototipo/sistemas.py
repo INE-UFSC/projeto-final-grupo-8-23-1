@@ -40,9 +40,6 @@ class SistemaInimigosShooter(Sistema):
     def check_removed(self):
         return self.removed
 
-    def check_points(self):
-        return len(self.removed) * 2
-
 
 class SistemaInimigosMario(Sistema):
     def __init__(self, inimigos, player):
@@ -66,9 +63,6 @@ class SistemaInimigosMario(Sistema):
 
     def check_removed(self):
         return self.removed
-
-    def check_points(self):
-        return len(self.removed) * 2
 
 
 class SistemaMovimento(Sistema):
