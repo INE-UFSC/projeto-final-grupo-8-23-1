@@ -3,8 +3,7 @@ from controlador import Controlador
 from menu import Menu
 
 pygame.init()
-
-screen = pygame.display.set_mode((1400, 800))
+screen = pygame.display.set_mode((1200, 700))
 controlador = Controlador(screen)
 menu = Menu(screen)
 
