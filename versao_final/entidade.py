@@ -24,6 +24,9 @@ class Player(Entity):
         self.lives = 3
         self.acceleration = 1
 
+    def get_vidas(self):
+        return self.lives
+
     def jump(self):
         self.velocity = -15
         self.is_jumping = True

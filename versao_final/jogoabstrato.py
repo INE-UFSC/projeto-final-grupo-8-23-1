@@ -7,7 +7,6 @@ class JogoAbstrato:
     def __init__(self, screen, entidades, player, inimigos=[], plataformas=[]):
         self.clock = pygame.time.Clock()
         self.start_ticks = pygame.time.get_ticks()
-        self.hud = Hud(self)
         self.screen = screen
 
         self.entidades = entidades
@@ -40,7 +39,6 @@ class JogoAbstrato:
             pygame.quit()
             sys.exit()
 
-        self.hud.update()  # Update the HUD
         pygame.display.flip()
         self.clock.tick(90)
 

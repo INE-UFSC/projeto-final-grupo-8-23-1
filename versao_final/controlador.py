@@ -3,8 +3,9 @@ import random
 from entidade import Enemy, Player, Platform
 from mario import Mario
 from shooter import Shooter
-from pong import Pong
+from hud import Hud
 from bricks import Bricks
+from pong import Pong
 
 
 class Controlador:
@@ -12,6 +13,7 @@ class Controlador:
         self.jogos = {'Mario': Mario, 'Shooter': Shooter}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
+        self.hud = Hud(self)
         self.player = Player()
         self.inimigos = []
         self.plataforma = [Platform()]
@@ -51,15 +53,18 @@ class Controlador:
                 self.running = False
         self.contar_tempo()
         self.contar_pontuacao()
+        self.hud.update()
 
     def change_enemy(self):
         for inimigo in self.inimigos:
-                inimigo.rect.y -= 10
+            inimigo.rect.y -= 10
 
     def run(self):
         jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
         while self.running:
             jogo.run()
+            self.hud.draw(self.screen)
+            pygame.display.flip()
             self.update()
             if self.tempo_na_fase >= self.tempo_troca_de_fase:
                 self.mudar_jogo()
