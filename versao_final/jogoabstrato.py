@@ -34,11 +34,6 @@ class JogoAbstrato:
         self.screen.fill((0, 0, 0))
         self.rodar_sistemas()
 
-        if self.player.lives <= 0:
-            print("O tyska te pegou!")
-            pygame.quit()
-            sys.exit()
-
         pygame.display.flip()
         self.clock.tick(90)
 

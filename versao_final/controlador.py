@@ -4,6 +4,7 @@ from entidade import Enemy, Player, Platform
 from mario import Mario
 from shooter import Shooter
 from hud import Hud
+from gameover import GameOver
 from bricks import Bricks
 from pong import Pong
 
@@ -76,4 +77,10 @@ class Controlador:
                 self.change_enemy()
 
                 jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+
+            if self.player.lives <= 0:
+                gameover_screen = GameOver(self.screen, self.pontuacao, self)
+                gameover_screen.run()
+                self.running = False
+
         pygame.quit()
