@@ -15,6 +15,7 @@ class Hud:
         self.tempo_icon = pygame.image.load('assets/relogio1.5.png')
 
         self.score_texto = pygame.image.load('assets/score_texto.png')
+        self.trofeu = pygame.image.load('assets/trofeu.png')
 
 
         self.barra_vertical_icon = pygame.image.load('assets/linha_vertical.png')
@@ -46,9 +47,10 @@ class Hud:
         screen.blit(self.barra_vertical_icon, (920, 0))
 
         # Desenhar a pontuação
-        screen.blit(self.score_texto, (950, 20))
+        screen.blit(self.trofeu, (930, 10))
+        screen.blit(self.score_texto, (980, 20))
         score_text = self.font.render(str(self.controlador.pontuacao), True, (255, 255, 255))
-        screen.blit(score_text, (1060, 18))
+        screen.blit(score_text, (1090, 18))
 
         pygame.display.flip()
 
