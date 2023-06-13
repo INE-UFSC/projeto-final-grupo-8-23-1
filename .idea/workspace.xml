@@ -3,16 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="67ed02af-ca47-4729-bcf2-5aed8cfd9737" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/bricks.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/bricks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/controlador.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/controlador.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/entidade.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/entidade.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/gameover.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/gameover.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/hud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/mario.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/mario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/shooter.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/shooter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/sistemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/sistemas.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -7,7 +7,7 @@ from hud import Hud
 from gameover import GameOver
 from bricks import Bricks
 from pong import Pong
-from versao_final.menu import Menu
+from menu import Menu
 
 
 class Controlador:
