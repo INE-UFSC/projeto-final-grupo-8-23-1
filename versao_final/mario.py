@@ -28,7 +28,7 @@ class Mario(JogoAbstrato):
         self.inimigos_sys = SistemaInimigosMario(self.inimigos, self.player)
         self.sistemas.append(self.inimigos_sys)
 
-        gravidade = SistemaGravidade(self.player, self.plataformas, self.inimigos)
+        gravidade = SistemaGravidade(self.player, self.plataformas, self.inimigos, 1)
         self.sistemas.append(gravidade)
 
         plataformas = SistemaPlataformas(self.plataformas)

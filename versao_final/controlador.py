@@ -1,18 +1,20 @@
 import pygame
 import random
+
 from entidade import Enemy, Player, Platform
+
 from mario import Mario
 from shooter import Shooter
+from flappy import Flappy
+
 from hud import Hud
 from gameover import GameOver
-from bricks import Bricks
-from pong import Pong
 from menu import Menu
 
 
 class Controlador:
     def __init__(self, screen):
-        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Bricks': Bricks}
+        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud(self)
@@ -23,6 +25,7 @@ class Controlador:
         self.tempo_intermediario = 0
         self.tempo_no_jogo = 0
         self.tempo_na_fase = 0
+        self.tempo_troca_de_fase = 5000
         self.configurar()
 
     def set_jogo(self, jogo_nome):
@@ -33,7 +36,6 @@ class Controlador:
         self.vidas = 3
         self.num_fases = 0
         self.tempo_na_fase = 0
-        self.tempo_troca_de_fase = 5000
         pygame.display.set_caption("RetroVerse")
         self.font = pygame.font.Font(None, 36)
         self.running = True
@@ -77,8 +79,8 @@ class Controlador:
         while self.running:
             jogo.run()
             self.hud.draw(self.screen)
-            pygame.display.flip()
             self.update()
+            pygame.display.flip()
             if self.tempo_na_fase >= self.tempo_troca_de_fase:
                 self.mudar_jogo()
 

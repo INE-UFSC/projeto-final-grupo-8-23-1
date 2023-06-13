@@ -31,6 +31,10 @@ class Player(Entity):
         self.velocity = -15
         self.is_jumping = True
 
+    def jump_flappy(self):
+        self.velocity = -5
+        self.is_jumping = True
+
 
 class Enemy(Entity):
     def __init__(self, x, y, color):
@@ -38,8 +42,8 @@ class Enemy(Entity):
         self.acceleration = 1
         self.is_jumping = False
         self.velocity = 0
-        self.direction = [random.choice([-2, 2]), random.choice([-2, 2])]
+        self.direction = [random.choice([-2, 2]), random.choice([-3, -2, -1, 1, 2, 3])]
 
 class Platform(Entity):
     def __init__(self):
-        super().__init__(1200, 50, 0, 550, (0, 255, 0))
+        super().__init__(1200, 50, 0, 650, (0, 255, 0))
