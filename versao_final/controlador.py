@@ -7,17 +7,22 @@ from hud import Hud
 from gameover import GameOver
 from bricks import Bricks
 from pong import Pong
+from versao_final.menu import Menu
 
 
 class Controlador:
     def __init__(self, screen):
-        self.jogos = {'Mario': Mario, 'Shooter': Shooter}
+        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Bricks': Bricks}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud(self)
         self.player = Player()
         self.inimigos = []
         self.plataforma = [Platform()]
+        self.tempo = 0
+        self.tempo_intermediario = 0
+        self.tempo_no_jogo = 0
+        self.tempo_na_fase = 0
         self.configurar()
 
     def set_jogo(self, jogo_nome):
@@ -25,7 +30,6 @@ class Controlador:
 
     def configurar(self):
         self.pontuacao = 0
-        self.tempo = 0
         self.vidas = 3
         self.num_fases = 0
         self.tempo_na_fase = 0
@@ -36,7 +40,9 @@ class Controlador:
 
     def contar_tempo(self):
         self.tempo = pygame.time.get_ticks()
-        self.tempo_na_fase = self.tempo - self.tempo_troca_de_fase * self.num_fases
+        self.tempo_no_jogo = self.tempo - self.tempo_intermediario
+        self.tempo_na_fase = self.tempo_no_jogo - self.tempo_troca_de_fase * self.num_fases
+
 
     def contar_pontuacao(self):
         # contar_pontuacao
@@ -61,6 +67,12 @@ class Controlador:
             inimigo.rect.y -= 10
 
     def run(self):
+
+        menu = Menu(self.screen)
+        nome_jogo = menu.main()
+        self.jogo_atual = self.jogos[nome_jogo]
+
+        self.tempo_intermediario = pygame.time.get_ticks()
         jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
         while self.running:
             jogo.run()
@@ -80,7 +92,13 @@ class Controlador:
 
             if self.player.lives <= 0:
                 gameover_screen = GameOver(self.screen, self.pontuacao, self)
-                gameover_screen.run()
+                nome_jogo = gameover_screen.run()
                 self.running = False
+                self.tempo_intermediario = pygame.time.get_ticks()
+                if nome_jogo in self.jogos:
+                    self.jogo_atual = self.jogos[nome_jogo]
+                    jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+                    self.running = True
+                self.player.lives = 3
 
         pygame.quit()

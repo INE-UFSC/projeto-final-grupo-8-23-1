@@ -41,6 +41,33 @@ class SistemaInimigosShooter(Sistema):
         return self.removed
 
 
+class SistemaInimigosZoado(Sistema):
+    def __init__(self, inimigos, player):
+        self.player = player
+        super().__init__(inimigos)
+
+    def tick(self):
+        self.removed = []
+
+        for enemy in self.entidades:
+            enemy.rect.x += enemy.direction[0]
+            enemy.rect.y += enemy.direction[1]
+            if self.player.rect.colliderect(enemy.rect) and not self.player.is_invincible:
+                self.player.lives -= 1
+                self.player.is_invincible = True
+                self.player.invincible_ticks = pygame.time.get_ticks()
+            if self.player.is_invincible:
+                if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+                    self.player.is_invincible = False
+            if enemy.rect.x + enemy.rect.width >= 800 or enemy.rect.x <= 0:
+                enemy.direction[0] *= -1
+            if enemy.rect.y + enemy.rect.height >= 550 or enemy.rect.y <= 0:
+                enemy.direction[1] *= -1
+
+    def check_removed(self):
+        return self.removed
+
+
 class SistemaInimigosMario(Sistema):
     def __init__(self, inimigos, player):
         self.player = player

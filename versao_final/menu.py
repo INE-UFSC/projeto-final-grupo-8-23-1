@@ -60,7 +60,7 @@ class Menu:
                 return name  # Retorna o nome do botao apertado
         return None
 
-    def main(self, controlador):
+    def main(self):
         clock = pygame.time.Clock()
         while True:
             for event in pygame.event.get():
@@ -70,9 +70,7 @@ class Menu:
                 elif event.type == MOUSEBUTTONDOWN:
                     button = self.check_click(event.pos)
                     if button is not None:
-                        controlador.set_jogo(button)
-                        controlador.run()
-                        return
+                        return button
 
             self.draw()
             pygame.display.flip()

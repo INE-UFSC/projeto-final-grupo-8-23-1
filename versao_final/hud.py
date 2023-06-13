@@ -35,14 +35,14 @@ class Hud:
         # Desenhar o tempo restante para a troca de mundo
         screen.blit(self.tempo_icon, (300, 10))
         screen.blit(self.troca_mundo_texto, (350, 20))
-        tempo_troca_mundo = max(0, (self.controlador.tempo_troca_de_fase - self.controlador.tempo_na_fase) // 1000) + 1
+        tempo_troca_mundo = (self.controlador.tempo_troca_de_fase - self.controlador.tempo_na_fase) // 1000 + 1
         tempo_troca_text = self.font.render(str(tempo_troca_mundo), True, (255, 255, 255))
         screen.blit(tempo_troca_text, (610, 18))
         screen.blit(self.barra_vertical_icon, (660, 0))
 
         # Desenhar o tempo total decorrido
         screen.blit(self.tempo_texto_icon, (680, 20))
-        tempo_total_text = self.font.render(str(self.controlador.tempo // 1000), True, (255, 255, 255))
+        tempo_total_text = self.font.render(str(self.controlador.tempo_no_jogo // 1000), True, (255, 255, 255))
         screen.blit(tempo_total_text, (800, 18))
         screen.blit(self.barra_vertical_icon, (920, 0))
 

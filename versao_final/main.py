@@ -5,7 +5,4 @@ from menu import Menu
 pygame.init()
 screen = pygame.display.set_mode((1200, 700))
 controlador = Controlador(screen)
-menu = Menu(screen)
-
-menu.main(controlador)
 controlador.run()

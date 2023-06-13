@@ -13,7 +13,7 @@ class Mario(JogoAbstrato):
     def inicializar_entidades(self, entidades=[]):
         if len(self.inimigos) < 5:
             for _ in range(5 - len(self.inimigos)):
-                self.inimigos.append(Enemy(random.uniform(100, 500), 500))
+                self.inimigos.append(Enemy(random.uniform(100, 500), 500, (255, 0, 0)))
         self.entidades.append(self.player)
         for inimigo in self.inimigos:
             self.entidades.append(inimigo)

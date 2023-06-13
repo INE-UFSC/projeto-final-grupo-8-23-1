@@ -33,8 +33,8 @@ class Player(Entity):
 
 
 class Enemy(Entity):
-    def __init__(self, x, y):
-        super().__init__(50, 50, x, y, (255, 0, 0))
+    def __init__(self, x, y, color):
+        super().__init__(50, 50, x, y, color)
         self.acceleration = 1
         self.is_jumping = False
         self.velocity = 0
@@ -42,4 +42,4 @@ class Enemy(Entity):
 
 class Platform(Entity):
     def __init__(self):
-        super().__init__(800, 50, 0, 550, (0, 255, 0))
+        super().__init__(1200, 50, 0, 550, (0, 255, 0))
