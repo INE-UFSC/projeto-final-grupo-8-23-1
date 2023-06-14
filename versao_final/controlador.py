@@ -1,5 +1,6 @@
 import pygame
 import random
+import time # importando biblioteca time
 
 from entidade import Enemy, Player, Platform
 
@@ -11,7 +12,6 @@ from hud import Hud
 from gameover import GameOver
 from menu import Menu
 
-
 class Controlador:
     def __init__(self, screen):
         self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
@@ -22,10 +22,8 @@ class Controlador:
         self.inimigos = []
         self.plataforma = [Platform()]
         self.tempo = 0
-        self.tempo_intermediario = 0
-        self.tempo_no_jogo = 0
         self.tempo_na_fase = 0
-        self.tempo_troca_de_fase = 5000
+        self.tempo_troca_de_fase = 5 
         self.configurar()
 
     def set_jogo(self, jogo_nome):
@@ -39,12 +37,11 @@ class Controlador:
         pygame.display.set_caption("RetroVerse")
         self.font = pygame.font.Font(None, 36)
         self.running = True
+        self.inicio_jogo = time.time() # adicionar variável para controlar o início do jogo
 
     def contar_tempo(self):
-        self.tempo = pygame.time.get_ticks()
-        self.tempo_no_jogo = self.tempo - self.tempo_intermediario
-        self.tempo_na_fase = self.tempo_no_jogo - self.tempo_troca_de_fase * self.num_fases
-
+        self.tempo = time.time() - self.inicio_jogo
+        self.tempo_na_fase = self.tempo - self.tempo_troca_de_fase * self.num_fases
 
     def contar_pontuacao(self):
         # contar_pontuacao
@@ -69,13 +66,11 @@ class Controlador:
             inimigo.rect.y -= 10
 
     def run(self):
-
         menu = Menu(self.screen)
         nome_jogo = menu.main()
         self.jogo_atual = self.jogos[nome_jogo]
-
-        self.tempo_intermediario = pygame.time.get_ticks()
         jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+        self.inicio_jogo = time.time() # começa a contar o tempo
         while self.running:
             jogo.run()
             self.hud.draw(self.screen)
@@ -96,11 +91,12 @@ class Controlador:
                 gameover_screen = GameOver(self.screen, self.pontuacao, self)
                 nome_jogo = gameover_screen.run()
                 self.running = False
-                self.tempo_intermediario = pygame.time.get_ticks()
                 if nome_jogo in self.jogos:
                     self.jogo_atual = self.jogos[nome_jogo]
                     jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
                     self.running = True
+                self.inicio_jogo = time.time() # reinicia o contador quando o jogador morre
                 self.player.lives = 3
+                self.num_fases = 0 
 
         pygame.quit()
