@@ -9,6 +9,7 @@ class Flappy(JogoAbstrato):
     def __init__(self, screen, entidades, player, inimigos, plataformas):
         self.entidades = []
         super().__init__(screen, entidades, player, inimigos, plataformas)
+        player.rect.y -= 150
 
     def inicializar_entidades(self, entidades=[]):
         if len(self.inimigos) < 5:

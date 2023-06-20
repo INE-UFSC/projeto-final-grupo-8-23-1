@@ -1,6 +1,6 @@
 import pygame
 import random
-import time # importando biblioteca time
+import time 
 
 from entidade import Enemy, Player, Platform
 
@@ -37,7 +37,7 @@ class Controlador:
         pygame.display.set_caption("RetroVerse")
         self.font = pygame.font.Font(None, 36)
         self.running = True
-        self.inicio_jogo = time.time() # adicionar variável para controlar o início do jogo
+        self.inicio_jogo = time.time() 
 
     def contar_tempo(self):
         self.tempo = time.time() - self.inicio_jogo
