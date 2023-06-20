@@ -17,7 +17,7 @@ class Menu:
         self.buttons = {
             'Mario': pygame.image.load('versao_final/assets/botao_mario.png'),
             'Shooter': pygame.image.load('versao_final/assets/botao_shooter.png'),
-            'Flappy': pygame.image.load('versao_final/assets/botao_pong.png'),
+            'Flappy': pygame.image.load('versao_final/assets/botao_flappy.png'),
             'Bricks': pygame.image.load('versao_final/assets/botao_bricks.png'),
             # Add your four new buttons here
             'NewButton1': pygame.image.load('versao_final/assets/botao_bricks2.png'),
