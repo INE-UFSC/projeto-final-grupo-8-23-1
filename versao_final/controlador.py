@@ -72,6 +72,7 @@ class Controlador:
         jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
         self.inicio_jogo = time.time() # começa a contar o tempo
         while self.running:
+            self.screen.fill((0, 0, 0))
             jogo.run()
             self.hud.draw(self.screen)
             self.update()

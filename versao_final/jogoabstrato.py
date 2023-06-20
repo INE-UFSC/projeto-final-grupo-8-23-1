@@ -31,10 +31,8 @@ class JogoAbstrato:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        self.screen.fill((0, 0, 0))
         self.rodar_sistemas()
 
-        pygame.display.flip()
         self.clock.tick(90)
 
     def get_player(self):
