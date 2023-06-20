@@ -14,30 +14,40 @@ from menu import Menu
 
 class Controlador:
     def __init__(self, screen):
+        pygame.display.set_caption("RetroVerse")
         self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud(self)
         self.player = Player()
-        self.inimigos = []
         self.plataforma = [Platform()]
-        self.tempo = 0
-        self.tempo_na_fase = 0
-        self.tempo_troca_de_fase = 5 
-        self.configurar()
-
-    def set_jogo(self, jogo_nome):
-        self.jogo_atual = self.jogos[jogo_nome]
-
-    def configurar(self):
-        self.pontuacao = 0
-        self.vidas = 3
-        self.num_fases = 0
-        self.tempo_na_fase = 0
-        pygame.display.set_caption("RetroVerse")
+        self.tempo_troca_de_fase = 5
         self.font = pygame.font.Font(None, 36)
         self.running = True
-        self.inicio_jogo = time.time() 
+        self.jogos_disponiveis = list(self.jogos.values()).copy()
+        self.inicio_jogo = time.time()
+        self.tempo_na_fase = 0
+        self.pontuacao = 0
+        self.player.lives = 3
+        self.num_fases = 0
+        self.tempo_na_fase = 0
+        self.inimigos = []
+        self.tempo = 0
+        self.configurar()
+
+    def configurar(self):
+        self.jogos_disponiveis = list(self.jogos.values()).copy()
+        self.inicio_jogo = time.time()
+        self.tempo_na_fase = 0
+        self.pontuacao = 0
+        self.player.lives = 3
+        self.num_fases = 0
+        self.tempo_na_fase = 0
+        self.inimigos = []
+        self.tempo = 0
+         
+    def set_jogo(self, jogo_nome):
+        self.jogo_atual = self.jogos[jogo_nome]
 
     def contar_tempo(self):
         self.tempo = time.time() - self.inicio_jogo
@@ -48,9 +58,10 @@ class Controlador:
         pass
 
     def mudar_jogo(self):
-        jogos_disponiveis = list(self.jogos.values()).copy()
-        jogos_disponiveis.remove(self.jogo_atual)
-        self.jogo_atual = random.choice(jogos_disponiveis)
+        self.jogos_disponiveis.remove(self.jogo_atual)
+        if len(self.jogos_disponiveis) == 0:
+            self.jogos_disponiveis = list(self.jogos.values()).copy()
+        self.jogo_atual = random.choice(self.jogos_disponiveis)
         self.num_fases += 1
 
     def update(self):
@@ -96,8 +107,6 @@ class Controlador:
                     self.jogo_atual = self.jogos[nome_jogo]
                     jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
                     self.running = True
-                self.inicio_jogo = time.time() # reinicia o contador quando o jogador morre
-                self.player.lives = 3
-                self.num_fases = 0 
+                self.configurar()
 
         pygame.quit()

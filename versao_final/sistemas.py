@@ -118,6 +118,17 @@ class SistemaGravidade(Sistema):
                     entidade.velocity = 0
                     break
 
+class SistemaTrocaLado(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
+
+    def tick(self):
+        for player in self.entidades:
+            if player.rect.x < 0:
+                player.rect.x = 1200
+            elif player.rect.x > 1200:
+                player.rect.x = 0
+
 
 class SistemaDesenho(Sistema):
     def __init__(self, lista_sistemas, player, screen):
@@ -152,9 +163,6 @@ class PlayerFlappySistema(Sistema):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 player.jump_flappy()
-
-            if player.rect.x >= 1200:
-                player.rect.x = 0
 
             if player.rect.y >= 599:
                 player.lives -= 1
