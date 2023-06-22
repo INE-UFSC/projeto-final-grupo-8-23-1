@@ -15,15 +15,7 @@ class Asteroid(JogoAbstrato):
         self.inimigos_sys = SistemaInimigosAsteroid(self.inimigos, self.player)
         self.sistemas.append(self.inimigos_sys)
 
-        plataformas = SistemaPlataformas(self.plataformas)
-        self.sistemas.append(plataformas)
-
-        desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
-        self.sistemas.append(desenho)
-
-        movimento = SistemaMovimento([self.inimigos_sys], self.player)
-        self.sistemas.append(movimento)
-
         self.sistemas.append(SistemaPlayerTrocaLadoHorizontal(self.player))
-
         self.sistemas.append(SistemaPlayerTrocaLadoVertical(self.player))
+
+        super().inicializar_sistemas()

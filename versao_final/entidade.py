@@ -37,7 +37,7 @@ class Player(Entity):
     def jump_flappy(self):
         self.velocity = -5
         self.is_jumping = True
-    
+
     def shoot(self):
         self.tiro_pronto = False
 
@@ -49,10 +49,12 @@ class Enemy(Entity):
         self.velocity = 0
         self.direction = [random.choice([-2, 2]), random.choice([-3, -2, -1, 1, 2, 3])]
 
+
 class Bullet(Entity):
     def __init__(self, x, y, direction_x, direction_y):
         super().__init__(5, 5, x, y, (255, 255, 0))
         self.direction = [direction_x, direction_y]
+
 
 class Platform(Entity):
     def __init__(self):

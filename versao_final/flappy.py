@@ -21,20 +21,13 @@ class Flappy(JogoAbstrato):
         self.inimigos_sys = SistemaInimigosFlappy(self.inimigos, self.player)
         self.sistemas.append(self.inimigos_sys)
 
-        plataformas = SistemaPlataformas(self.plataformas)
-        self.sistemas.append(plataformas)
-
         gravidade = SistemaGravidade(self.player, self.plataformas, [], 0.15)
         self.sistemas.append(gravidade)
-
-        desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
-        self.sistemas.append(desenho)
-
-        movimento = SistemaMovimento([self.inimigos_sys], self.player)
-        self.sistemas.append(movimento)
 
         playertrocalado = SistemaPlayerTrocaLadoHorizontal(self.player)
         self.sistemas.append(playertrocalado)
 
         playerbateparede = SistemaPlayerBateParedeVertical(self.player)
         self.sistemas.append(playerbateparede)
+
+        super().inicializar_sistemas()

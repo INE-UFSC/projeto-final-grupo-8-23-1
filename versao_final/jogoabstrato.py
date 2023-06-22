@@ -1,5 +1,6 @@
 import pygame
 import sys
+from sistemas import SistemaDesenho, SistemaMovimento, SistemaPlataformas
 
 
 class JogoAbstrato:
@@ -56,7 +57,14 @@ class JogoAbstrato:
         return self.plataformas
 
     def inicializar_sistemas(self):
-        pass
+        plataformas = SistemaPlataformas(self.plataformas)
+        self.sistemas.append(plataformas)
+
+        desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
+        self.sistemas.append(desenho)
+
+        movimento = SistemaMovimento([self.inimigos_sys], self.player)
+        self.sistemas.append(movimento)
 
     def inimigo(self):
         pass
