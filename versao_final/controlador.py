@@ -18,7 +18,7 @@ class Controlador:
         self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
-        self.hud = Hud(self)
+        self.hud = Hud()
         self.player = Player()
         self.plataforma = [Platform()]
         self.tempo_troca_de_fase = 10
@@ -100,7 +100,9 @@ class Controlador:
         while self.running:
             self.screen.fill((0, 0, 0))
             self.novo_jogo.run()
-            self.hud.draw(self.screen)
+            self.hud.draw(self.screen, self.player.lives, self.tempo_troca_de_fase,
+                          self.tempo_na_fase, self.tempo,
+                          self.score + self.temp_score)
             self.update()
             pygame.display.flip()
             if self.tempo_na_fase >= self.tempo_troca_de_fase:
