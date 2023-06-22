@@ -27,7 +27,8 @@ class Controlador:
         self.jogos_disponiveis = list(self.jogos.values()).copy()
         self.inicio_jogo = time.time()
         self.tempo_na_fase = 0
-        self.pontuacao = 0
+        self.score = 0
+        self.temp_score = 0
         self.player.lives = 3
         self.num_fases = 0
         self.tempo_na_fase = 0
@@ -54,8 +55,7 @@ class Controlador:
         self.tempo_na_fase = self.tempo - self.tempo_troca_de_fase * self.num_fases
 
     def contar_pontuacao(self):
-        # contar_pontuacao
-        pass
+        self.temp_score = self.novo_jogo.get_score()
 
     def mudar_jogo(self):
         if len(self.jogos_disponiveis) == 1:
@@ -104,6 +104,8 @@ class Controlador:
             self.update()
             pygame.display.flip()
             if self.tempo_na_fase >= self.tempo_troca_de_fase:
+                self.score += self.temp_score
+                self.score += 100
                 self.mudar_jogo()
                 self.refazer_inimigos()
             if self.player.lives <= 0:

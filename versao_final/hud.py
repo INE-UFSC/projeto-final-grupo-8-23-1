@@ -21,7 +21,6 @@ class Hud:
         self.barra_vertical_icon = pygame.image.load('./assets/linha_vertical.png')
         self.barra_horizontal_icon = pygame.image.load('./assets/linha_horizontal.png')
 
-
     def draw(self, screen):
         screen.blit(self.barra_horizontal_icon, (0, 62))
 
@@ -49,7 +48,7 @@ class Hud:
         # Desenhar a pontuação
         screen.blit(self.trofeu, (930, 10))
         screen.blit(self.score_texto, (980, 20))
-        score_text = self.font.render(str(self.controlador.pontuacao), True, (255, 255, 255))
+        score_text = self.font.render(str(self.controlador.score + self.controlador.temp_score), True, (255, 255, 255))
         screen.blit(score_text, (1090, 18))
 
         pygame.display.flip()

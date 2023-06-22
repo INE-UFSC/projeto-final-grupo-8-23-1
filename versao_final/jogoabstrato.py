@@ -10,6 +10,7 @@ class JogoAbstrato:
         self.screen = screen
         self.entidades = []
         self.sistemas = []
+        self.score = 0
 
         self.entidades = entidades
         self.player = player
@@ -26,6 +27,7 @@ class JogoAbstrato:
         for removed in list_removed:
             for sistema in self.sistemas:
                 if removed in sistema.get_entidades():
+                    self.score += 5
                     sistema.remover_entidade(removed)
 
     def inicializar_entidades(self, entidades=[]):
@@ -55,6 +57,9 @@ class JogoAbstrato:
 
     def get_plataformas(self):
         return self.plataformas
+
+    def get_score(self):
+        return self.score
 
     def inicializar_sistemas(self):
         plataformas = SistemaPlataformas(self.plataformas)
