@@ -1,6 +1,7 @@
 import pygame
 import sys
-from hud import Hud
+from entidade import Enemy
+import random as random
 
 
 class JogoAbstrato:
@@ -8,6 +9,8 @@ class JogoAbstrato:
         self.clock = pygame.time.Clock()
         self.start_ticks = pygame.time.get_ticks()
         self.screen = screen
+        self.entidades = []
+        self.sistemas = []
 
         self.entidades = entidades
         self.player = player
@@ -26,6 +29,16 @@ class JogoAbstrato:
                 if removed in sistema.get_entidades():
                     sistema.remover_entidade(removed)
 
+    def inicializar_entidades(self, entidades=[]):
+        if len(self.inimigos) < 5:
+            for _ in range(5 - len(self.inimigos)):
+                self.inimigos.append(Enemy(random.uniform(100, 1100), random.uniform(100, 550), (255, 0, 255)))
+        self.entidades.append(self.player)
+        for inimigo in self.inimigos:
+            self.entidades.append(inimigo)
+        for plataforma in self.plataformas:
+            self.entidades.append(plataforma)
+
     def run(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -43,9 +56,6 @@ class JogoAbstrato:
 
     def get_plataformas(self):
         return self.plataformas
-
-    def inicializar_entidades(self):
-        pass
 
     def inicializar_sistemas(self):
         pass

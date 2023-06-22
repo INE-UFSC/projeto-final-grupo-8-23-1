@@ -1,25 +1,9 @@
-import random
-from entidade import Enemy
 from sistemas import SistemaDesenho, SistemaInimigosShooter,\
      SistemaPlataformas, PlayerShooterSistema, SistemaMovimento, SistemaPlayerBateParedeVertical, SistemaPlayerBateParedeHorizontal
 from jogoabstrato import JogoAbstrato
 
 
 class Shooter(JogoAbstrato):
-    def __init__(self, screen, entidades, player, inimigos, plataformas):
-        self.entidades = []
-        super().__init__(screen, entidades, player, inimigos, plataformas)
-
-    def inicializar_entidades(self, entidades=[]):
-        if len(self.inimigos) < 5:
-            for _ in range(5 - len(self.inimigos)):
-                self.inimigos.append(Enemy(random.uniform(100, 1100), random.uniform(100, 550), (0, 255, 0)))
-        self.entidades.append(self.player)
-        for inimigo in self.inimigos:
-            self.entidades.append(inimigo)
-        for plataforma in self.plataformas:
-            self.entidades.append(plataforma)
-
     def inicializar_sistemas(self):
         self.sistemas = []
 
@@ -38,8 +22,5 @@ class Shooter(JogoAbstrato):
         movimento = SistemaMovimento([self.inimigos_sys], self.player)
         self.sistemas.append(movimento)
 
-        playerbateparedevertical = SistemaPlayerBateParedeVertical(self.player)
-        self.sistemas.append(playerbateparedevertical)
-
-        playerbateparedehorizontal = SistemaPlayerBateParedeHorizontal(self.player)
-        self.sistemas.append(playerbateparedehorizontal)
+        self.sistemas.append(SistemaPlayerBateParedeVertical(self.player))
+        self.sistemas.append(SistemaPlayerBateParedeHorizontal(self.player))
