@@ -47,6 +47,37 @@ class SistemaInimigosShooter(Sistema):
 
     def check_removed(self):
         return self.removed
+    
+
+class SistemaInimigosAsteroid(Sistema):
+    def __init__(self, inimigos, player):
+        self.player = player
+        super().__init__(inimigos)
+
+    def tick(self):
+        self.removed = []
+        for enemy in self.entidades:
+            enemy.rect.x += enemy.direction[0]
+            enemy.rect.y += enemy.direction[1]
+
+            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+                if enemy.rect.colliderect(enemy_2.rect):
+                        enemy_2.direction[0] *= -1
+                        enemy_2.direction[1] *= -1    
+
+            if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
+                self.removed.append(enemy)
+                self.remover_entidade(enemy)
+
+            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
+                enemy.direction[0] *= -1
+            if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
+                enemy.direction[1] *= -1
+
+    def check_removed(self):
+        return self.removed
 
 
 class SistemaInimigosFlappy(Sistema):
@@ -207,7 +238,7 @@ class PlayerFlappySistema(Sistema):
 
     def tick(self):
         for player in self.entidades:
-            player.vel_x = 4
+            player.vel_x = 3.5
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 player.jump_flappy()
@@ -252,3 +283,25 @@ class PlayerMarioSistema(Sistema):
             if player.is_invincible:
                 if pygame.time.get_ticks() - player.invincible_ticks > 1200:
                     player.is_invincible = False
+
+class PlayerAsteroidSistema(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
+
+    def tick(self):
+        for player in self.entidades:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                player.rect.x -= 5
+            if keys[pygame.K_d]:
+                player.rect.x += 5
+            if keys[pygame.K_w]:
+                player.rect.y -= 5
+            if keys[pygame.K_s]:
+                player.rect.y += 5
+            if keys[pygame.K_SPACE] and player.tiro_pronto == True:
+                ultimo_tiro = pygame.time.get_ticks()
+                player.shoot()
+            if player.tiro_pronto == False:
+                if pygame.time.get_ticks() - ultimo_tiro > player.tempo_recarga:
+                    player.tiro_pronto = True
