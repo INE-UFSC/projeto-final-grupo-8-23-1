@@ -64,6 +64,14 @@ class SistemaInimigosMario(Sistema):
 
     def tick(self):
         for enemy in self.entidades:
+            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+                if enemy.rect.colliderect(enemy_2.rect):
+                    if enemy.rect.y == enemy_2.rect.y:
+                        enemy_2.direction[0] *= -1
+                    elif enemy.rect.y > enemy_2.rect.y:
+                        enemy_2.velocity = -10
             enemy.rect.x += enemy.direction[0]
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
@@ -78,24 +86,7 @@ class SistemaInimigosMario(Sistema):
                 self.player.invincible_ticks = pygame.time.get_ticks()
 
     def check_removed(self):
-        return self.removed
-
-
-class SistemaInimigoTrocaLado(Sistema):
-    def __init__(self, inimigos):
-        super().__init__(inimigos)
-
-    def tick(self):
-            for enemy_1 in self.entidades:
-                entidades_sem_1 = self.entidades.copy()
-                entidades_sem_1.remove(enemy_1)
-                for enemy_2 in entidades_sem_1:
-                    if enemy_1.rect.colliderect(enemy_2.rect):
-                        if enemy_1.rect.y == enemy_2.rect.y:
-                            enemy_2.direction[0] *= -1
-                        elif enemy_1.rect.y > enemy_2.rect.y:
-                            enemy_2.velocity = -10
-                    
+        return self.removed                    
 
 
 class SistemaMovimento(Sistema):

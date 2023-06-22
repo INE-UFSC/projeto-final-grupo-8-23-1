@@ -50,11 +50,8 @@ class GameOver:
                     if self.botao_menu.get_rect(topleft=(375, 250)).collidepoint(x, y):
                         menu = Menu(self.screen)
                         nome_do_jogo = menu.main()
-                        print(nome_do_jogo)
                         return nome_do_jogo
-                    elif self.botao_sair.get_rect(topleft=(625, 250)).collidepoint(x,
-                                                                                   y):  # Adiciona a detecção de clique para o botão sair
-                        pygame.quit()
+                    elif self.botao_sair.get_rect(topleft=(625, 250)).collidepoint(x,y):
                         sys.exit()
 
             self.screen.fill((4, 3, 45))

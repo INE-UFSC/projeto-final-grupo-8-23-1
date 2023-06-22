@@ -33,7 +33,7 @@ class Flappy(JogoAbstrato):
         plataformas = SistemaPlataformas(self.plataformas)
         self.sistemas.append(plataformas)
 
-        gravidade = SistemaGravidade(self.player, self.plataformas, [], 0.2)
+        gravidade = SistemaGravidade(self.player, self.plataformas, [], 0.15)
         self.sistemas.append(gravidade)
 
         desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
