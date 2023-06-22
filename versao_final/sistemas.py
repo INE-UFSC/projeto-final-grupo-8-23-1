@@ -86,13 +86,16 @@ class SistemaInimigoTrocaLado(Sistema):
         super().__init__(inimigos)
 
     def tick(self):
-        for enemy_1 in self.entidades:
-            entidades_sem_1 = self.entidades.copy()
-            entidades_sem_1.remove(enemy_1)
-            for enemy_2 in entidades_sem_1:
-                if enemy_1.rect.colliderect(enemy_2.rect):
-                    enemy_1.direction[0] *= -1
-                    enemy_2.direction[0] *= -1
+            for enemy_1 in self.entidades:
+                entidades_sem_1 = self.entidades.copy()
+                entidades_sem_1.remove(enemy_1)
+                for enemy_2 in entidades_sem_1:
+                    if enemy_1.rect.colliderect(enemy_2.rect):
+                        if enemy_1.rect.y == enemy_2.rect.y:
+                            enemy_2.direction[0] *= -1
+                        elif enemy_1.rect.y > enemy_2.rect.y:
+                            enemy_2.velocity = -10
+                    
 
 
 class SistemaMovimento(Sistema):

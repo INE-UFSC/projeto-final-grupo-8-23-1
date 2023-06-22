@@ -28,7 +28,7 @@ class Player(Entity):
         return self.lives
 
     def jump(self):
-        self.velocity = -17
+        self.velocity = -16
         self.is_jumping = True
 
     def jump_flappy(self):
