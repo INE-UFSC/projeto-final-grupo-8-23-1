@@ -15,19 +15,12 @@ class Flappy(JogoAbstrato):
         return Enemy(random.uniform(100, 1100), random.uniform(100, 550), (0, 0, 255))
 
     def inicializar_sistemas(self):
-        self.player_sys = PlayerFlappySistema(self.player)
-        self.sistemas.append(self.player_sys)
-
         self.inimigos_sys = SistemaInimigosFlappy(self.inimigos, self.player)
         self.sistemas.append(self.inimigos_sys)
 
-        gravidade = SistemaGravidade(self.player, self.plataformas, [], 0.15)
-        self.sistemas.append(gravidade)
-
-        playertrocalado = SistemaPlayerTrocaLadoHorizontal(self.player)
-        self.sistemas.append(playertrocalado)
-
-        playerbateparede = SistemaPlayerBateParedeVertical(self.player)
-        self.sistemas.append(playerbateparede)
+        self.sistemas.append(PlayerFlappySistema(self.player))
+        self.sistemas.append(SistemaGravidade(self.player, self.plataformas, [], 0.15))
+        self.sistemas.append(SistemaPlayerTrocaLadoHorizontal(self.player))
+        self.sistemas.append(SistemaPlayerBateParedeVertical(self.player))
 
         super().inicializar_sistemas()

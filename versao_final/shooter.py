@@ -10,12 +10,10 @@ class Shooter(JogoAbstrato):
         return Enemy(random.uniform(100, 1100), random.uniform(100, 550), (0, 255, 0))
 
     def inicializar_sistemas(self):
-        self.player_sys = PlayerShooterSistema(self.player)
-        self.sistemas.append(self.player_sys)
-
         self.inimigos_sys = SistemaInimigosShooter(self.inimigos, self.player)
         self.sistemas.append(self.inimigos_sys)
 
+        self.sistemas.append(PlayerShooterSistema(self.player))
         self.sistemas.append(SistemaPlayerBateParedeVertical(self.player))
         self.sistemas.append(SistemaPlayerBateParedeHorizontal(self.player))
 

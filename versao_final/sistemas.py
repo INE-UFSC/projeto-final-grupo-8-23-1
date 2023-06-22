@@ -166,9 +166,9 @@ class SistemaPlayerTrocaLadoHorizontal(SistemaPlayer):
 
 class SistemaPlayerTrocaLadoVertical(SistemaPlayer):
     def tick(self):
-        if self.player.rect.y < 65: #altura da hud
+        if self.player.rect.y < 65:  # altura da hud
             self.player.rect.y = 650 - self.player.height
-        elif self.player.rect.y > (650 - self.player.height): #altura plataforma
+        elif self.player.rect.y > (650 - self.player.height):  # altura plataforma
             self.player.rect.y = 65
 
 
