@@ -34,21 +34,9 @@ class Controlador:
         self.tempo_na_fase = 0
         self.inimigos = []
         self.tempo = 0
-        self.configurar()
 
     def set_jogo(self, jogo_nome):
         self.jogo_atual = self.jogos[jogo_nome]
-
-    def configurar(self):
-        self.jogos_disponiveis = list(self.jogos.values()).copy()
-        self.inicio_jogo = time.time()
-        self.tempo_na_fase = 0
-        self.pontuacao = 0
-        self.player.lives = 3
-        self.num_fases = 0
-        self.tempo_na_fase = 0
-        self.inimigos = []
-        self.tempo = 0
 
     def contar_tempo(self):
         self.tempo = time.time() - self.inicio_jogo
