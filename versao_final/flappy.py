@@ -1,7 +1,7 @@
 import random
 from entidade import Enemy
 from sistemas import SistemaGravidade, SistemaDesenho, SistemaInimigosFlappy,\
-     SistemaPlataformas, PlayerFlappySistema, SistemaMovimento, SistemaTrocaLado
+     SistemaPlataformas, PlayerFlappySistema, SistemaMovimento, SistemaPlayerTrocaLado
 from jogoabstrato import JogoAbstrato
 
 
@@ -9,7 +9,7 @@ class Flappy(JogoAbstrato):
     def __init__(self, screen, entidades, player, inimigos, plataformas):
         self.entidades = []
         super().__init__(screen, entidades, player, inimigos, plataformas)
-        player.rect.y -= 150
+        player.rect.y = 200
 
     def inicializar_entidades(self, entidades=[]):
         if len(self.inimigos) < 5:
@@ -42,5 +42,5 @@ class Flappy(JogoAbstrato):
         movimento = SistemaMovimento([self.inimigos_sys], self.player)
         self.sistemas.append(movimento)
 
-        trocalado = SistemaTrocaLado(self.player)
-        self.sistemas.append(trocalado)
+        playertrocalado = SistemaPlayerTrocaLado(self.player)
+        self.sistemas.append(playertrocalado)

@@ -72,15 +72,10 @@ class Controlador:
         self.contar_pontuacao()
         self.hud.update()
 
-    def change_enemy(self):
-        for inimigo in self.inimigos:
-            inimigo.rect.y -= 10
-
     def refazer_inimigos(self):
         self.inimigos = self.novo_jogo.get_inimigos()
         self.player = self.novo_jogo.get_player()
         self.plataforma = self.novo_jogo.get_plataformas()
-        self.change_enemy()
         self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
 
     def game_over_reset(self):

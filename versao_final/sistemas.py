@@ -32,9 +32,9 @@ class SistemaInimigosShooter(Sistema):
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
 
-            if enemy.rect.x + enemy.rect.width >= 1200 or enemy.rect.x <= 0:
+            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
-            if enemy.rect.y + enemy.rect.height >= 650 or enemy.rect.y <= 70:
+            if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
 
     def check_removed(self):
@@ -65,9 +65,10 @@ class SistemaInimigosMario(Sistema):
     def tick(self):
         for enemy in self.entidades:
             enemy.rect.x += enemy.direction[0]
-            if enemy.rect.x + enemy.rect.width >= 1200 or enemy.rect.x <= 0:
+            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
             if self.player.rect.colliderect(enemy.rect) and self.player.is_jumping:
+                self.player.jump()
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
             elif self.player.rect.colliderect(enemy.rect) and not \
@@ -78,6 +79,20 @@ class SistemaInimigosMario(Sistema):
 
     def check_removed(self):
         return self.removed
+
+
+class SistemaInimigoTrocaLado(Sistema):
+    def __init__(self, inimigos):
+        super().__init__(inimigos)
+
+    def tick(self):
+        for enemy_1 in self.entidades:
+            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1.remove(enemy_1)
+            for enemy_2 in entidades_sem_1:
+                if enemy_1.rect.colliderect(enemy_2.rect):
+                    enemy_1.direction[0] *= -1
+                    enemy_2.direction[0] *= -1
 
 
 class SistemaMovimento(Sistema):
@@ -118,7 +133,8 @@ class SistemaGravidade(Sistema):
                     entidade.velocity = 0
                     break
 
-class SistemaTrocaLado(Sistema):
+
+class SistemaPlayerTrocaLado(Sistema):
     def __init__(self, player):
         super().__init__([player])
 
@@ -164,9 +180,10 @@ class PlayerFlappySistema(Sistema):
             if keys[pygame.K_SPACE]:
                 player.jump_flappy()
 
-            if player.rect.y >= 599:
+            if player.rect.y > 599:
                 player.lives -= 1
-                player.rect.y = 250
+                player.rect.y = 200
+                player.vel_y = 0 
 
 
 
