@@ -6,20 +6,20 @@ class Hud:
         self.controlador = controlador
         self.font = pygame.font.SysFont('bahnschrift', 35)
 
-        self.vida_icon = pygame.image.load('versao_final/assets/vida.png') # icone de vida
-        self.vidas_text = pygame.image.load('versao_final/assets/vidas_texto.png') # texto "Vidas:"
+        self.vida_icon = pygame.image.load('./assets/vida.png') # icone de vida
+        self.vidas_text = pygame.image.load('./assets/vidas_texto.png') # texto "Vidas:"
 
-        self.troca_mundo_texto = pygame.image.load('versao_final/assets/troca_de_mundo_texto.png') # texto "troca de mundo:"
+        self.troca_mundo_texto = pygame.image.load('./assets/troca_de_mundo_texto.png') # texto "troca de mundo:"
 
-        self.tempo_texto_icon = pygame.image.load('versao_final/assets/tempo_texto.png')
-        self.tempo_icon = pygame.image.load('versao_final/assets/relogio1.5.png')
+        self.tempo_texto_icon = pygame.image.load('./assets/tempo_texto.png')
+        self.tempo_icon = pygame.image.load('./assets/relogio1.5.png')
 
-        self.score_texto = pygame.image.load('versao_final/assets/score_texto.png')
-        self.trofeu = pygame.image.load('versao_final/assets/trofeu.png')
+        self.score_texto = pygame.image.load('./assets/score_texto.png')
+        self.trofeu = pygame.image.load('./assets/trofeu.png')
 
 
-        self.barra_vertical_icon = pygame.image.load('versao_final/assets/linha_vertical.png')
-        self.barra_horizontal_icon = pygame.image.load('versao_final/assets/linha_horizontal.png')
+        self.barra_vertical_icon = pygame.image.load('./assets/linha_vertical.png')
+        self.barra_horizontal_icon = pygame.image.load('./assets/linha_horizontal.png')
 
 
     def draw(self, screen):

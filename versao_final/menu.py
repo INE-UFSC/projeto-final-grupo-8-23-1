@@ -5,25 +5,25 @@ from pygame.locals import *
 class Menu:
     def __init__(self, screen):
         self.screen = screen
-        self.logo = pygame.image.load('versao_final/assets/logo2.png')
+        self.logo = pygame.image.load('./assets/logo2.png')
         self.logo_rect = self.logo.get_rect()
         self.logo_rect.center = (600, 100)
 
         self.highscore_font = pygame.font.SysFont('bahnschrift', 45)
-        self.highscore_asset = pygame.image.load('versao_final/assets/highscore2.png')
+        self.highscore_asset = pygame.image.load('./assets/highscore2.png')
         self.highscore_asset_rect = self.highscore_asset.get_rect()
         self.highscore_asset_rect.center = (600, 200)
 
         self.buttons = {
-            'Mario': pygame.image.load('versao_final/assets/botao_mario.png'),
-            'Shooter': pygame.image.load('versao_final/assets/botao_shooter.png'),
-            'Flappy': pygame.image.load('versao_final/assets/botao_flappy.png'),
-            'Bricks': pygame.image.load('versao_final/assets/botao_bricks.png'),
+            'Mario': pygame.image.load('./assets/botao_mario.png'),
+            'Shooter': pygame.image.load('./assets/botao_shooter.png'),
+            'Flappy': pygame.image.load('./assets/botao_flappy.png'),
+            'Bricks': pygame.image.load('./assets/botao_bricks.png'),
             # Add your four new buttons here
-            'NewButton1': pygame.image.load('versao_final/assets/botao_bricks2.png'),
-            'NewButton2': pygame.image.load('versao_final/assets/botao_bricks2.png'),
-            'NewButton3': pygame.image.load('versao_final/assets/botao_bricks2.png'),
-            'NewButton4': pygame.image.load('versao_final/assets/botao_bricks2.png')
+            'NewButton1': pygame.image.load('./assets/botao_bricks2.png'),
+            'NewButton2': pygame.image.load('./assets/botao_bricks2.png'),
+            'NewButton3': pygame.image.load('./assets/botao_bricks2.png'),
+            'NewButton4': pygame.image.load('./assets/botao_bricks2.png')
         }
 
         self.button_rects = {
@@ -36,7 +36,7 @@ class Menu:
             else:
                 rect.center = (300 * ((i - 4) + 0.5), 450)
 
-        self.footer = pygame.image.load('versao_final/assets/nomes.png')
+        self.footer = pygame.image.load('./assets/nomes.png')
         self.footer_rect = self.footer.get_rect()
         self.footer_rect.center = (450, 680)
 

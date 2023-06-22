@@ -18,11 +18,17 @@ class Sistema:
         pass
 
 
-class SistemaInimigosShooter(Sistema):
+class SistemaInimigos(Sistema):
     def __init__(self, inimigos, player):
         self.player = player
+        self.removed = []
         super().__init__(inimigos)
 
+    def check_removed(self):
+        return self.removed
+
+
+class SistemaInimigosShooter(SistemaInimigos):
     def tick(self):
         self.removed = []
         for enemy in self.entidades:
@@ -33,8 +39,8 @@ class SistemaInimigosShooter(Sistema):
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
                 if enemy.rect.colliderect(enemy_2.rect):
-                        enemy_2.direction[0] *= -1
-                        enemy_2.direction[1] *= -1    
+                    enemy_2.direction[0] *= -1
+                    enemy_2.direction[1] *= -1
 
             if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
                 self.removed.append(enemy)
@@ -45,15 +51,8 @@ class SistemaInimigosShooter(Sistema):
             if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
 
-    def check_removed(self):
-        return self.removed
-    
 
-class SistemaInimigosAsteroid(Sistema):
-    def __init__(self, inimigos, player):
-        self.player = player
-        super().__init__(inimigos)
-
+class SistemaInimigosAsteroid(SistemaInimigos):
     def tick(self):
         self.removed = []
         for enemy in self.entidades:
@@ -64,8 +63,8 @@ class SistemaInimigosAsteroid(Sistema):
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
                 if enemy.rect.colliderect(enemy_2.rect):
-                        enemy_2.direction[0] *= -1
-                        enemy_2.direction[1] *= -1    
+                    enemy_2.direction[0] *= -1
+                    enemy_2.direction[1] *= -1
 
             if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
                 self.removed.append(enemy)
@@ -76,31 +75,17 @@ class SistemaInimigosAsteroid(Sistema):
             if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
 
-    def check_removed(self):
-        return self.removed
 
-
-class SistemaInimigosFlappy(Sistema):
-    def __init__(self, inimigos, player):
-        self.player = player
-        super().__init__(inimigos)
-
+class SistemaInimigosFlappy(SistemaInimigos):
     def tick(self):
         self.removed = []
         for enemy in self.entidades:
             if self.player.rect.colliderect(enemy.rect):
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
-    def check_removed(self):
-        return self.removed
 
 
-class SistemaInimigosMario(Sistema):
-    def __init__(self, inimigos, player):
-        self.player = player
-        super().__init__(inimigos)
-        self.removed = []
-
+class SistemaInimigosMario(SistemaInimigos):
     def tick(self):
         for enemy in self.entidades:
             enemy.rect.x += enemy.direction[0]
@@ -113,7 +98,6 @@ class SistemaInimigosMario(Sistema):
                         enemy_2.direction[0] *= -1
                     elif enemy.rect.y > enemy_2.rect.y:
                         enemy_2.velocity = -10
-                        
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
             if self.player.rect.colliderect(enemy.rect) and self.player.is_jumping:
@@ -125,9 +109,6 @@ class SistemaInimigosMario(Sistema):
                 self.player.lives -= 1
                 self.player.is_invincible = True
                 self.player.invincible_ticks = pygame.time.get_ticks()
-
-    def check_removed(self):
-        return self.removed                    
 
 
 class SistemaMovimento(Sistema):
@@ -169,45 +150,43 @@ class SistemaGravidade(Sistema):
                     break
 
 
-class SistemaPlayerTrocaLadoHorizontal(Sistema):
+class SistemaPlayer(Sistema):
     def __init__(self, player):
+        self.player = player
         super().__init__([player])
-    def tick(self):
-        for player in self.entidades:
-            if player.rect.x < - (player.width/2):
-                player.rect.x = 1200 - (player.width/2)
-            elif player.rect.x > 1200 - (player.width/2):
-                player.rect.x = - (player.width/2)
 
-class SistemaPlayerTrocaLadoVertical(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
-    def tick(self):
-        for player in self.entidades:
-            if player.rect.y < 65: #altura da hud
-                player.rect.y = 650 - player.height
-            elif player.rect.y > (650 - player.height): #altura plataforma
-                player.rect.y = 65
 
-class SistemaPlayerBateParedeHorizontal(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
+class SistemaPlayerTrocaLadoHorizontal(SistemaPlayer):
     def tick(self):
-        for player in self.entidades:
-            if player.rect.x < 0:
-                player.rect.x = 0
-            elif player.rect.x > 1200 - player.width:
-                player.rect.x = 1200 - player.width
+        if self.player.rect.x < - (self.player.width/2):
+            self.player.rect.x = 1200 - (self.player.width/2)
+        elif self.player.rect.x > 1200 - (self.player.width/2):
+            self.player.rect.x = - (self.player.width/2)
 
-class SistemaPlayerBateParedeVertical(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
+
+class SistemaPlayerTrocaLadoVertical(SistemaPlayer):
     def tick(self):
-        for player in self.entidades:
-            if player.rect.y < 65:
-                player.rect.y = 65
-            elif player.rect.y > (650 - player.height):
-                player.rect.y = 650 - player.height
+        if self.player.rect.y < 65: #altura da hud
+            self.player.rect.y = 650 - self.player.height
+        elif self.player.rect.y > (650 - self.player.height): #altura plataforma
+            self.player.rect.y = 65
+
+
+class SistemaPlayerBateParedeHorizontal(SistemaPlayer):
+    def tick(self):
+        if self.player.rect.x < 0:
+            self.player.rect.x = 0
+        elif self.player.rect.x > 1200 - self.player.width:
+            self.player.rect.x = 1200 - self.player.width
+
+
+class SistemaPlayerBateParedeVertical(SistemaPlayer):
+    def tick(self):
+        if self.player.rect.y < 65:
+            self.player.rect.y = 65
+        elif self.player.rect.y > (650 - self.player.height):
+            self.player.rect.y = 650 - self.player.height
+
 
 class SistemaDesenho(Sistema):
     def __init__(self, lista_sistemas, player, screen):
@@ -232,76 +211,61 @@ class SistemaPlataformas(Sistema):
     def tick(self):
         pass
 
-class PlayerFlappySistema(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
 
+class PlayerFlappySistema(SistemaPlayer):
     def tick(self):
-        for player in self.entidades:
-            player.vel_x = 3.5
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_SPACE]:
-                player.jump_flappy()
+        self.player.vel_x = 3.5
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            self.player.jump_flappy()
 
-            if player.rect.y > 599:
-                player.lives -= 1
-                player.rect.y = 200
-                player.vel_y = 0 
-
+        if self.player.rect.y > 599:
+            self.player.lives -= 1
+            self.player.rect.y = 200
+            self.player.vel_y = 0
 
 
-class PlayerShooterSistema(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
-
+class PlayerShooterSistema(SistemaPlayer):
     def tick(self):
-        for player in self.entidades:
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_a]:
-                player.rect.x -= 5
-            if keys[pygame.K_d]:
-                player.rect.x += 5
-            if keys[pygame.K_w]:
-                player.rect.y -= 5
-            if keys[pygame.K_s]:
-                player.rect.y += 5
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.player.rect.x -= 5
+        if keys[pygame.K_d]:
+            self.player.rect.x += 5
+        if keys[pygame.K_w]:
+            self.player.rect.y -= 5
+        if keys[pygame.K_s]:
+            self.player.rect.y += 5
 
 
-class PlayerMarioSistema(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
-
+class PlayerMarioSistema(SistemaPlayer):
     def tick(self):
-        for player in self.entidades:
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_a]:
-                player.vel_x = -5
-            if keys[pygame.K_d]:
-                player.vel_x = 5
-            if keys[pygame.K_SPACE] and not player.is_jumping:
-                player.jump()
-            if player.is_invincible:
-                if pygame.time.get_ticks() - player.invincible_ticks > 1200:
-                    player.is_invincible = False
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.player.vel_x = -5
+        if keys[pygame.K_d]:
+            self.player.vel_x = 5
+        if keys[pygame.K_SPACE] and not self.player.is_jumping:
+            self.player.jump()
+        if self.player.is_invincible:
+            if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+                self.player.is_invincible = False
 
-class PlayerAsteroidSistema(Sistema):
-    def __init__(self, player):
-        super().__init__([player])
 
+class PlayerAsteroidSistema(SistemaPlayer):
     def tick(self):
-        for player in self.entidades:
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_a]:
-                player.rect.x -= 5
-            if keys[pygame.K_d]:
-                player.rect.x += 5
-            if keys[pygame.K_w]:
-                player.rect.y -= 5
-            if keys[pygame.K_s]:
-                player.rect.y += 5
-            if keys[pygame.K_SPACE] and player.tiro_pronto == True:
-                ultimo_tiro = pygame.time.get_ticks()
-                player.shoot()
-            if player.tiro_pronto == False:
-                if pygame.time.get_ticks() - ultimo_tiro > player.tempo_recarga:
-                    player.tiro_pronto = True
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.player.rect.x -= 5
+        if keys[pygame.K_d]:
+            self.player.rect.x += 5
+        if keys[pygame.K_w]:
+            self.player.rect.y -= 5
+        if keys[pygame.K_s]:
+            self.player.rect.y += 5
+        if keys[pygame.K_SPACE] and self.player.tiro_pronto:
+            ultimo_tiro = pygame.time.get_ticks()
+            self.player.shoot()
+        if not self.player.tiro_pronto:
+            if pygame.time.get_ticks() - ultimo_tiro > self.player.tempo_recarga:
+                self.player.tiro_pronto = True

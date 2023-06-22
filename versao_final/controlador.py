@@ -98,7 +98,6 @@ class Controlador:
         self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
         self.inicio_jogo = time.time()
         while self.running:
-            print(self.player.rect.x, self.player.rect.y)
             self.screen.fill((0, 0, 0))
             self.novo_jogo.run()
             self.hud.draw(self.screen)
