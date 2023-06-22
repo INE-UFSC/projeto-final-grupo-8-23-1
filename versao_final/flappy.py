@@ -1,6 +1,8 @@
 from sistemas import SistemaGravidade, SistemaDesenho, SistemaInimigosFlappy, SistemaPlayerBateParedeVertical,\
      SistemaPlataformas, PlayerFlappySistema, SistemaMovimento, SistemaPlayerTrocaLadoHorizontal
 from jogoabstrato import JogoAbstrato
+from entidade import Enemy
+import random
 
 
 class Flappy(JogoAbstrato):
@@ -8,6 +10,9 @@ class Flappy(JogoAbstrato):
         super().__init__(screen, entidades, player, inimigos, plataformas)
         player.rect.y = 200
         player.vel_y = 0
+
+    def inimigo(self):
+        return Enemy(random.uniform(100, 1100), random.uniform(100, 550), (0, 0, 255))
 
     def inicializar_sistemas(self):
         self.player_sys = PlayerFlappySistema(self.player)

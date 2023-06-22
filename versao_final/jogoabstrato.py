@@ -1,7 +1,5 @@
 import pygame
 import sys
-from entidade import Enemy
-import random as random
 
 
 class JogoAbstrato:
@@ -32,7 +30,7 @@ class JogoAbstrato:
     def inicializar_entidades(self, entidades=[]):
         if len(self.inimigos) < 5:
             for _ in range(5 - len(self.inimigos)):
-                self.inimigos.append(Enemy(random.uniform(100, 1100), random.uniform(100, 550), (255, 0, 255)))
+                self.inimigos.append(self.inimigo())
         self.entidades.append(self.player)
         for inimigo in self.inimigos:
             self.entidades.append(inimigo)
@@ -58,4 +56,7 @@ class JogoAbstrato:
         return self.plataformas
 
     def inicializar_sistemas(self):
+        pass
+
+    def inimigo(self):
         pass
