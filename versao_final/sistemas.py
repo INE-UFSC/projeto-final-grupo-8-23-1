@@ -30,7 +30,6 @@ class SistemaInimigos(Sistema):
 
 class SistemaInimigosShooter(SistemaInimigos):
     def tick(self):
-        self.removed = []
         for enemy in self.entidades:
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
@@ -54,7 +53,6 @@ class SistemaInimigosShooter(SistemaInimigos):
 
 class SistemaInimigosAsteroid(SistemaInimigos):
     def tick(self):
-        self.removed = []
         for enemy in self.entidades:
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
@@ -78,7 +76,6 @@ class SistemaInimigosAsteroid(SistemaInimigos):
 
 class SistemaInimigosFlappy(SistemaInimigos):
     def tick(self):
-        self.removed = []
         for enemy in self.entidades:
             if self.player.rect.colliderect(enemy.rect):
                 self.removed.append(enemy)

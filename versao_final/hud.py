@@ -5,10 +5,10 @@ class Hud:
     def __init__(self):
         self.font = pygame.font.SysFont('bahnschrift', 35)
 
-        self.vida_icon = pygame.image.load('./assets/vida.png') # icone de vida
-        self.vidas_text = pygame.image.load('./assets/vidas_texto.png') # texto "Vidas:"
+        self.vida_icon = pygame.image.load('./assets/vida.png')  # icone de vida
+        self.vidas_text = pygame.image.load('./assets/vidas_texto.png')  # texto "Vidas:"
 
-        self.troca_mundo_texto = pygame.image.load('./assets/troca_de_mundo_texto.png') # texto "troca de mundo:"
+        self.troca_mundo_texto = pygame.image.load('./assets/troca_de_mundo_texto.png')  # texto "troca de mundo:"
 
         self.tempo_texto_icon = pygame.image.load('./assets/tempo_texto.png')
         self.tempo_icon = pygame.image.load('./assets/relogio1.5.png')
@@ -27,7 +27,6 @@ class Hud:
         for i in range(vidas):
             screen.blit(self.vida_icon, (120 + i * (self.vida_icon.get_width() + 10), 10))
         screen.blit(self.barra_vertical_icon, (280, 0))
-
 
         # Desenhar o tempo restante para a troca de mundo
         screen.blit(self.tempo_icon, (300, 10))
