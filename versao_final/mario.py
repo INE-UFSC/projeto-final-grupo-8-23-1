@@ -1,7 +1,7 @@
 import random
 from entidade import Enemy
 from sistemas import SistemaDesenho, SistemaInimigosMario, SistemaGravidade,\
-        SistemaPlataformas, PlayerMarioSistema, SistemaMovimento, SistemaPlayerTrocaLado
+        SistemaPlataformas, PlayerMarioSistema, SistemaMovimento, SistemaPlayerBateParedeHorizontal
 from jogoabstrato import JogoAbstrato
 
 
@@ -28,7 +28,7 @@ class Mario(JogoAbstrato):
         self.inimigos_sys = SistemaInimigosMario(self.inimigos, self.player)
         self.sistemas.append(self.inimigos_sys)
 
-        gravidade = SistemaGravidade(self.player, self.plataformas, self.inimigos, 1)
+        gravidade = SistemaGravidade(self.player, self.plataformas, self.inimigos, 0.9)
         self.sistemas.append(gravidade)
 
         plataformas = SistemaPlataformas(self.plataformas)
@@ -40,5 +40,5 @@ class Mario(JogoAbstrato):
         movimento = SistemaMovimento([self.inimigos_sys], self.player)
         self.sistemas.append(movimento)
 
-        playertrocalado = SistemaPlayerTrocaLado(self.player)
-        self.sistemas.append(playertrocalado)
+        sistemaplayerbateparedehorizontal = SistemaPlayerBateParedeHorizontal(self.player)
+        self.sistemas.append(sistemaplayerbateparedehorizontal)

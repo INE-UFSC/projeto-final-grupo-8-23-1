@@ -28,6 +28,14 @@ class SistemaInimigosShooter(Sistema):
         for enemy in self.entidades:
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
+
+            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+                if enemy.rect.colliderect(enemy_2.rect):
+                        enemy_2.direction[0] *= -1
+                        enemy_2.direction[1] *= -1    
+
             if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
@@ -64,6 +72,8 @@ class SistemaInimigosMario(Sistema):
 
     def tick(self):
         for enemy in self.entidades:
+            enemy.rect.x += enemy.direction[0]
+
             entidades_sem_1 = self.entidades.copy()
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
@@ -72,7 +82,7 @@ class SistemaInimigosMario(Sistema):
                         enemy_2.direction[0] *= -1
                     elif enemy.rect.y > enemy_2.rect.y:
                         enemy_2.velocity = -10
-            enemy.rect.x += enemy.direction[0]
+                        
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
             if self.player.rect.colliderect(enemy.rect) and self.player.is_jumping:
@@ -128,17 +138,45 @@ class SistemaGravidade(Sistema):
                     break
 
 
-class SistemaPlayerTrocaLado(Sistema):
+class SistemaPlayerTrocaLadoHorizontal(Sistema):
     def __init__(self, player):
         super().__init__([player])
+    def tick(self):
+        for player in self.entidades:
+            if player.rect.x < - (player.width/2):
+                player.rect.x = 1200 - (player.width/2)
+            elif player.rect.x > 1200 - (player.width/2):
+                player.rect.x = - (player.width/2)
 
+class SistemaPlayerTrocaLadoVertical(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
+    def tick(self):
+        for player in self.entidades:
+            if player.rect.y < 65: #altura da hud
+                player.rect.y = 650 - player.height
+            elif player.rect.y > (650 - player.height): #altura plataforma
+                player.rect.y = 65
+
+class SistemaPlayerBateParedeHorizontal(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
     def tick(self):
         for player in self.entidades:
             if player.rect.x < 0:
-                player.rect.x = 1200
-            elif player.rect.x > 1200:
                 player.rect.x = 0
+            elif player.rect.x > 1200 - player.width:
+                player.rect.x = 1200 - player.width
 
+class SistemaPlayerBateParedeVertical(Sistema):
+    def __init__(self, player):
+        super().__init__([player])
+    def tick(self):
+        for player in self.entidades:
+            if player.rect.y < 65:
+                player.rect.y = 65
+            elif player.rect.y > (650 - player.height):
+                player.rect.y = 650 - player.height
 
 class SistemaDesenho(Sistema):
     def __init__(self, lista_sistemas, player, screen):

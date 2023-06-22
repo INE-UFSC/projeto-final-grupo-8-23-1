@@ -4,6 +4,7 @@ import random
 
 class Entity:
     def __init__(self, width, height, x, y, color):
+        self.width = width
         self.height = height
         self.image = pygame.Surface((width, height))
         self.image.fill(color)

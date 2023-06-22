@@ -1,7 +1,7 @@
 import random
 from entidade import Enemy
 from sistemas import SistemaDesenho, SistemaInimigosShooter,\
-     SistemaPlataformas, PlayerShooterSistema, SistemaMovimento, SistemaPlayerTrocaLado
+     SistemaPlataformas, PlayerShooterSistema, SistemaMovimento, SistemaPlayerBateParedeVertical, SistemaPlayerBateParedeHorizontal
 from jogoabstrato import JogoAbstrato
 
 
@@ -38,5 +38,8 @@ class Shooter(JogoAbstrato):
         movimento = SistemaMovimento([self.inimigos_sys], self.player)
         self.sistemas.append(movimento)
 
-        playertrocalado = SistemaPlayerTrocaLado(self.player)
-        self.sistemas.append(playertrocalado)
+        playerbateparedevertical = SistemaPlayerBateParedeVertical(self.player)
+        self.sistemas.append(playerbateparedevertical)
+
+        playerbateparedehorizontal = SistemaPlayerBateParedeHorizontal(self.player)
+        self.sistemas.append(playerbateparedehorizontal)

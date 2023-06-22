@@ -21,7 +21,7 @@ class Controlador:
         self.hud = Hud(self)
         self.player = Player()
         self.plataforma = [Platform()]
-        self.tempo_troca_de_fase = 5
+        self.tempo_troca_de_fase = 10
         self.font = pygame.font.Font(None, 36)
         self.running = True
         self.jogos_disponiveis = list(self.jogos.values()).copy()
@@ -58,9 +58,9 @@ class Controlador:
         pass
 
     def mudar_jogo(self):
-        self.jogos_disponiveis.remove(self.jogo_atual)
-        if len(self.jogos_disponiveis) == 0:
+        if len(self.jogos_disponiveis) == 1:
             self.jogos_disponiveis = list(self.jogos.values()).copy()
+        self.jogos_disponiveis.remove(self.jogo_atual)
         self.jogo_atual = random.choice(self.jogos_disponiveis)
         self.num_fases += 1
 
@@ -98,6 +98,7 @@ class Controlador:
         self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
         self.inicio_jogo = time.time()
         while self.running:
+            print(self.player.rect.x, self.player.rect.y)
             self.screen.fill((0, 0, 0))
             self.novo_jogo.run()
             self.hud.draw(self.screen)
