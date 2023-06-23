@@ -21,7 +21,7 @@ class Controlador:
         self.hud = Hud()
         self.player = Player()
         self.plataforma = [Platform()]
-        self.tempo_troca_de_fase = 10
+        self.tempo_troca_de_fase = 5
         self.font = pygame.font.Font(None, 36)
         self.running = True
         self.jogos_disponiveis = list(self.jogos.values()).copy()
@@ -68,7 +68,7 @@ class Controlador:
 
     def game_over_reset(self):
         self.jogos_disponiveis = list(self.jogos.values()).copy()
-        gameover_screen = GameOver(self.screen, self.pontuacao, self)
+        gameover_screen = GameOver(self.screen, self.score + self.temp_score, self)
         nome_jogo = gameover_screen.run()
         self.running = False
         if nome_jogo in self.jogos:
@@ -78,10 +78,12 @@ class Controlador:
         self.inicio_jogo = time.time()
         self.player.lives = 3
         self.num_fases = 0
+        self.score = 0
+        self.temp_score = 0
 
     def run(self):
         menu = Menu(self.screen)
-        nome_jogo = menu.main()
+        nome_jogo = menu.main(self.score + self.temp_score)
         self.jogo_atual = self.jogos[nome_jogo]
         self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
         self.inicio_jogo = time.time()

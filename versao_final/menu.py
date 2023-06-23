@@ -40,12 +40,12 @@ class Menu:
         self.footer_rect = self.footer.get_rect()
         self.footer_rect.center = (450, 680)
 
-    def draw(self):
+    def draw(self, score):
         self.screen.fill((4, 3, 35))
         self.screen.blit(self.logo, self.logo_rect.topleft)
 
         self.screen.blit(self.highscore_asset, self.highscore_asset_rect.topleft)
-        highscore_surface = self.highscore_font.render('00', True, (255, 215, 0))
+        highscore_surface = self.highscore_font.render(str(score), True, (255, 215, 0))
         highscore_rect = highscore_surface.get_rect(midleft=(self.highscore_asset_rect.right + 20, 200))
         self.screen.blit(highscore_surface, highscore_rect)
 
@@ -60,7 +60,7 @@ class Menu:
                 return name  # Retorna o nome do botao apertado
         return None
 
-    def main(self):
+    def main(self, score):
         clock = pygame.time.Clock()
         while True:
             for event in pygame.event.get():
@@ -72,6 +72,6 @@ class Menu:
                     if button is not None:
                         return button
 
-            self.draw()
+            self.draw(score)
             pygame.display.flip()
             clock.tick(60)
