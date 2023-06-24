@@ -31,20 +31,17 @@ class JogoAbstrato:
                     self.score += 5
                     sistema.remover_entidade(removed)
 
-    def inicializar_entidades(self, entidades=[]):
-        for _ in range(10 - len(self.inimigos)):
-            x_novo = random.randint(0, 1150)
-            y_novo = random.randint(65, 500)
+    def inicializar_entidades(self):
 
-            for i in range (len(self.inimigos)):
-                x_existente = self.inimigos[i].rect.x
-                y_existente = self.inimigos[i].rect.y
-
-                if abs(x_novo - x_existente) < 50 and abs(y_novo - y_existente) < 50:
-                    x_novo = random.randint(0, 1150)
-                    y_novo = random.randint(65, 500)
-                    i = 0
-            
+        for _ in range(5 - len(self.inimigos)):
+            for _ in range(1000):
+                x_novo = random.randint(0, 1150)
+                y_novo = random.randint(65, 500)
+                if not any(abs(x_novo - inimigo.rect.x) < 55 and abs(y_novo - inimigo.rect.y) < 55 for inimigo in self.inimigos):
+                    break
+            else:
+                continue
+                
             self.inimigos.append(self.inimigo(x_novo, y_novo))
 
         self.entidades.append(self.player)
