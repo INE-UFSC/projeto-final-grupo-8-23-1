@@ -9,10 +9,10 @@ class Flappy(JogoAbstrato):
     def __init__(self, screen, entidades, player, inimigos, plataformas):
         super().__init__(screen, entidades, player, inimigos, plataformas)
         player.rect.y = 200
-        player.vel_y = 0
+        player.velocity = 0
 
-    def inimigo(self):
-        return Enemy(random.uniform(100, 1100), random.uniform(100, 550), (0, 0, 255))
+    def inimigo(self, x, y):
+        return Enemy(x, y, (0, 255, 0))
 
     def inicializar_sistemas(self):
         self.inimigos_sys = SistemaInimigosFlappy(self.inimigos, self.player)

@@ -1,4 +1,5 @@
 import pygame
+import random
 import sys
 from sistemas import SistemaDesenho, SistemaMovimento, SistemaPlataformas
 
@@ -31,9 +32,23 @@ class JogoAbstrato:
                     sistema.remover_entidade(removed)
 
     def inicializar_entidades(self, entidades=[]):
-        if len(self.inimigos) < 5:
-            for _ in range(5 - len(self.inimigos)):
-                self.inimigos.append(self.inimigo())
+        for _ in range(10 - len(self.inimigos)):
+            x_novo = random.randint(0, 1150)
+            y_novo = random.randint(65, 600)
+
+            for i in range (len(self.inimigos)):
+                x_existente = self.inimigos[i].rect.x
+                y_existente = self.inimigos[i].rect.y
+
+                if abs(x_novo - x_existente) > 50 and abs(y_novo - y_existente) > 50:
+                    pass
+                else:
+                    x_novo = random.randint(0, 1150)
+                    y_novo = random.randint(65, 600)
+                    i = 0
+            
+        self.inimigos.append(self.inimigo(x_novo, y_novo))
+
         self.entidades.append(self.player)
         for inimigo in self.inimigos:
             self.entidades.append(inimigo)

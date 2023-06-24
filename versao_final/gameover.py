@@ -10,11 +10,11 @@ class GameOver:
         self.controlador = controlador
         self.highscore_manager = Highscore()
         self.font = pygame.font.Font(None, 55)
-        self.gameover_text = pygame.image.load('./assets/gameover2_text.png')
-        self.botao_menu = pygame.image.load('./assets/botao_menu.png')
-        self.botao_sair = pygame.image.load('./assets/botao_sair.png')
-        self.highscore_asset = pygame.image.load('./assets/highscore2.png')
-        self.sua_score_texto = pygame.image.load('./assets/sua_pontuacao_texto.png')
+        self.gameover_text = pygame.image.load('versao_final/assets/gameover2_text.png')
+        self.botao_menu = pygame.image.load('versao_final/assets/botao_menu.png')
+        self.botao_sair = pygame.image.load('versao_final/assets/botao_sair.png')
+        self.highscore_asset = pygame.image.load('versao_final/assets/highscore2.png')
+        self.sua_score_texto = pygame.image.load('versao_final/assets/sua_pontuacao_texto.png')
         self.highscore_manager.update_highscore(self.score)
 
     def draw_score(self):

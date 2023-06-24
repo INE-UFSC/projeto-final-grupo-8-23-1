@@ -6,6 +6,7 @@ from entidade import Player, Platform
 from mario import Mario
 from shooter import Shooter
 from flappy import Flappy
+from asteroid import Asteroid
 
 from hud import Hud
 from gameover import GameOver
@@ -15,7 +16,7 @@ from menu import Menu
 class Controlador:
     def __init__(self, screen):
         pygame.display.set_caption("RetroVerse")
-        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
+        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy, 'Asteroid': Asteroid}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()

@@ -19,9 +19,11 @@ class Player(Entity):
     def __init__(self):
         super().__init__(50, 50, 500, 450, (255, 255, 255))
         self.velocity = 0
+        self.bullets = []
         self.is_jumping = False
         self.is_invincible = False
         self.tiro_pronto = True
+        self.ultimo_tiro = 0
         self.invincible_ticks = 0
         self.tempo_recarga = 300
         self.lives = 3
@@ -39,6 +41,9 @@ class Player(Entity):
         self.is_jumping = True
 
     def shoot(self):
+        bullet = Bullet(self.rect.x, self.rect.y, self.vel_x, self.vel_y)
+        self.bullets.append(bullet)
+        print("pew")
         self.tiro_pronto = False
 
 
@@ -51,9 +56,9 @@ class Enemy(Entity):
 
 
 class Bullet(Entity):
-    def __init__(self, x, y, direction_x, direction_y):
+    def __init__(self, x, y, vel_x, vel_y):
         super().__init__(5, 5, x, y, (255, 255, 0))
-        self.direction = [direction_x, direction_y]
+        self.direction = [vel_x, vel_y]
 
 
 class Platform(Entity):
