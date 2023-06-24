@@ -34,20 +34,18 @@ class JogoAbstrato:
     def inicializar_entidades(self, entidades=[]):
         for _ in range(10 - len(self.inimigos)):
             x_novo = random.randint(0, 1150)
-            y_novo = random.randint(65, 600)
+            y_novo = random.randint(65, 500)
 
             for i in range (len(self.inimigos)):
                 x_existente = self.inimigos[i].rect.x
                 y_existente = self.inimigos[i].rect.y
 
-                if abs(x_novo - x_existente) > 50 and abs(y_novo - y_existente) > 50:
-                    pass
-                else:
+                if abs(x_novo - x_existente) < 50 and abs(y_novo - y_existente) < 50:
                     x_novo = random.randint(0, 1150)
-                    y_novo = random.randint(65, 600)
+                    y_novo = random.randint(65, 500)
                     i = 0
             
-        self.inimigos.append(self.inimigo(x_novo, y_novo))
+            self.inimigos.append(self.inimigo(x_novo, y_novo))
 
         self.entidades.append(self.player)
         for inimigo in self.inimigos:

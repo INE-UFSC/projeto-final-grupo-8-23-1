@@ -7,7 +7,7 @@ from entidade import Enemy
 
 class Mario(JogoAbstrato):
     def inimigo(self, x, y):
-        return Enemy(x, 600, (255, 0, 0))
+        return Enemy(x, 599, (255, 0, 0))
 
     def inicializar_sistemas(self):
         self.inimigos_sys = SistemaInimigosMario(self.inimigos, self.player)
