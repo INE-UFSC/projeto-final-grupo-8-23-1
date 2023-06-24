@@ -21,7 +21,7 @@ class Player(Entity):
         self.velocity = 0
         self.bullets = []
         self.is_jumping = False
-        self.is_invincible = False
+        self.is_invincible = True
         self.tiro_pronto = True
         self.ultimo_tiro = 0
         self.invincible_ticks = 0

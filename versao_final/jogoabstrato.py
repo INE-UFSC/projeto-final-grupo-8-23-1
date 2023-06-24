@@ -37,7 +37,8 @@ class JogoAbstrato:
             for _ in range(1000):
                 x_novo = random.randint(0, 1150)
                 y_novo = random.randint(65, 500)
-                if not any(abs(x_novo - inimigo.rect.x) < 55 and abs(y_novo - inimigo.rect.y) < 55 for inimigo in self.inimigos):
+                if not any(abs(x_novo - inimigo.rect.x) < 55 and abs(y_novo - inimigo.rect.y) < 55 for inimigo in self.inimigos)\
+                    and not abs(x_novo - self.player.rect.x) < 150 and not abs(y_novo - self.player.rect.y) < 150:
                     break
             else:
                 continue
