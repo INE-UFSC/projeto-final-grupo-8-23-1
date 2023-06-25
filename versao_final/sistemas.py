@@ -64,14 +64,14 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                     enemy_2.direction[0] *= -1
                     enemy_2.direction[1] *= -1
             
-            if enemy.rect.x > 1200 - (enemy.rect.width/2):
-                enemy.rect.x = -(enemy.rect.width/2)
-            if enemy.rect.x < -(enemy.rect.width/2):
-                enemy.rect.x = 1200 - (enemy.rect.width/2)
+            if enemy.rect.x + enemy.rect.width > 1200:
+                enemy.rect.x = 0
+            if enemy.rect.x < 0:
+                enemy.rect.x = 1200 - enemy.width
                 
             if enemy.rect.y > (650 - enemy.height):
-                enemy.rect.y = 65
-            if enemy.rect.y < 65:
+                enemy.rect.y = 70
+            if enemy.rect.y < 70:
                 enemy.rect.y = (650 - enemy.height)
 
             if self.player.rect.colliderect(enemy.rect) and not self.player.is_invincible:
