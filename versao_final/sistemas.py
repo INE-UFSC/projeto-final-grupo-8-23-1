@@ -14,10 +14,7 @@ class Sistema:
             print(self.entidades)
 
     def adicionar_entidade(self, entidade):
-        if not isinstance(entidade, list):
-            self.entidades.append(entidade)
-        else:
-            print(self.entidades)
+        self.entidades.append(entidade)
 
     def remover_entidade(self, entidade):
         if entidade in self.entidades:
@@ -77,7 +74,14 @@ class SistemaInimigosShooter(SistemaInimigos):
 
 
 class SistemaInimigosAsteroid(SistemaInimigos):
+    def __init__(self, inimigos, player, bullets):
+        self.bullets = bullets
+        super().__init__(inimigos, player)
+
     def tick(self):
+        for bullet in self.bullets.get_entidades():
+            print()
+            # self.bullets.remover_entidade(bullet)
         for enemy in self.get_entidades():
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
@@ -290,6 +294,10 @@ class PlayerAsteroidSistema(SistemaPlayer):
         if not self.player.tiro_pronto:
             if pygame.time.get_ticks() - ultimo_tiro > self.player.tempo_recarga:
                 self.player.tiro_pronto = True
+
+    def update_bullets(self):
+        for bullet in self.get_entidades():
+            bullet.pos
 
     def shoot(self):
         bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)

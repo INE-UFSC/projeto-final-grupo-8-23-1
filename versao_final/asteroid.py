@@ -10,11 +10,12 @@ class Asteroid(JogoAbstrato):
         return Enemy(x, y, (255, 0, 255))
 
     def inicializar_sistemas(self):
-        self.inimigos_sys = SistemaInimigosAsteroid(self.inimigos, self.player)
-        self.sistemas.append(self.inimigos_sys)
-
         asteroid = PlayerAsteroidSistema(self.player)
         self.sistemas.append(asteroid)
+
+        self.inimigos_sys = SistemaInimigosAsteroid(self.inimigos, self.player, asteroid)
+        self.sistemas.append(self.inimigos_sys)
+
         self.sistemas.append(SistemaPlayerTrocaLadoHorizontal(self.player))
         self.sistemas.append(SistemaPlayerTrocaLadoVertical(self.player))
 
