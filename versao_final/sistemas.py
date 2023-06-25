@@ -63,6 +63,34 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                 if enemy.rect.colliderect(enemy_2.rect):
                     enemy_2.direction[0] *= -1
                     enemy_2.direction[1] *= -1
+            
+            if enemy.rect.x > 1200 - (enemy.rect.width/2):
+                enemy.rect.x = -(enemy.rect.width/2)
+            if enemy.rect.x < -(enemy.rect.width/2):
+                enemy.rect.x = 1200 - (enemy.rect.width/2)
+                
+            if enemy.rect.y > (650 - enemy.height):
+                enemy.rect.y = 65
+            if enemy.rect.y < 65:
+                enemy.rect.y = (650 - enemy.height)
+
+            if self.player.rect.colliderect(enemy.rect) and not self.player.is_invincible:
+                self.player.lives -= 1
+                self.player.is_invincible = True
+                self.player.invincible_ticks = pygame.time.get_ticks()
+
+class SistemaBulletAsteroid(SistemaInimigos):
+    def tick(self):
+        for enemy in self.entidades:
+            enemy.rect.x += enemy.direction[0]
+            enemy.rect.y += enemy.direction[1]
+
+            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+                if enemy.rect.colliderect(enemy_2.rect):
+                    enemy_2.direction[0] *= -1
+                    enemy_2.direction[1] *= -1
 
             if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
                 self.removed.append(enemy)
@@ -181,6 +209,7 @@ class SistemaPlayerBateParedeVertical(SistemaPlayer):
     def tick(self):
         if self.player.rect.y < 65:
             self.player.rect.y = 65
+            self.player.velocity = 0
         elif self.player.rect.y > (650 - self.player.height):
             self.player.rect.y = 650 - self.player.height
 
@@ -261,8 +290,12 @@ class PlayerAsteroidSistema(SistemaPlayer):
         if keys[pygame.K_s]:
             self.player.rect.y += 5
         if keys[pygame.K_SPACE] and self.player.tiro_pronto:
-            ultimo_tiro = pygame.time.get_ticks()
+            self.player.ultimo_tiro = pygame.time.get_ticks()
             self.player.shoot()
         if not self.player.tiro_pronto:
-            if pygame.time.get_ticks() - ultimo_tiro > self.player.tempo_recarga:
+            if pygame.time.get_ticks() - self.player.ultimo_tiro > self.player.tempo_recarga:
                 self.player.tiro_pronto = True
+
+        if self.player.is_invincible:
+            if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+                self.player.is_invincible = False

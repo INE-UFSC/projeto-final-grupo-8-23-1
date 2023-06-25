@@ -6,8 +6,8 @@ from entidade import Enemy
 
 
 class Shooter(JogoAbstrato):
-    def inimigo(self):
-        return Enemy(random.uniform(100, 1100), random.uniform(100, 550), (0, 255, 0))
+    def inimigo(self, x, y):
+        return Enemy(x, y, (0, 255, 0))
 
     def inicializar_sistemas(self):
         self.inimigos_sys = SistemaInimigosShooter(self.inimigos, self.player)
