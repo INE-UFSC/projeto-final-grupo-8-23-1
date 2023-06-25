@@ -34,7 +34,6 @@ class Controlador:
         self.player.lives = 3
         self.num_fases = 0
         self.tempo_na_fase = 0
-        self.inimigos = []
         self.tempo = 0
 
     def set_jogo(self, jogo_nome):
@@ -63,10 +62,10 @@ class Controlador:
         self.hud.update()
 
     def refazer_inimigos(self):
-        self.inimigos = self.novo_jogo.get_inimigos()
+        inimigos = self.novo_jogo.get_inimigos()
         self.player = self.novo_jogo.get_player()
         self.plataforma = self.novo_jogo.get_plataformas()
-        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, inimigos, self.plataforma)
 
     def game_over_reset(self):
         self.jogos_disponiveis = list(self.jogos.values()).copy()
@@ -75,7 +74,7 @@ class Controlador:
         self.running = False
         if nome_jogo in self.jogos:
             self.jogo_atual = self.jogos[nome_jogo]
-            self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+            self.novo_jogo = self.jogo_atual(self.screen, [], self.player, [], self.plataforma)
             self.running = True
         self.inicio_jogo = time.time()
         self.player.lives = 3
@@ -89,7 +88,7 @@ class Controlador:
             result = menu.main()
             if result == 'start':
                 self.jogo_atual = self.jogos[random.choice(list(self.jogos.keys()))]
-                self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+                self.novo_jogo = self.jogo_atual(self.screen, [], self.player, [], self.plataforma)
                 self.inicio_jogo = time.time()
                 while self.running:
                     self.screen.fill((0, 0, 0))
