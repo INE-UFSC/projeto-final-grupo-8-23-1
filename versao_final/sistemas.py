@@ -10,8 +10,6 @@ class Sistema:
     def adicionar_sistema(self, sistema):
         if not isinstance(sistema, list):
             self.sistemas.append(sistema)
-        else:
-            print(self.entidades)
 
     def adicionar_entidade(self, entidade):
         self.entidades.append(entidade)
