@@ -70,6 +70,12 @@ class JogoAbstrato:
 
         self.clock.tick(90)
 
+    def set_lives(self, lives):
+        self.player.lives = lives
+
+    def get_lives(self):
+        return self.player.lives
+
     def get_player(self):
         return self.player
 
