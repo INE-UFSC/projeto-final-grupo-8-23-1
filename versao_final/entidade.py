@@ -149,13 +149,16 @@ class PlayerMario(Player):
 
 
 class Enemy(Entity):
-    def __init__(self, x, y, color):
-        self.multiplier = 2
+    def __init__(self, x, y, color, multiplier, x_sprite, y_sprite):
+        self.multiplier = multiplier
+        self.x_sprite = x_sprite
+        self.y_sprite = y_sprite
+        self.scale = (self.x_sprite * self.multiplier, self.y_sprite * self.multiplier)
         self.acceleration = 1
         self.velocity = 0
         self.is_running = True
         self.direction = [random.choice([-2, 2]), random.choice([-3, -2, -1, 1, 2, 3])]
-        super().__init__(17 * self.multiplier, 21 * self.multiplier, x, y, color)
+        super().__init__(self.scale[0], self.scale[1], x, y, color)
 
     def update(self):
         self.current_sprite += 0.2
@@ -166,11 +169,12 @@ class Enemy(Entity):
 
 
 class MarioEnemy(Enemy):
-    def load_animation(self):
-        scale = (17 * self.multiplier, 21 * self.multiplier)
+    def __init__(self, x, y, color):
+        super().__init__(x, y, color, 2.5, 17, 21)
 
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_andando_1.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_andando_2.png'), scale))
+    def load_animation(self):
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_andando_1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_andando_2.png'), self.scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -179,12 +183,12 @@ class MarioEnemy(Enemy):
 
 
 class InimigoVoador(Enemy):
-    def load_animation(self):
-        multiplier = 2
-        scale = (17 * multiplier, 21 * multiplier)
+    def __init__(self, x, y, color):
+        super().__init__(x, y, color, 2, 25, 21)
 
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_andando_1.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_andando_2.png'), scale))
+    def load_animation(self):
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_2.png'), self.scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 

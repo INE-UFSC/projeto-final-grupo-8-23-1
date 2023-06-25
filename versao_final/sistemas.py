@@ -8,8 +8,7 @@ class Sistema:
         self.sistemas = []
 
     def adicionar_sistema(self, sistema):
-        if not isinstance(sistema, list):
-            self.sistemas.append(sistema)
+        self.sistemas.append(sistema)
 
     def adicionar_entidade(self, entidade):
         self.entidades.append(entidade)
@@ -77,7 +76,6 @@ class SistemaInimigosAsteroid(SistemaInimigos):
         super().__init__(inimigos, player)
 
     def tick(self):
-        # for bullet in self.bullets.get_entidades():
         for enemy in self.get_entidades():
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
@@ -90,13 +88,16 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                     enemy_2.direction[1] *= -1
 
             if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
-                self.removed.append(enemy)
-                self.remover_entidade(enemy)
+                self.player.lives -= 1
 
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
             if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
+            for bullet in self.bullets.get_entidades():
+                if bullet.rect.colliderect(enemy):
+                    self.remover_entidade(enemy)
+                    self.removed.append(enemy)
 
 
 class SistemaInimigosFlappy(SistemaInimigos):
@@ -181,7 +182,7 @@ class SistemaGravidade(Sistema):
 class SistemaPlayer(Sistema):
     def __init__(self, player):
         self.player = player
-        super().__init__([player])
+        super().__init__([])
 
 
 class SistemaPlayerTrocaLadoHorizontal(SistemaPlayer):
@@ -301,10 +302,11 @@ class PlayerAsteroidSistema(SistemaPlayer):
         if not self.player.tiro_pronto:
             if pygame.time.get_ticks() - ultimo_tiro > self.player.tempo_recarga:
                 self.player.tiro_pronto = True
+        self.update_bullets()
 
-    # def update_bullets(self):
-    #     for bullet in self.get_entidades():
-    #         bullet.pos
+    def update_bullets(self):
+        for bullet in self.get_entidades():
+            bullet.rect.x += 10
 
     def shoot(self):
         bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)
