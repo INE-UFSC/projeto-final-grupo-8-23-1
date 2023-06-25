@@ -34,7 +34,6 @@ class Controlador:
         self.player.lives = 3
         self.num_fases = 0
         self.tempo_na_fase = 0
-        self.inimigos = []
         self.tempo = 0
 
     def set_jogo(self, jogo_nome):
@@ -63,10 +62,10 @@ class Controlador:
         self.hud.update()
 
     def refazer_inimigos(self):
-        self.inimigos = self.novo_jogo.get_inimigos()
+        inimigos = self.novo_jogo.get_inimigos()
         self.player = self.novo_jogo.get_player()
         self.plataforma = self.novo_jogo.get_plataformas()
-        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, inimigos, self.plataforma)
 
     def game_over_reset(self):
         self.jogos_disponiveis = list(self.jogos.values()).copy()
@@ -76,7 +75,7 @@ class Controlador:
             self.running = True
 
         self.jogo_atual = self.jogos[random.choice(list(self.jogos.keys()))]
-        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, [], self.plataforma)
         self.inicio_jogo = time.time()
 
         self.novo_jogo.set_lives(3)
@@ -84,14 +83,23 @@ class Controlador:
         self.score = 0
         self.temp_score = 0
 
+    def atualizar_entre_jogos(self):
+        self.jogo_atual = self.jogos[random.choice(list(self.jogos.keys()))]
+        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, [], self.plataforma)
+        self.inicio_jogo = time.time()
+
+    def atualizar_contexto(self):
+        self.score += self.temp_score
+        self.score += 100
+        self.mudar_jogo()
+        self.refazer_inimigos()
+
     def run(self):
         menu = Menu(self.screen)
         while self.running:
             result = menu.main()
             if result == 'start':
-                self.jogo_atual = self.jogos[random.choice(list(self.jogos.keys()))]
-                self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
-                self.inicio_jogo = time.time()
+                self.atualizar_entre_jogos()
                 while self.running:
                     self.screen.fill((0, 0, 0))
                     self.novo_jogo.run()
@@ -102,10 +110,7 @@ class Controlador:
                     self.update()
                     pygame.display.flip()
                     if self.tempo_na_fase >= self.tempo_troca_de_fase:
-                        self.score += self.temp_score
-                        self.score += 100
-                        self.mudar_jogo()
-                        self.refazer_inimigos()
+                        self.atualizar_contexto()
                     if self.novo_jogo.get_lives() <= 0:
                         self.game_over_reset()
         pygame.quit()
