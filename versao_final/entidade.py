@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 
 class Entity:
@@ -29,7 +30,7 @@ class Player(Entity, pygame.sprite.Sprite):
         self.velocity = 0
         self.is_jumping = False
         self.is_invincible = True
-        self.tiro_pronto = True
+        self.tiro_pronto = 0
         self.ultimo_tiro = 0
         self.invincible_ticks = 0
         self.tempo_recarga = 300
@@ -197,9 +198,18 @@ class InimigoVoador(Enemy):
 
 
 class Bullet(Entity):
-    def __init__(self, x, y, vel_x, vel_y):
+    def __init__(self, x, y):
         super().__init__(5, 5, x, y, (255, 255, 0))
-        self.direction = [vel_x, vel_y]
+        self.speed = 7
+        self.pos = (x, y)
+        mx, my = pygame.mouse.get_pos()
+        self.dir = (mx - x, my - y)
+        length = math.hypot(*self.dir)
+        if length == 0.0:
+            self.dir = (0, -1)
+        else:
+            self.dir = (self.dir[0]/length, self.dir[1]/length)
+        self.angle = math.degrees(math.atan2(-self.dir[1], self.dir[0]))
 
 
 class Platform(Entity, pygame.sprite.Sprite):

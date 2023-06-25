@@ -297,18 +297,18 @@ class PlayerAsteroidSistema(SistemaPlayer):
         if keys[pygame.K_s]:
             self.player.rect.y += 5
         if keys[pygame.K_SPACE]:
-            ultimo_tiro = pygame.time.get_ticks()
             self.shoot()
-        if not self.player.tiro_pronto:
-            if pygame.time.get_ticks() - ultimo_tiro > self.player.tempo_recarga:
-                self.player.tiro_pronto = True
+        if self.player.tiro_pronto > 0:
+            self.player.tiro_pronto -= 1
         self.update_bullets()
 
     def update_bullets(self):
         for bullet in self.get_entidades():
-            bullet.rect.x += 10
+            bullet.rect.x += bullet.dir[0] * bullet.speed
+            bullet.rect.y += bullet.dir[1] * bullet.speed
 
     def shoot(self):
-        bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)
-        self.adicionar_entidade(bullet)
-        self.tiro_pronto = False
+        if self.player.tiro_pronto == 0:
+            bullet = Bullet(self.player.rect.x, self.player.rect.y)
+            self.adicionar_entidade(bullet)
+            self.player.tiro_pronto = 10
