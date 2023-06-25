@@ -31,9 +31,7 @@ class Player(Entity, pygame.sprite.Sprite):
         self.is_jumping = False
         self.is_invincible = True
         self.tiro_pronto = 0
-        self.ultimo_tiro = 0
         self.invincible_ticks = 0
-        self.tempo_recarga = 300
         self.lives = 3
         self.acceleration = 1
         self.is_running = False
@@ -78,7 +76,7 @@ class PlayerFlappy(Player):
 
 class PlayerAsteroid(Player):
     def load_animation(self):
-        multiplier = 1.5
+        self.multiplier = 1.5
         scale = (25 * self.multiplier, 40 * self.multiplier)
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_1.png'), (scale[0], scale[1])))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_2.png'), (scale[0], scale[1])))
