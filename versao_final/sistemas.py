@@ -1,18 +1,40 @@
 import pygame
+from entidade import Bullet
 
 
 class Sistema:
     def __init__(self, lista):
         self.entidades = lista
+        self.sistemas = []
+
+    def adicionar_sistema(self, sistema):
+        if not isinstance(sistema, list):
+            self.sistemas.append(sistema)
+        else:
+            print(self.entidades)
 
     def adicionar_entidade(self, entidade):
-        self.entidades.append(entidade)
+        if not isinstance(entidade, list):
+            self.entidades.append(entidade)
+        else:
+            print(self.entidades)
 
     def remover_entidade(self, entidade):
-        self.entidades.remove(entidade)
+        if entidade in self.entidades:
+            self.entidades.remove(entidade)
+        else:
+            for sistema in self.sistemas:
+                if entidade in sistema.get_entidades():
+                    sistema.remover_entidade(entidade)
 
     def get_entidades(self):
-        return self.entidades
+        temp = []
+        for entidade in self.entidades:
+            temp.append(entidade)
+        for sistema in self.sistemas:
+            for entidade in sistema.get_entidades():
+                temp.append(entidade)
+        return temp
 
     def tick():
         pass
@@ -20,21 +42,24 @@ class Sistema:
 
 class SistemaInimigos(Sistema):
     def __init__(self, inimigos, player):
+        super().__init__(inimigos)
         self.player = player
         self.removed = []
-        super().__init__(inimigos)
 
     def check_removed(self):
         return self.removed
 
+    def clear_removed(self):
+        self.removed.clear()
+
 
 class SistemaInimigosShooter(SistemaInimigos):
     def tick(self):
-        for enemy in self.entidades:
+        for enemy in self.get_entidades():
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
 
-            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
                 if enemy.rect.colliderect(enemy_2.rect):
@@ -53,39 +78,11 @@ class SistemaInimigosShooter(SistemaInimigos):
 
 class SistemaInimigosAsteroid(SistemaInimigos):
     def tick(self):
-        for enemy in self.entidades:
+        for enemy in self.get_entidades():
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
 
-            entidades_sem_1 = self.entidades.copy()
-            entidades_sem_1.remove(enemy)
-            for enemy_2 in entidades_sem_1:
-                if enemy.rect.colliderect(enemy_2.rect):
-                    enemy_2.direction[0] *= -1
-                    enemy_2.direction[1] *= -1
-            
-            if enemy.rect.x + enemy.rect.width > 1200:
-                enemy.rect.x = 0
-            if enemy.rect.x < 0:
-                enemy.rect.x = 1200 - enemy.width
-                
-            if enemy.rect.y > (650 - enemy.height):
-                enemy.rect.y = 70
-            if enemy.rect.y < 70:
-                enemy.rect.y = (650 - enemy.height)
-
-            if self.player.rect.colliderect(enemy.rect) and not self.player.is_invincible:
-                self.player.lives -= 1
-                self.player.is_invincible = True
-                self.player.invincible_ticks = pygame.time.get_ticks()
-
-class SistemaBulletAsteroid(SistemaInimigos):
-    def tick(self):
-        for enemy in self.entidades:
-            enemy.rect.x += enemy.direction[0]
-            enemy.rect.y += enemy.direction[1]
-
-            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
                 if enemy.rect.colliderect(enemy_2.rect):
@@ -104,7 +101,7 @@ class SistemaBulletAsteroid(SistemaInimigos):
 
 class SistemaInimigosFlappy(SistemaInimigos):
     def tick(self):
-        for enemy in self.entidades:
+        for enemy in self.get_entidades():
             if self.player.rect.colliderect(enemy.rect):
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
@@ -112,10 +109,10 @@ class SistemaInimigosFlappy(SistemaInimigos):
 
 class SistemaInimigosMario(SistemaInimigos):
     def tick(self):
-        for enemy in self.entidades:
+        for enemy in self.get_entidades():
             enemy.rect.x += enemy.direction[0]
 
-            entidades_sem_1 = self.entidades.copy()
+            entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
                 if enemy.rect.colliderect(enemy_2.rect):
@@ -138,15 +135,13 @@ class SistemaInimigosMario(SistemaInimigos):
 
 class SistemaMovimento(Sistema):
     def __init__(self, listas, player):
-        self.__lista = []
-        self.__lista.append(player)
+        super().__init__([])
+        self.adicionar_entidade(player)
         for lista in listas:
-            for entidade in lista.get_entidades():
-                self.__lista.append(entidade)
-        super().__init__(self.__lista)
+            self.adicionar_sistema(lista)
 
     def tick(self):
-        for entidade in self.entidades:
+        for entidade in self.get_entidades():
             entidade.rect.x += entidade.vel_x
             entidade.rect.y += entidade.vel_y
             if entidade.vel_x > 0:
@@ -156,15 +151,17 @@ class SistemaMovimento(Sistema):
 
 
 class SistemaGravidade(Sistema):
-    def __init__(self, player, plataformas, inimigos, gravidade):
+    def __init__(self, player, plataformas, gravidade, inimigos=[]):
+        super().__init__([])
         self.__plataformas = plataformas
         self.gravidade = gravidade
-        self.__lista = inimigos.copy()
-        self.__lista.append(player)
-        super().__init__(self.__lista)
+        if (inimigos != []):
+            self.adicionar_sistema(inimigos)
+        self.adicionar_entidade(player)
 
     def tick(self):
-        for entidade in self.entidades:
+
+        for entidade in self.get_entidades():
             entidade.rect.y += entidade.velocity
             entidade.velocity += self.gravidade
             for plataforma in self.__plataformas:
@@ -209,7 +206,6 @@ class SistemaPlayerBateParedeVertical(SistemaPlayer):
     def tick(self):
         if self.player.rect.y < 65:
             self.player.rect.y = 65
-            self.player.velocity = 0
         elif self.player.rect.y > (650 - self.player.height):
             self.player.rect.y = 650 - self.player.height
 
@@ -217,22 +213,21 @@ class SistemaPlayerBateParedeVertical(SistemaPlayer):
 class SistemaDesenho(Sistema):
     def __init__(self, lista_sistemas, player, screen):
         self.__screen = screen
-        self.__lista = []
-        for lista in lista_sistemas:
-            for entidade in lista.get_entidades():
-                self.__lista.append(entidade)
-        self.__lista.append(player)
-
-        super().__init__(self.__lista)
+        super().__init__([])
+        self.adicionar_entidade(player)
+        for sistema in lista_sistemas:
+            self.adicionar_sistema(sistema)
 
     def tick(self):
-        for entidade in self.__lista:
+        for entidade in self.get_entidades():
             self.__screen.blit(entidade.image, entidade.rect)
 
 
 class SistemaPlataformas(Sistema):
     def __init__(self, lista):
-        super().__init__(lista)
+        super().__init__([])
+        for plataforma in lista:
+            self.adicionar_entidade(plataforma)
 
     def tick(self):
         pass
@@ -289,13 +284,14 @@ class PlayerAsteroidSistema(SistemaPlayer):
             self.player.rect.y -= 5
         if keys[pygame.K_s]:
             self.player.rect.y += 5
-        if keys[pygame.K_SPACE] and self.player.tiro_pronto:
-            self.player.ultimo_tiro = pygame.time.get_ticks()
-            self.player.shoot()
+        if keys[pygame.K_SPACE]:
+            ultimo_tiro = pygame.time.get_ticks()
+            self.shoot()
         if not self.player.tiro_pronto:
-            if pygame.time.get_ticks() - self.player.ultimo_tiro > self.player.tempo_recarga:
+            if pygame.time.get_ticks() - ultimo_tiro > self.player.tempo_recarga:
                 self.player.tiro_pronto = True
 
-        if self.player.is_invincible:
-            if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
-                self.player.is_invincible = False
+    def shoot(self):
+        bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)
+        self.adicionar_entidade(bullet)
+        self.tiro_pronto = False

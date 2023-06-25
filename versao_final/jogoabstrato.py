@@ -26,10 +26,8 @@ class JogoAbstrato:
             sistema.tick()
         list_removed = self.inimigos_sys.check_removed()
         for removed in list_removed:
-            for sistema in self.sistemas:
-                if removed in sistema.get_entidades():
-                    self.score += 5
-                    sistema.remover_entidade(removed)
+            self.score += 5
+            self.inimigos_sys.clear_removed()
 
     def inicializar_entidades(self):
 
@@ -42,7 +40,6 @@ class JogoAbstrato:
                     break
             else:
                 continue
-                
             self.inimigos.append(self.inimigo(x_novo, y_novo))
 
         self.entidades.append(self.player)
@@ -51,11 +48,14 @@ class JogoAbstrato:
         for plataforma in self.plataformas:
             self.entidades.append(plataforma)
 
-    def inicializar_sistemas(self):
+    def inicializar_sistemas(self, sistemas_desenho=[]):
         plataformas = SistemaPlataformas(self.plataformas)
         self.sistemas.append(plataformas)
 
-        desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
+        if (sistemas_desenho != []):
+            desenho = SistemaDesenho([plataformas, self.inimigos_sys, *sistemas_desenho], self.player, self.screen)
+        else:
+            desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
         self.sistemas.append(desenho)
 
         movimento = SistemaMovimento([self.inimigos_sys], self.player)
