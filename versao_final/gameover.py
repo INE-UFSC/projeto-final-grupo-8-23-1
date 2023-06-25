@@ -21,10 +21,10 @@ class GameOver:
     def draw_score(self):
         score_text = self.font.render(f'{self.highscore_manager.highscore}', True, (255, 255, 255))
         highscore_text = self.font.render(f'{self.score}', True, (255, 255, 255))
-        self.screen.blit(self.highscore_asset, (450, 400))
-        self.screen.blit(score_text, (750, 405))
-        self.screen.blit(self.sua_score_texto, (450, 500))
-        self.screen.blit(highscore_text, (750, 500))
+        self.screen.blit(self.highscore_asset, (400, 400))
+        self.screen.blit(score_text, (700, 405))
+        self.screen.blit(self.sua_score_texto, (400, 500))
+        self.screen.blit(highscore_text, (700, 500))
 
     def run(self):
         while True:
@@ -33,16 +33,16 @@ class GameOver:
                     pygame.quit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    if self.botao_menu.get_rect(topleft=(375, 250)).collidepoint(x, y):
+                    if self.botao_menu.get_rect(topleft=(300, 270)).collidepoint(x, y):
                         menu = Menu(self.screen)
                         nome_do_jogo = menu.main()
                         return nome_do_jogo
-                    elif self.botao_sair.get_rect(topleft=(625, 250)).collidepoint(x, y):
+                    elif self.botao_sair.get_rect(topleft=(710, 270)).collidepoint(x, y):
                         sys.exit()
 
             self.screen.fill((4, 3, 45))
-            self.screen.blit(self.gameover_text, (300, 100))
-            self.screen.blit(self.botao_menu, (375, 250))
-            self.screen.blit(self.botao_sair, (625, 250))
+            self.screen.blit(self.gameover_text, (300, 80))
+            self.screen.blit(self.botao_menu, (300, 270))
+            self.screen.blit(self.botao_sair, (710, 270))
             self.draw_score()
             pygame.display.flip()
