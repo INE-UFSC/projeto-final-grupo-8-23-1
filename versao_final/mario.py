@@ -1,5 +1,5 @@
-from sistemas import SistemaDesenho, SistemaInimigosMario, SistemaGravidade,\
-        SistemaPlataformas, PlayerMarioSistema, SistemaMovimento, SistemaPlayerBateParedeHorizontal
+from sistemas import SistemaInimigosMario, SistemaGravidade,\
+        PlayerMarioSistema, SistemaPlayerBateParedeHorizontal
 from jogoabstrato import JogoAbstrato
 from entidade import PlayerMario, MarioEnemy
 

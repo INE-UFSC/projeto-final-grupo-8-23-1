@@ -1,8 +1,8 @@
-from sistemas import SistemaGravidade, SistemaDesenho, SistemaInimigosFlappy, SistemaPlayerBateParedeVertical,\
-     SistemaPlataformas, PlayerFlappySistema, SistemaMovimento, SistemaPlayerTrocaLadoHorizontal
+from sistemas import SistemaGravidade, SistemaInimigosFlappy,\
+    SistemaPlayerBateParedeVertical, PlayerFlappySistema, \
+    SistemaPlayerTrocaLadoHorizontal
 from jogoabstrato import JogoAbstrato
 from entidade import InimigoVoador, PlayerFlappy
-import random
 
 
 class Flappy(JogoAbstrato):

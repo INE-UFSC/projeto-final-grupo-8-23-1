@@ -1,7 +1,6 @@
-from sistemas import SistemaDesenho, SistemaInimigosShooter,\
-     SistemaPlataformas, PlayerShooterSistema, SistemaMovimento, SistemaPlayerBateParedeVertical, SistemaPlayerBateParedeHorizontal
+from sistemas import SistemaInimigosShooter,\
+     PlayerShooterSistema, SistemaPlayerBateParedeVertical, SistemaPlayerBateParedeHorizontal
 from jogoabstrato import JogoAbstrato
-import random
 from entidade import InimigoVoador, PlayerShooter
 
 

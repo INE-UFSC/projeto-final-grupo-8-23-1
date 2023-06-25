@@ -1,7 +1,6 @@
-from sistemas import SistemaDesenho, SistemaInimigosAsteroid,\
-     SistemaPlataformas, PlayerAsteroidSistema, SistemaMovimento, SistemaPlayerTrocaLadoHorizontal, SistemaPlayerTrocaLadoVertical
+from sistemas import SistemaInimigosAsteroid,\
+     PlayerAsteroidSistema, SistemaPlayerTrocaLadoHorizontal, SistemaPlayerTrocaLadoVertical
 from jogoabstrato import JogoAbstrato
-import random
 from entidade import InimigoVoador, PlayerAsteroid
 
 
