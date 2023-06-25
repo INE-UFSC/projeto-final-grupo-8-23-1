@@ -134,15 +134,22 @@ class SistemaInimigosMario(SistemaInimigos):
 
 
 class SistemaMovimento(Sistema):
-    def __init__(self, listas, player):
+    def __init__(self, listas, player, plataformas):
         super().__init__([])
+        self.plataformas = plataformas
         self.adicionar_entidade(player)
         for lista in listas:
             self.adicionar_sistema(lista)
 
     def tick(self):
         for entidade in self.get_entidades():
+            for plataforma in self.plataformas.get_entidades():
+                if entidade.rect.colliderect(plataforma):
+                    entidade.rect.x -= entidade.vel_x
             entidade.rect.x += entidade.vel_x
+            for plataforma in self.plataformas.get_entidades():
+                if entidade.rect.colliderect(plataforma):
+                    entidade.rect.y += entidade.vel_y
             entidade.rect.y += entidade.vel_y
             if entidade.vel_x > 0:
                 entidade.vel_x = max(0, entidade.vel_x - entidade.acceleration)
@@ -160,7 +167,6 @@ class SistemaGravidade(Sistema):
         self.adicionar_entidade(player)
 
     def tick(self):
-
         for entidade in self.get_entidades():
             entidade.rect.y += entidade.velocity
             entidade.velocity += self.gravidade

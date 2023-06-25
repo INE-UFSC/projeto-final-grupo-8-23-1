@@ -58,7 +58,7 @@ class JogoAbstrato:
             desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
         self.sistemas.append(desenho)
 
-        movimento = SistemaMovimento([self.inimigos_sys], self.player)
+        movimento = SistemaMovimento([self.inimigos_sys], self.player, plataformas)
         self.sistemas.append(movimento)
 
     def run(self):

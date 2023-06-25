@@ -187,6 +187,6 @@ class Bullet(Entity):
         self.direction = [vel_x, vel_y]
 
 
-class Platform(Entity):
-    def __init__(self):
-        super().__init__(1200, 50, 0, 650, (0, 255, 0))
+class Platform(Entity, pygame.sprite.Sprite):
+    def __init__(self, width, height, x, y):
+        super().__init__(width, height, x, y, (0, 255, 0))
