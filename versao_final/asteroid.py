@@ -2,12 +2,15 @@ from sistemas import SistemaDesenho, SistemaInimigosAsteroid,\
      SistemaPlataformas, PlayerAsteroidSistema, SistemaMovimento, SistemaPlayerTrocaLadoHorizontal, SistemaPlayerTrocaLadoVertical
 from jogoabstrato import JogoAbstrato
 import random
-from entidade import Enemy
+from entidade import InimigoVoador, PlayerAsteroid
 
 
 class Asteroid(JogoAbstrato):
     def inimigo(self, x, y):
-        return Enemy(x, y, (255, 0, 255))
+        return InimigoVoador(x, y, (255, 0, 255))
+
+    def trocar_player(self, player):
+        self.player = PlayerAsteroid(player.width, player.height, player.rect.x, player.rect.y, player.color)
 
     def inicializar_sistemas(self):
         asteroid = PlayerAsteroidSistema(self.player)

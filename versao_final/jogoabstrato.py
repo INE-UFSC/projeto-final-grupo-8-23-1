@@ -6,6 +6,7 @@ from sistemas import SistemaDesenho, SistemaMovimento, SistemaPlataformas
 
 class JogoAbstrato:
     def __init__(self, screen, entidades, player, inimigos=[], plataformas=[]):
+        self.trocar_player(player)
         self.clock = pygame.time.Clock()
         self.start_ticks = pygame.time.get_ticks()
         self.screen = screen
@@ -14,7 +15,6 @@ class JogoAbstrato:
         self.score = 0
 
         self.entidades = entidades
-        self.player = player
         self.inimigos = inimigos
         self.plataformas = plataformas
 
@@ -28,9 +28,9 @@ class JogoAbstrato:
         for removed in list_removed:
             self.score += 5
             self.inimigos_sys.clear_removed()
+            # self.inimigos_sys.adicionar_entidade(self.inimigo())
 
     def inicializar_entidades(self):
-
         for _ in range(5 - len(self.inimigos)):
             for _ in range(1000):
                 x_novo = random.randint(0, 1150)

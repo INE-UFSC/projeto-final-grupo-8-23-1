@@ -77,9 +77,7 @@ class SistemaInimigosAsteroid(SistemaInimigos):
         super().__init__(inimigos, player)
 
     def tick(self):
-        for bullet in self.bullets.get_entidades():
-            print()
-            # self.bullets.remover_entidade(bullet)
+        # for bullet in self.bullets.get_entidades():
         for enemy in self.get_entidades():
             enemy.rect.x += enemy.direction[0]
             enemy.rect.y += enemy.direction[1]
@@ -215,13 +213,16 @@ class SistemaPlayerBateParedeVertical(SistemaPlayer):
 class SistemaDesenho(Sistema):
     def __init__(self, lista_sistemas, player, screen):
         self.__screen = screen
+        self.player = player
         super().__init__([])
         self.adicionar_entidade(player)
         for sistema in lista_sistemas:
             self.adicionar_sistema(sistema)
 
     def tick(self):
+        self.player.update()
         for entidade in self.get_entidades():
+            entidade.update()
             self.__screen.blit(entidade.image, entidade.rect)
 
 
@@ -266,8 +267,10 @@ class PlayerMarioSistema(SistemaPlayer):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.player.vel_x = -5
+            self.player.animate_run()
         if keys[pygame.K_d]:
             self.player.vel_x = 5
+            self.player.animate_run()
         if keys[pygame.K_SPACE] and not self.player.is_jumping:
             self.player.jump()
         if self.player.is_invincible:
