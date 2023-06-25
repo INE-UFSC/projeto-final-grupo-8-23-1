@@ -21,7 +21,7 @@ class Controlador:
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()
-        self.player = Player(25, 40, 500, 450, (255, 255, 255))
+        self.player = Player(37.5, 60, 500, 450, (255, 255, 255))
         self.plataforma = [Platform(1200, 50, 0, 650), Platform(200, 20, 50, 500)]
         self.tempo_troca_de_fase = 5
         self.font = pygame.font.Font(None, 36)

@@ -249,7 +249,7 @@ class PlayerFlappySistema(SistemaPlayer):
         if keys[pygame.K_SPACE]:
             self.player.jump_flappy()
 
-        if self.player.rect.y > 599:
+        if self.player.rect.y > 650 - self.player.height * self.player.multiplier:
             self.player.lives -= 1
             self.player.rect.y = 200
             self.player.vel_y = 0
