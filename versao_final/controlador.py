@@ -14,6 +14,7 @@ from menu import Menu
 
 class Controlador:
     def __init__(self, screen):
+        self.novo_jogo = None
         pygame.display.set_caption("RetroVerse")
         self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
         self.jogo_atual = random.choice(list(self.jogos.values()))
@@ -83,23 +84,25 @@ class Controlador:
 
     def run(self):
         menu = Menu(self.screen)
-        nome_jogo = menu.main(self.score + self.temp_score)
-        self.jogo_atual = self.jogos[nome_jogo]
-        self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
-        self.inicio_jogo = time.time()
         while self.running:
-            self.screen.fill((0, 0, 0))
-            self.novo_jogo.run()
-            self.hud.draw(self.screen, self.player.lives, self.tempo_troca_de_fase,
-                          self.tempo_na_fase, self.tempo,
-                          self.score + self.temp_score)
-            self.update()
-            pygame.display.flip()
-            if self.tempo_na_fase >= self.tempo_troca_de_fase:
-                self.score += self.temp_score
-                self.score += 100
-                self.mudar_jogo()
-                self.refazer_inimigos()
-            if self.player.lives <= 0:
-                self.game_over_reset()
+            result = menu.main()
+            if result == 'start':
+                self.jogo_atual = self.jogos[random.choice(list(self.jogos.keys()))]
+                self.novo_jogo = self.jogo_atual(self.screen, [], self.player, self.inimigos, self.plataforma)
+                self.inicio_jogo = time.time()
+                while self.running:
+                    self.screen.fill((0, 0, 0))
+                    self.novo_jogo.run()
+                    self.hud.draw(self.screen, self.player.lives, self.tempo_troca_de_fase,
+                                  self.tempo_na_fase, self.tempo,
+                                  self.score + self.temp_score)
+                    self.update()
+                    pygame.display.flip()
+                    if self.tempo_na_fase >= self.tempo_troca_de_fase:
+                        self.score += self.temp_score
+                        self.score += 100
+                        self.mudar_jogo()
+                        self.refazer_inimigos()
+                    if self.player.lives <= 0:
+                        self.game_over_reset()
         pygame.quit()

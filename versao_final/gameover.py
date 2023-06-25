@@ -34,7 +34,7 @@ class GameOver:
                     x, y = pygame.mouse.get_pos()
                     if self.botao_menu.get_rect(topleft=(375, 250)).collidepoint(x, y):
                         menu = Menu(self.screen)
-                        nome_do_jogo = menu.main(self.score)
+                        nome_do_jogo = menu.main()
                         return nome_do_jogo
                     elif self.botao_sair.get_rect(topleft=(625, 250)).collidepoint(x,y):
                         sys.exit()
