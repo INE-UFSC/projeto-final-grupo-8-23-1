@@ -3,6 +3,7 @@ from menu import Menu
 import sys
 from highscore import Highscore
 
+
 class GameOver:
     def __init__(self, screen, score, controlador):
         self.screen = screen
@@ -10,11 +11,11 @@ class GameOver:
         self.controlador = controlador
         self.highscore_manager = Highscore()
         self.font = pygame.font.Font(None, 55)
-        self.gameover_text = pygame.image.load('versao_final/assets/gameover2_text.png')
-        self.botao_menu = pygame.image.load('versao_final/assets/botao_menu.png')
-        self.botao_sair = pygame.image.load('versao_final/assets/botao_sair.png')
-        self.highscore_asset = pygame.image.load('versao_final/assets/highscore2.png')
-        self.sua_score_texto = pygame.image.load('versao_final/assets/sua_pontuacao_texto.png')
+        self.gameover_text = pygame.image.load('assets/gameover2_text.png')
+        self.botao_menu = pygame.image.load('assets/botao_menu.png')
+        self.botao_sair = pygame.image.load('assets/botao_sair.png')
+        self.highscore_asset = pygame.image.load('assets/highscore2.png')
+        self.sua_score_texto = pygame.image.load('assets/sua_pontuacao_texto.png')
         self.highscore_manager.update_highscore(self.score)
 
     def draw_score(self):
@@ -36,7 +37,7 @@ class GameOver:
                         menu = Menu(self.screen)
                         nome_do_jogo = menu.main()
                         return nome_do_jogo
-                    elif self.botao_sair.get_rect(topleft=(625, 250)).collidepoint(x,y):
+                    elif self.botao_sair.get_rect(topleft=(625, 250)).collidepoint(x, y):
                         sys.exit()
 
             self.screen.fill((4, 3, 45))
