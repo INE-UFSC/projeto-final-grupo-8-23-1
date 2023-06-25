@@ -48,11 +48,11 @@ class JogoAbstrato:
         for plataforma in self.plataformas:
             self.entidades.append(plataforma)
 
-    def inicializar_sistemas(self, sistemas_desenho=[]):
+    def inicializar_sistemas(self, sistemas_desenho=False):
         plataformas = SistemaPlataformas(self.plataformas)
         self.sistemas.append(plataformas)
 
-        if (sistemas_desenho != []):
+        if (sistemas_desenho):
             desenho = SistemaDesenho([plataformas, self.inimigos_sys, *sistemas_desenho], self.player, self.screen)
         else:
             desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
