@@ -1,6 +1,9 @@
 from highscore import Highscore
 from gifanimation import Gif
+from tutorial import Tutorial
 import pygame
+
+from versao_final import tutorial
 
 
 class Menu:
@@ -55,8 +58,9 @@ class Menu:
 
     def main(self):
         running = True
+        tutorial_screen = Tutorial(self.screen, self.press_space)  # Create an instance of the Tutorial class
         while running:
-            dt = self.clock.tick()  # Seta os ticks para 60 e retorna o tempo desde o ultimo tick
+            dt = self.clock.tick()  # Seta os ticks para e retorna o tempo desde o ultimo tick
 
             self.selection_icon1.update(dt)
             self.selection_icon2.update(dt)
@@ -75,7 +79,7 @@ class Menu:
                         if self.current_selection == 0:
                             return 'start'
                         elif self.current_selection == 1:
-                            pygame.quit()
+                            tutorial_screen.main()
                             return
 
             self.draw()
