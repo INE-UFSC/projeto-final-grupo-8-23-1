@@ -17,7 +17,7 @@ class Controlador:
     def __init__(self, screen):
         self.novo_jogo = None
         pygame.display.set_caption("RetroVerse")
-        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy, 'Asteroid': Asteroid}
+        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()
