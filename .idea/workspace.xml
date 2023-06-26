@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67ed02af-ca47-4729-bcf2-5aed8cfd9737" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/versao_final/tutorial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versao_final/assets/assets_menu/tela_tutorial.png" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/assets/assets_menu/tela_tutorial.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/versao_final/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/versao_final/menu.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

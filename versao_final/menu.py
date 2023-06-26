@@ -9,23 +9,19 @@ from versao_final import tutorial
 class Menu:
     def __init__(self, screen):
         self.screen = screen
-        self.clock = pygame.time.Clock()  # Create a clock object
+        self.clock = pygame.time.Clock()
         self.background = pygame.image.load('assets/assets_menu/tela_de_fundo_menu.png')
         self.highscore_icon = pygame.image.load('assets/assets_menu/highscore.png')
         self.start_button = pygame.image.load('assets/assets_menu/botao_jogar.png')
         self.quit_button = pygame.image.load('assets/assets_menu/botao_tutorial.png')
 
-        # Load the frames of the gifs into lists
         selection_icon1_frames = [pygame.image.load(f'assets/assets_menu/selecionador_frame{i}.png') for i in range(2)]
         selection_icon2_frames = [pygame.image.load(f'assets/assets_menu/selecionador2_frame{i}.png') for i in range(2)]
         press_space_frames = [pygame.image.load(f'assets/assets_menu/pressionar_espaco_frame{i}.png') for i in range(13)]
 
-        # Create Gif objects
         selection_icon1_durations = [500] * 2
         selection_icon2_durations = [500] * 2
         press_space_durations = [1200 if i in [0, 7] else 100 for i in range(13)]
-
-        # Create Gif objects
         self.selection_icon1 = Gif(selection_icon1_frames, selection_icon1_durations)
         self.selection_icon2 = Gif(selection_icon2_frames, selection_icon2_durations)
         self.press_space = Gif(press_space_frames, press_space_durations)
@@ -58,9 +54,9 @@ class Menu:
 
     def main(self):
         running = True
-        tutorial_screen = Tutorial(self.screen, self.press_space)  # Create an instance of the Tutorial class
+        tutorial_screen = Tutorial(self.screen, self.press_space)
         while running:
-            dt = self.clock.tick()  # Seta os ticks para e retorna o tempo desde o ultimo tick
+            dt = self.clock.tick()  # retorna o tempo desde o ultimo tick
 
             self.selection_icon1.update(dt)
             self.selection_icon2.update(dt)
