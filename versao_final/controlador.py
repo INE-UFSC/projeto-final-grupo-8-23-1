@@ -19,14 +19,14 @@ class Controlador:
     def __init__(self, screen):
         self.novo_jogo = None
         pygame.display.set_caption("RetroVerse")
-        #self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy, 'Dino':Dino, 'Ateroid': Asteroid}
-        self.jogos = {'Mario': Mario, 'Dino':Dino, 'Ateroid': Asteroid}
+        self.jogos = {'Ateroid': Asteroid, 'Dino':Dino, 'Flappy': Flappy, 'Mario': Mario, 'Shooter': Shooter, 'Space': Space}
+        #self.jogos = {'Space': Space, 'Dino':Dino, 'Ateroid': Asteroid}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()
         self.player = Player(37.5, 60, 500, 450, (255, 255, 255))
         self.plataforma = [Platform(1200, 50, 0, 650), Platform(200, 30, 800, 500)]
-        self.tempo_troca_de_fase = 5
+        self.tempo_troca_de_fase = 10
         self.font = pygame.font.Font(None, 36)
         self.running = True
         self.jogos_disponiveis = list(self.jogos.values()).copy()

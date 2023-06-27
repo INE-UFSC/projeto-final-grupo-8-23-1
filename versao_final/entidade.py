@@ -3,6 +3,9 @@ import random
 import math
 
 
+#---------------------------------------------------INICIALIZAÇÃO---------------------------------------------------#
+
+
 class Entity:
     def __init__(self, width, height, x, y, color):
         self.color = color
@@ -51,6 +54,12 @@ class Player(Entity, pygame.sprite.Sprite):
         self.velocity = -5
         self.is_jumping = True
 
+    def update(self):
+        self.current_sprite += 0.1
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+        self.image = self.sprites[int(self.current_sprite)]
+
 
 class Enemy(Entity):
     def __init__(self, x, y, color, multiplier, x_sprite, y_sprite):
@@ -65,10 +74,9 @@ class Enemy(Entity):
         super().__init__(self.scale[0], self.scale[1], x, y, color)
 
     def update(self):
-        self.current_sprite += 0.2
+        self.current_sprite += 0.1
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
-            self.is_running = False
         self.image = self.sprites[int(self.current_sprite)]
 
 
@@ -82,30 +90,20 @@ class PlayerAsteroid(Player):
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_1.png'), (scale[0], scale[1])))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_2.png'), (scale[0], scale[1])))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_3.png'), (scale[0], scale[1])))
-        self.sprite_parado = pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_1.png'), (scale[0], scale[1]))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_4.png'), (scale[0], scale[1])))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.rect.x, self.rect.y]
 
-    def update(self):
-        if self.is_running:
-            self.current_sprite += 0.2
-            if self.current_sprite >= len(self.sprites):
-                self.current_sprite = 0
-                self.is_running = False
-            self.image = self.sprites[int(self.current_sprite)]
-        else:
-            self.image = self.sprite_parado
-
 class InimigoAsteroid(Enemy):
     def __init__(self, x, y, color):
         super().__init__(x, y, color, 2, 25, 21)
 
     def load_animation(self):
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_1.png'), self.scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_2.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_laranja_voando_1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_laranja_voando_2.png'), self.scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -136,10 +134,9 @@ class PlayerDino(Player):
         if self.is_jumping:
             self.image = self.sprite_pulando
         else:
-            self.current_sprite += 0.2
+            self.current_sprite += 0.1
             if self.current_sprite >= len(self.sprites):
                 self.current_sprite = 0
-                self.is_running = False
             self.image = self.sprites[int(self.current_sprite)]
 
 
@@ -164,31 +161,20 @@ class PlayerFlappy(Player):
     def load_animation(self):
         scale = (25 * self.multiplier, 40 * self.multiplier)
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_flappy.png'), (scale[0], scale[1])))
-        self.sprite_parado = pygame.transform.scale(pygame.image.load('./assets/player/mario_flappy.png'), (scale[0], scale[1]))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.rect.x, self.rect.y]
 
-    def update(self):
-        if self.is_running:
-            self.current_sprite += 0.2
-            if self.current_sprite >= len(self.sprites):
-                self.current_sprite = 0
-                self.is_running = False
-            self.image = self.sprites[int(self.current_sprite)]
-        else:
-            self.image = self.sprite_parado
 
-
-class InimigoVoador(Enemy):
+class InimigoFlappy(Enemy):
     def __init__(self, x, y, color):
         super().__init__(x, y, color, 2, 25, 21)
 
     def load_animation(self):
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_1.png'), self.scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_2.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_verde_voando_1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_verde_voando_2.png'), self.scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -220,7 +206,7 @@ class PlayerMario(Player):
         if self.is_jumping:
             self.image = self.sprite_pulando
         elif self.is_running:
-            self.current_sprite += 0.2
+            self.current_sprite += 0.1
             if self.current_sprite >= len(self.sprites):
                 self.current_sprite = 0
                 self.is_running = False
@@ -229,7 +215,7 @@ class PlayerMario(Player):
             self.image = self.sprite_parado
 
 
-class MarioEnemy(Enemy):
+class InimigoMario(Enemy):
     def __init__(self, x, y, color):
         super().__init__(x, y, color, 2.5, 17, 21)
 
@@ -249,7 +235,7 @@ class MarioEnemy(Enemy):
 class PlayerShooter(Player):
     def load_animation(self):
         self.sprites.append(pygame.image.load('./assets/player/mario_mira_1.png'))
-        self.sprite_parado = (pygame.image.load('./assets/player/mario_mira_2.png'))
+        self.sprites.append(pygame.image.load('./assets/player/mario_mira_2.png'))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -257,23 +243,19 @@ class PlayerShooter(Player):
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
-        if self.is_running:
-            self.current_sprite += 0.2
-            if self.current_sprite >= len(self.sprites):
-                self.current_sprite = 0
-                self.is_running = False
-            self.image = self.sprites[int(self.current_sprite)]
-        else:
-            self.image = self.sprite_parado
+        self.current_sprite += 0.05
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+        self.image = self.sprites[int(self.current_sprite)]
 
 
-class InimigoVoador(Enemy):
+class InimigoShooter(Enemy):
     def __init__(self, x, y, color):
         super().__init__(x, y, color, 2, 25, 21)
 
     def load_animation(self):
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_1.png'), self.scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_azul_voando_2.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_verde_voando_1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_verde_voando_2.png'), self.scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -284,11 +266,29 @@ class InimigoVoador(Enemy):
 #---------------------------------------------------SPACE---------------------------------------------------#
 
 
-class PlayerSpace:
-    pass
+class PlayerSpace(Player):
+    def load_animation(self):
+        scale = (25 * self.multiplier, 40 * self.multiplier)
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_space.png'), (scale[0], scale[1])))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
 
-class InimigoSpace:
-    pass
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.rect.x, self.rect.y]
+
+
+class InimigoSpace(Enemy):
+    def __init__(self, x, y, color):
+        super().__init__(x, y, color, 2, 25, 21)
+
+    def load_animation(self):
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_laranja_voando_1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_laranja_voando_2.png'), self.scale))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.rect.x, self.rect.y]
 
 
 #---------------------------------------------------OUTROS---------------------------------------------------#

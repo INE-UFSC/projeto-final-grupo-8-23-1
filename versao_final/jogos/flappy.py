@@ -2,7 +2,7 @@ from sistemas import SistemaGravidade, SistemaInimigosFlappy,\
     SistemaPlayerBateParedeVertical, PlayerFlappySistema, \
     SistemaPlayerTrocaLadoHorizontal
 from jogoabstrato import JogoAbstrato
-from entidade import InimigoVoador, PlayerFlappy
+from entidade import InimigoFlappy, PlayerFlappy
 
 
 class Flappy(JogoAbstrato):
@@ -15,7 +15,7 @@ class Flappy(JogoAbstrato):
         self.player = PlayerFlappy(player.width, player.height, player.rect.x, 120, player.color)
 
     def inimigo(self, x, y):
-        return InimigoVoador(x, y, (0, 255, 0))
+        return InimigoFlappy(x, y, (0, 255, 0))
 
     def inicializar_sistemas(self):
         self.inimigos_sys = SistemaInimigosFlappy(self.inimigos, self.player)

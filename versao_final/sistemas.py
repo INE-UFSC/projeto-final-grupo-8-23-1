@@ -2,6 +2,9 @@ import pygame
 from entidade import Bullet
 
 
+#---------------------------------------------------INICIALIZAÇÃO---------------------------------------------------#
+
+
 class Sistema:
     def __init__(self, lista):
         self.entidades = lista
@@ -120,16 +123,18 @@ class SistemaInimigosAsteroid(SistemaInimigos):
 
 class PlayerDinoSistema(SistemaPlayer):
     def tick(self):
-        if self.player.rect.x > 140:
+        if self.player.rect.x > 180:
+            self.player.rect.x -= 18
+            self.player.velocity = 4
             self.player.is_invincible = True
-            self.player.rect.x -= 20
-            self.player.velocity = 5
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE] and not self.player.is_jumping:
-            self.player.jump()
-        if self.player.is_invincible:
-            if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
-                self.player.is_invincible = False
+            self.player.invincible_ticks = pygame.time.get_ticks()
+        else:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_SPACE] and not self.player.is_jumping:
+                self.player.jump()
+            if self.player.is_invincible:
+                if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+                    self.player.is_invincible = False
 
 
 class SistemaInimigosDino(SistemaInimigos):
@@ -167,7 +172,7 @@ class SistemaInimigosDino(SistemaInimigos):
 
 class PlayerFlappySistema(SistemaPlayer):
     def tick(self):
-        self.player.vel_x = 3.5
+        self.player.vel_x = 3.8
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             self.player.jump_flappy()
@@ -175,7 +180,7 @@ class PlayerFlappySistema(SistemaPlayer):
         if self.player.rect.y > 650 - self.player.height * self.player.multiplier:
             self.player.lives -= 1
             self.player.rect.y = 200
-            self.player.vel_y = 0
+            self.player.velocity = 0
 
 
 class SistemaInimigosFlappy(SistemaInimigos):
@@ -273,11 +278,64 @@ class SistemaInimigosShooter(SistemaInimigos):
 #---------------------------------------------------SPACE---------------------------------------------------#
 
 
-class PlayerSpaceSistema:
-    pass
+class PlayerSpaceSistema(SistemaPlayer):
+    def tick(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.player.rect.x -= 5
+        if keys[pygame.K_d]:
+            self.player.rect.x += 5
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+        if self.player.tiro_pronto > 0:
+            self.player.tiro_pronto -= 1
+        self.update_bullets()
 
-class InimigosSpaceSistema:
-    pass
+    def update_bullets(self):
+        for bullet in self.get_entidades():
+            bullet.rect.y -= 10
+
+    def shoot(self):
+        if self.player.tiro_pronto == 0:
+            bullet = Bullet(self.player.rect.x, self.player.rect.y)
+            self.adicionar_entidade(bullet)
+            self.player.tiro_pronto = 10
+
+
+class InimigosSpaceSistema(SistemaInimigos):
+    def __init__(self, inimigos, player, bullets):
+        self.bullets = bullets
+        super().__init__(inimigos, player)
+
+    def tick(self):
+        for enemy in self.get_entidades():
+            enemy.rect.x += enemy.direction[0]*2
+
+            entidades_sem_1 = self.get_entidades().copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+
+                if enemy.rect.colliderect(enemy_2.rect):
+                    if enemy.rect.y > enemy_2.rect.y:
+                        enemy.rect.y += (abs(enemy.rect.y - enemy_2.rect.y) + 5)
+                        enemy.direction[0] *= -1
+                    elif enemy.rect.x > enemy_2.rect.x:
+                        enemy.rect.y += (abs(enemy.rect.y - enemy_2.rect.y) + 5)
+                        enemy.direction[0] *= -1
+
+            if self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 650:
+                self.player.lives -= 1
+                self.remover_entidade(enemy)
+                self.removed.append(enemy)
+
+            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
+                enemy.direction[0] *= -1
+                enemy.rect.y += 50
+
+            for bullet in self.bullets.get_entidades():
+                if bullet.rect.colliderect(enemy):
+                    self.remover_entidade(enemy)
+                    self.removed.append(enemy)
 
 
 #---------------------------------------------------OUTROS---------------------------------------------------#
