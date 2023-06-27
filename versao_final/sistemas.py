@@ -72,10 +72,7 @@ class SistemaInimigosShooter(SistemaInimigos):
 class SistemaInimigosDino(SistemaInimigos):
     def tick(self):
         for enemy in self.get_entidades():
-            if self.player.rect.x < 575:
-                enemy.rect.x -= 4
-            if self.player.rect.x >= 575:
-                enemy.rect.x += 4
+            enemy.rect.x -= 4
 
             entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
@@ -95,8 +92,7 @@ class SistemaInimigosDino(SistemaInimigos):
                 self.player.jump()
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
-            elif self.player.rect.colliderect(enemy.rect) and not \
-                    self.player.is_jumping and not self.player.is_invincible:
+            elif self.player.rect.colliderect(enemy.rect) and not (self.player.is_jumping or self.player.is_invincible):
                 self.player.lives -= 1
                 self.player.is_invincible = True
                 self.player.invincible_ticks = pygame.time.get_ticks()
@@ -159,8 +155,7 @@ class SistemaInimigosMario(SistemaInimigos):
                 self.player.jump()
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
-            elif self.player.rect.colliderect(enemy.rect) and not \
-                    self.player.is_jumping and not self.player.is_invincible:
+            elif self.player.rect.colliderect(enemy.rect) and not (self.player.is_jumping or self.player.is_invincible):
                 self.player.lives -= 1
                 self.player.is_invincible = True
                 self.player.invincible_ticks = pygame.time.get_ticks()
@@ -227,10 +222,10 @@ class SistemaPlayerTrocaLadoHorizontal(SistemaPlayer):
 
 class SistemaPlayerTrocaLadoVertical(SistemaPlayer):
     def tick(self):
-        if self.player.rect.y < 65:  # altura da hud
+        if self.player.rect.y < 70:  # altura da hud
             self.player.rect.y = 650 - self.player.height
         elif self.player.rect.y > (650 - self.player.height):  # altura plataforma
-            self.player.rect.y = 65
+            self.player.rect.y = 70
 
 
 class SistemaPlayerBateParedeHorizontal(SistemaPlayer):
@@ -243,8 +238,9 @@ class SistemaPlayerBateParedeHorizontal(SistemaPlayer):
 
 class SistemaPlayerBateParedeVertical(SistemaPlayer):
     def tick(self):
-        if self.player.rect.y < 65:
-            self.player.rect.y = 65
+        if self.player.rect.y < 60:
+            self.player.rect.y = 60
+            self.player.velocity = 0
         elif self.player.rect.y > (650 - self.player.height):
             self.player.rect.y = 650 - self.player.height
 
@@ -347,7 +343,9 @@ class PlayerAsteroidSistema(SistemaPlayer):
 
 class PlayerDinoSistema(SistemaPlayer):
     def tick(self):
-        self.player.vel_x = 0
+        if self.player.rect.x > 100:
+            self.player.is_invincible = True
+            self.player.rect.x -= 10
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and not self.player.is_jumping:
             self.player.jump()

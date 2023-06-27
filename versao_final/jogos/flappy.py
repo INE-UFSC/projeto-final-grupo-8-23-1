@@ -8,11 +8,11 @@ from entidade import InimigoVoador, PlayerFlappy
 class Flappy(JogoAbstrato):
     def __init__(self, screen, entidades, player, inimigos, plataformas):
         super().__init__(screen, entidades, player, inimigos, plataformas)
-        player.rect.y = 200
-        player.velocity = 0.15
+        player.velocity = 0
+        player.rect.y = 120
 
     def trocar_player(self, player):
-        self.player = PlayerFlappy(player.width, player.height, player.rect.x, player.rect.y, player.color)
+        self.player = PlayerFlappy(player.width, player.height, player.rect.x, 120, player.color)
 
     def inimigo(self, x, y):
         return InimigoVoador(x, y, (0, 255, 0))

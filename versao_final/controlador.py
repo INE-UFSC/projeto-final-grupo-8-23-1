@@ -3,11 +3,11 @@ import random
 import time
 
 from entidade import Player, Platform
-from mario import Mario
-from shooter import Shooter
-from flappy import Flappy
-from asteroid import Asteroid
-from dino import Dino
+from jogos.mario import Mario
+from jogos.shooter import Shooter
+from jogos.flappy import Flappy
+from jogos.asteroid import Asteroid
+from jogos.dino import Dino
 
 from hud import Hud
 from gameover import GameOver
