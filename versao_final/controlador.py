@@ -7,6 +7,7 @@ from mario import Mario
 from shooter import Shooter
 from flappy import Flappy
 from asteroid import Asteroid
+from dino import Dino
 
 from hud import Hud
 from gameover import GameOver
@@ -17,12 +18,12 @@ class Controlador:
     def __init__(self, screen):
         self.novo_jogo = None
         pygame.display.set_caption("RetroVerse")
-        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy}
+        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy, 'Dino':Dino}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()
         self.player = Player(37.5, 60, 500, 450, (255, 255, 255))
-        self.plataforma = [Platform(1200, 50, 0, 650), Platform(200, 20, 50, 500)]
+        self.plataforma = [Platform(1200, 50, 0, 650), Platform(200, 30, 800, 500)]
         self.tempo_troca_de_fase = 5
         self.font = pygame.font.Font(None, 36)
         self.running = True

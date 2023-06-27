@@ -69,6 +69,38 @@ class SistemaInimigosShooter(SistemaInimigos):
             if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
 
+class SistemaInimigosDino(SistemaInimigos):
+    def tick(self):
+        for enemy in self.get_entidades():
+            if self.player.rect.x < 575:
+                enemy.rect.x -= 4
+            if self.player.rect.x >= 575:
+                enemy.rect.x += 4
+
+            entidades_sem_1 = self.get_entidades().copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+                if enemy.rect.colliderect(enemy_2.rect):
+                    if enemy.rect.y == enemy_2.rect.y:
+                        enemy_2.direction[0] *= -1
+                    elif enemy.rect.y > enemy_2.rect.y:
+                        enemy_2.velocity = -10
+
+            if enemy.rect.x < 0:
+                enemy.rect.x = 1200
+            if enemy.rect.x > 1200:
+                enemy.rect.x = 0
+
+            if self.player.rect.colliderect(enemy.rect) and self.player.is_jumping:
+                self.player.jump()
+                self.removed.append(enemy)
+                self.remover_entidade(enemy)
+            elif self.player.rect.colliderect(enemy.rect) and not \
+                    self.player.is_jumping and not self.player.is_invincible:
+                self.player.lives -= 1
+                self.player.is_invincible = True
+                self.player.invincible_ticks = pygame.time.get_ticks()
+
 
 class SistemaInimigosAsteroid(SistemaInimigos):
     def __init__(self, inimigos, player, bullets):
@@ -312,3 +344,13 @@ class PlayerAsteroidSistema(SistemaPlayer):
             bullet = Bullet(self.player.rect.x, self.player.rect.y)
             self.adicionar_entidade(bullet)
             self.player.tiro_pronto = 10
+
+class PlayerDinoSistema(SistemaPlayer):
+    def tick(self):
+        self.player.vel_x = 0
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and not self.player.is_jumping:
+            self.player.jump()
+        if self.player.is_invincible:
+            if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+                self.player.is_invincible = False

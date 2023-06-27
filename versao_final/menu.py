@@ -3,7 +3,7 @@ from gifanimation import Gif
 from tutorial import Tutorial
 import pygame
 
-from versao_final import tutorial
+from tutorial import Tutorial
 
 
 class Menu:
@@ -21,7 +21,7 @@ class Menu:
 
         selection_icon1_durations = [500] * 2
         selection_icon2_durations = [500] * 2
-        press_space_durations = [1200 if i in [0, 7] else 100 for i in range(13)]
+        press_space_durations = [150 if i in [0, 7] else 70 for i in range(13)]
         self.selection_icon1 = Gif(selection_icon1_frames, selection_icon1_durations)
         self.selection_icon2 = Gif(selection_icon2_frames, selection_icon2_durations)
         self.press_space = Gif(press_space_frames, press_space_durations)
