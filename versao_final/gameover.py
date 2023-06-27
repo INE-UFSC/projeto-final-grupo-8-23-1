@@ -1,6 +1,7 @@
 import pygame
-from menu import Menu
 import sys
+
+from menu import Menu
 from highscore import Highscore
 
 

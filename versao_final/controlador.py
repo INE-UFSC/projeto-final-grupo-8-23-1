@@ -3,22 +3,24 @@ import random
 import time
 
 from entidade import Player, Platform
-from jogos.mario import Mario
-from jogos.shooter import Shooter
-from jogos.flappy import Flappy
-from jogos.asteroid import Asteroid
-from jogos.dino import Dino
-
-from hud import Hud
 from gameover import GameOver
 from menu import Menu
+from hud import Hud
+
+from jogos.asteroid import Asteroid
+from jogos.dino import Dino
+from jogos.flappy import Flappy
+from jogos.mario import Mario
+from jogos.shooter import Shooter
+from jogos.space import Space
 
 
 class Controlador:
     def __init__(self, screen):
         self.novo_jogo = None
         pygame.display.set_caption("RetroVerse")
-        self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy, 'Dino':Dino}
+        #self.jogos = {'Mario': Mario, 'Shooter': Shooter, 'Flappy': Flappy, 'Dino':Dino, 'Ateroid': Asteroid}
+        self.jogos = {'Mario': Mario, 'Dino':Dino, 'Ateroid': Asteroid}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()

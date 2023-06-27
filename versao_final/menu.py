@@ -1,8 +1,7 @@
-from highscore import Highscore
-from gifanimation import Gif
-from tutorial import Tutorial
 import pygame
 
+from highscore import Highscore
+from gifanimation import Gif
 from tutorial import Tutorial
 
 
