@@ -53,9 +53,9 @@ class JogoAbstrato:
         self.sistemas.append(plataformas)
 
         if (sistemas_desenho):
-            desenho = SistemaDesenho([plataformas, self.inimigos_sys, *sistemas_desenho], self.player, self.screen)
+            desenho = SistemaDesenho([self.inimigos_sys, *sistemas_desenho], self.player, self.screen)
         else:
-            desenho = SistemaDesenho([plataformas, self.inimigos_sys], self.player, self.screen)
+            desenho = SistemaDesenho([self.inimigos_sys], self.player, self.screen)
         self.sistemas.append(desenho)
 
         movimento = SistemaMovimento([self.inimigos_sys], self.player, plataformas)

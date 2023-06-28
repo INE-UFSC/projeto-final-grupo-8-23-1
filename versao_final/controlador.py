@@ -25,7 +25,7 @@ class Controlador:
         self.screen = screen
         self.hud = Hud()
         self.player = Player(37.5, 60, 500, 450, (255, 255, 255))
-        self.plataforma = [Platform(1200, 50, 0, 650), Platform(200, 30, 800, 500)]
+        self.plataforma = [Platform(1200, 40, 0, 660), Platform(250, 64, 690, 475), Platform(250, 64, 260, 325)]
         self.tempo_troca_de_fase = 10
         self.font = pygame.font.Font(None, 36)
         self.running = True
@@ -42,7 +42,7 @@ class Controlador:
         self.num_fases = 0
         self.tempo_na_fase = 0
         self.tempo = 0
-        self.background = pygame.image.load('assets/cachoeira_1.png').convert()
+        self.background = pygame.image.load('assets/cachoeira.png').convert()
 
     def set_jogo(self, jogo_nome):
         self.jogo_atual = self.jogos[jogo_nome]
