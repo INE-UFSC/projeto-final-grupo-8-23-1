@@ -87,10 +87,10 @@ class PlayerAsteroid(Player):
     def load_animation(self):
         self.multiplier = 1.5
         scale = (28 * self.multiplier, 30 * self.multiplier)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_1.png'), (scale[0], scale[1])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_2.png'), (scale[0], scale[1])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_3.png'), (scale[0], scale[1])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_4.png'), (scale[0], scale[1])))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_1.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_2.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_3.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_4.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -160,7 +160,7 @@ class DinoEnemy(Enemy):
 class PlayerFlappy(Player):
     def load_animation(self):
         scale = (40 * self.multiplier, 29 * self.multiplier)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_flappy.png'), (scale[0], scale[1])))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_flappy.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -235,8 +235,8 @@ class InimigoMario(Enemy):
 class PlayerShooter(Player):
     def load_animation(self):
         scale = (39 * self.multiplier, 39 * self.multiplier)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_mira_1.png'), self.scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_mira_2.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_mira_1.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_mira_2.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -270,7 +270,7 @@ class InimigoShooter(Enemy):
 class PlayerSpace(Player):
     def load_animation(self):
         scale = (44 * self.multiplier, 40 * self.multiplier)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_space.png'), (scale[0], scale[1])))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_space.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
