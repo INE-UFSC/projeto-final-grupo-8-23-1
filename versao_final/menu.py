@@ -53,6 +53,8 @@ class Menu:
 
     def main(self):
         running = True
+        pygame.mixer.music.load('assets/menu.mp3')
+        pygame.mixer.music.play(-1)
         tutorial_screen = Tutorial(self.screen, self.press_space)
         while running:
             dt = self.clock.tick()  # retorna o tempo desde o ultimo tick

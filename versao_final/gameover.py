@@ -28,6 +28,8 @@ class GameOver:
         self.screen.blit(highscore_text, (700, 500))
 
     def run(self):
+        pygame.mixer.music.load('assets/gameover.mp3')
+        pygame.mixer.music.play(-1)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

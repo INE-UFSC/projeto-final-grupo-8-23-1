@@ -109,6 +109,8 @@ class Controlador:
         while self.running:
             result = menu.main()
             if result == 'start':
+                pygame.mixer.music.load('assets/jogo.mp3')
+                pygame.mixer.music.play(-1)
                 self.atualizar_entre_jogos()
                 while self.running:
                     self.screen.blit(self.background, (0, 0))
