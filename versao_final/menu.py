@@ -9,7 +9,7 @@ class Menu:
     def __init__(self, screen):
         self.screen = screen
         self.clock = pygame.time.Clock()
-        self.background = pygame.image.load('assets/assets_menu/tela_de_fundo_menu.png')
+        self.background = pygame.image.load('assets/assets_menu/tela_de_fundo_menu.png').convert()
         self.highscore_icon = pygame.image.load('assets/assets_menu/highscore.png')
         self.start_button = pygame.image.load('assets/assets_menu/botao_jogar.png')
         self.quit_button = pygame.image.load('assets/assets_menu/botao_tutorial.png')

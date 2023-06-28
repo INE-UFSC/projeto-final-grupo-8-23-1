@@ -42,6 +42,7 @@ class Controlador:
         self.num_fases = 0
         self.tempo_na_fase = 0
         self.tempo = 0
+        self.background = pygame.image.load('assets/cachoeira_1.png').convert()
 
     def set_jogo(self, jogo_nome):
         self.jogo_atual = self.jogos[jogo_nome]
@@ -110,7 +111,8 @@ class Controlador:
             if result == 'start':
                 self.atualizar_entre_jogos()
                 while self.running:
-                    self.screen.fill((0, 0, 0))
+                    self.screen.blit(self.background, (0, 0))
+                    #self.screen.fill((0, 0, 0))
                     self.novo_jogo.run()
                     self.lives = self.novo_jogo.get_lives()
                     self.hud.draw(self.screen, self.lives, self.tempo_troca_de_fase,

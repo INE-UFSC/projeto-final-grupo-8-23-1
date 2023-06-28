@@ -5,7 +5,7 @@ class Tutorial:
     def __init__(self, screen, press_space):
         self.screen = screen
         self.press_space = press_space
-        self.background = pygame.image.load('assets/assets_menu/tela_tutorial.png')
+        self.background = pygame.image.load('assets/assets_menu/tela_tutorial.png').convert()
         self.press_space_center_position = (600, 630)
         self.clock = pygame.time.Clock()
 
