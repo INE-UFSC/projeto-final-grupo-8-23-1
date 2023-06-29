@@ -1,5 +1,5 @@
 import pygame
-from entidade import Bullet
+from entidade import *
 
 
 #---------------------------------------------------INICIALIZAÇÃO---------------------------------------------------#
@@ -203,6 +203,8 @@ class PlayerMarioSistema(SistemaPlayer):
         if keys[pygame.K_d]:
             self.player.vel_x = 5
             self.player.animate_run()
+        if not(keys[pygame.K_a] or keys[pygame.K_d]):
+            self.player.is_running = False
         if keys[pygame.K_SPACE] and not self.player.is_jumping:
             self.player.jump()
         if self.player.is_invincible:

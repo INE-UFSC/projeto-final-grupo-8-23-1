@@ -37,11 +37,16 @@ class Player(Entity, pygame.sprite.Sprite):
         self.invincible_ticks = 0
         self.lives = 3
         self.acceleration = 1
+        self.virado_esquerda = False
         self.is_running = False
         super().__init__(width, height, x, y, (255, 255, 255))
 
     def animate_run(self):
         self.is_running = True
+        if self.vel_x < 0:
+            self.virado_esquerda = True
+        else:
+            self.virado_esquerda = False
 
     def get_vidas(self):
         return self.lives
@@ -55,7 +60,7 @@ class Player(Entity, pygame.sprite.Sprite):
         self.is_jumping = True
 
     def update(self):
-        self.current_sprite += 0.1
+        self.current_sprite += 0.05
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
@@ -190,29 +195,48 @@ class PlayerMario(Player):
         scale = (26 * self.multiplier, 40 * self.multiplier)
         self.sprite_parado = pygame.transform.scale(pygame.image.load('./assets/player/mario_parado.png'), scale)
         self.sprite_pulando = pygame.transform.scale(pygame.image.load('./assets/player/mario_pulando.png'), scale)
+        self.sprite_parado_invert = pygame.transform.scale(pygame.image.load('./assets/player/mario_parado_invert.png'), scale)
+        self.sprite_pulando_invert = pygame.transform.scale(pygame.image.load('./assets/player/mario_pulando_invert.png'), scale)
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_1.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_2.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_3.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_4.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_5.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_6.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_1_invert.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_2_invert.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_3_invert.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_4_invert.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_5_invert.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_6_invert.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
-
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
         if self.is_jumping:
-            self.image = self.sprite_pulando
+            if self.virado_esquerda:
+                self.image = self.sprite_pulando_invert
+            else:
+                self.image = self.sprite_pulando
+                
         elif self.is_running:
             self.current_sprite += 0.1
-            if self.current_sprite >= len(self.sprites):
-                self.current_sprite = 0
-                self.is_running = False
-            self.image = self.sprites[int(self.current_sprite)]
+            if self.virado_esquerda:
+                if self.current_sprite < 6 or self.current_sprite >= len(self.sprites):
+                    self.current_sprite = 6
+                self.image = self.sprites[int(self.current_sprite)]
+            else:
+                if self.current_sprite >= 6:
+                    self.current_sprite = 0
+                self.image = self.sprites[int(self.current_sprite)]
+
         else:
-            self.image = self.sprite_parado
+            if self.virado_esquerda:
+                self.image = self.sprite_parado_invert
+            else:
+                self.image = self.sprite_parado
 
 
 class InimigoMario(Enemy):
