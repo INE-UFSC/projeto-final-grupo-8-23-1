@@ -44,17 +44,17 @@ class Player(Entity, pygame.sprite.Sprite):
         self.tomando_dano = False
 
         self.invincible_ticks = 0
-        self.invincible_duration = 2000
+        self.invincible_duration = 1000
         self.is_invincible = True
 
         self.is_running = False
         self.is_jumping = False
         self.virado_esquerda = False
 
-        self.blank = pygame.image.load('./assets/player/blank.png')
-        self.sprite_dano = pygame.image.load('./assets/player/mario_dano.png')
-        self.sprite_morte = pygame.image.load('./assets/player/mario_morte.png')
-        self.sprite_dano_invert = pygame.image.load('./assets/player/mario_dano_invert.png')
+        self.blank = pygame.transform.scale(pygame.image.load('./assets/player/blank.png'), (60, 60))
+        self.sprite_dano = pygame.transform.scale(pygame.image.load('./assets/player/mario_dano.png'), (60, 60))
+        self.sprite_morte = pygame.transform.scale(pygame.image.load('./assets/player/mario_morte.png'), (60, 60))
+        self.sprite_dano_invert = pygame.transform.scale(pygame.image.load('./assets/player/mario_bola_1.png'), (60, 60))
 
         super().__init__(width, height, x, y, (255, 255, 255))
 
@@ -64,6 +64,13 @@ class Player(Entity, pygame.sprite.Sprite):
             self.virado_esquerda = True
         else:
             self.virado_esquerda = False
+    
+    def tomar_dano(self):
+        self.lives -= 1
+        self.tomando_dano = True
+        self.damage_ticks = pygame.time.get_ticks()
+        self.is_invincible = True
+        self.invincible_ticks = pygame.time.get_ticks()
 
     def get_vidas(self):
         return self.lives
@@ -85,6 +92,9 @@ class Player(Entity, pygame.sprite.Sprite):
 
         if self.is_invincible and self.current_sprite % 1 >= 0.5:
             self.image = self.blank
+
+        if self.tomando_dano:
+            self.image = self.sprite_dano
 
 
 class Enemy(Entity):
@@ -142,7 +152,7 @@ class InimigoAsteroid(Enemy):
 
 class PlayerDino(Player):
     def load_animation(self):
-        scale = (27 * self.multiplier, 40 * self.multiplier)
+        scale = (26 * self.multiplier, 40 * self.multiplier)
         self.sprite_pulando = pygame.transform.scale(pygame.image.load('./assets/player/mario_pulando.png'), scale)
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_1.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_2.png'), scale))
@@ -166,6 +176,9 @@ class PlayerDino(Player):
             self.image = self.sprites[int(self.current_sprite)]
         if self.is_invincible and self.current_sprite % 1 >= 0.5:
             self.image = self.blank
+        if self.tomando_dano:
+            self.image = self.sprite_dano
+        
 
 
 class DinoEnemy(Enemy):
@@ -259,9 +272,10 @@ class PlayerMario(Player):
                 self.image = self.sprite_parado_invert
             else:
                 self.image = self.sprite_parado
-        
         if self.is_invincible and self.current_sprite % 1 >= 0.5:
             self.image = self.blank
+        if self.tomando_dano:
+            self.image = self.sprite_dano
 
 
 class InimigoMario(Enemy):
@@ -297,9 +311,10 @@ class PlayerShooter(Player):
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
-
         if self.is_invincible and self.current_sprite % 1 >= 0.5:
             self.image = self.blank
+        if self.tomando_dano:
+            self.image = self.sprite_dano
 
 
 class InimigoShooter(Enemy):

@@ -120,7 +120,7 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                     enemy_2.direction[1] *= -1
 
             if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
-                self.player.lives -= 1
+                self.player.tomar_dano()
 
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
@@ -177,9 +177,7 @@ class SistemaInimigosDino(SistemaInimigos):
                     self.removed.append(enemy)
                     self.remover_entidade(enemy)
                 elif not self.player.is_invincible:
-                    self.player.lives -= 1
-                    self.player.is_invincible = True
-                    self.player.invincible_ticks = pygame.time.get_ticks()
+                    self.player.tomar_dano()
 
 
 #---------------------------------------------------FLAPPY---------------------------------------------------#
@@ -194,7 +192,7 @@ class PlayerFlappySistema(SistemaPlayer):
             self.player.jump_flappy()
 
         if self.player.rect.y > 650 - self.player.height * self.player.multiplier:
-            self.player.lives -= 1
+            self.player.tomar_dano()
             self.player.rect.y = 200
             self.player.velocity = 0
 
@@ -224,9 +222,6 @@ class PlayerMarioSistema(SistemaPlayer):
             self.player.is_running = False
         if keys[pygame.K_SPACE] and not self.player.is_jumping:
             self.player.jump()
-        if self.player.is_invincible:
-            if pygame.time.get_ticks() - self.player.invincible_ticks > self.player.invincible_duration:
-                self.player.is_invincible = False
 
 
 class SistemaInimigosMario(SistemaInimigos):
@@ -250,9 +245,7 @@ class SistemaInimigosMario(SistemaInimigos):
                     self.removed.append(enemy)
                     self.remover_entidade(enemy)
                 elif not self.player.is_invincible:
-                    self.player.lives -= 1
-                    self.player.is_invincible = True
-                    self.player.invincible_ticks = pygame.time.get_ticks()
+                    self.player.tomar_dano()
 
 
 #---------------------------------------------------SHOOTER---------------------------------------------------#
@@ -345,7 +338,7 @@ class InimigosSpaceSistema(SistemaInimigos):
                         enemy.direction[0] *= -1
 
             if self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 650:
-                self.player.lives -= 1
+                self.player.tomar_dano()
                 self.remover_entidade(enemy)
                 self.removed.append(enemy)
 
