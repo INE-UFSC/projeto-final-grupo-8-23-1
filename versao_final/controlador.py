@@ -110,6 +110,7 @@ class Controlador:
             result = menu.main()
             if result == 'start':
                 pygame.mixer.music.load('assets/jogo.mp3')
+                pygame.mixer.music.set_volume(0.3)
                 pygame.mixer.music.play(-1)
                 self.atualizar_entre_jogos()
                 while self.running:

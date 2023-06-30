@@ -29,6 +29,7 @@ class GameOver:
 
     def run(self):
         pygame.mixer.music.load('assets/gameover.mp3')
+        pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
         while True:
             for event in pygame.event.get():

@@ -54,6 +54,7 @@ class Menu:
     def main(self):
         running = True
         pygame.mixer.music.load('assets/menu.mp3')
+        pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
         tutorial_screen = Tutorial(self.screen, self.press_space)
         while running:
