@@ -29,16 +29,33 @@ class Entity:
 
 class Player(Entity, pygame.sprite.Sprite):
     def __init__(self, width, height, x, y, color):
-        self.multiplier = 1.5
-        self.velocity = 0
-        self.is_jumping = False
-        self.is_invincible = True
-        self.tiro_pronto = 0
-        self.invincible_ticks = 0
-        self.lives = 3
         self.acceleration = 1
-        self.virado_esquerda = False
+        self.multiplier = 1.5
+        self.tiros_prontos = 0
+        self.velocity = 0
+        self.lives = 3
+        
+        self.ultimo_tiro = 0
+        self.tiro_recarga = 150
+        self.tiro_pronto = True
+        
+        self.damage_ticks = 0
+        self.damage_duration = 400
+        self.tomando_dano = False
+
+        self.invincible_ticks = 0
+        self.invincible_duration = 2000
+        self.is_invincible = True
+
         self.is_running = False
+        self.is_jumping = False
+        self.virado_esquerda = False
+
+        self.blank = pygame.image.load('./assets/player/blank.png')
+        self.sprite_dano = pygame.image.load('./assets/player/mario_dano.png')
+        self.sprite_morte = pygame.image.load('./assets/player/mario_morte.png')
+        self.sprite_dano_invert = pygame.image.load('./assets/player/mario_dano_invert.png')
+
         super().__init__(width, height, x, y, (255, 255, 255))
 
     def animate_run(self):
@@ -60,10 +77,14 @@ class Player(Entity, pygame.sprite.Sprite):
         self.is_jumping = True
 
     def update(self):
-        self.current_sprite += 0.05
+        self.current_sprite += 0.1
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
+
         self.image = self.sprites[int(self.current_sprite)]
+
+        if self.is_invincible and self.current_sprite % 1 >= 0.5:
+            self.image = self.blank
 
 
 class Enemy(Entity):
@@ -136,13 +157,15 @@ class PlayerDino(Player):
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
+        self.current_sprite += 0.1
         if self.is_jumping:
             self.image = self.sprite_pulando
         else:
-            self.current_sprite += 0.1
             if self.current_sprite >= len(self.sprites):
                 self.current_sprite = 0
             self.image = self.sprites[int(self.current_sprite)]
+        if self.is_invincible and self.current_sprite % 1 >= 0.5:
+            self.image = self.blank
 
 
 class DinoEnemy(Enemy):
@@ -215,14 +238,13 @@ class PlayerMario(Player):
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
+        self.current_sprite += 0.1
         if self.is_jumping:
             if self.virado_esquerda:
                 self.image = self.sprite_pulando_invert
             else:
                 self.image = self.sprite_pulando
-                
         elif self.is_running:
-            self.current_sprite += 0.1
             if self.virado_esquerda:
                 if self.current_sprite < 6 or self.current_sprite >= len(self.sprites):
                     self.current_sprite = 6
@@ -237,6 +259,9 @@ class PlayerMario(Player):
                 self.image = self.sprite_parado_invert
             else:
                 self.image = self.sprite_parado
+        
+        if self.is_invincible and self.current_sprite % 1 >= 0.5:
+            self.image = self.blank
 
 
 class InimigoMario(Enemy):
@@ -268,10 +293,13 @@ class PlayerShooter(Player):
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
-        self.current_sprite += 0.05
+        self.current_sprite += 0.1
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
+
+        if self.is_invincible and self.current_sprite % 1 >= 0.5:
+            self.image = self.blank
 
 
 class InimigoShooter(Enemy):

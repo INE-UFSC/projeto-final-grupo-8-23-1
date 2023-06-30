@@ -42,6 +42,19 @@ class SistemaPlayer(Sistema):
         self.player = player
         super().__init__([])
 
+    def recarga(self):
+        if self.player.is_invincible:
+            if pygame.time.get_ticks() - self.player.invincible_ticks > self.player.invincible_duration:
+                self.player.is_invincible = False
+
+        if self.player.tomando_dano:
+            if pygame.time.get_ticks() - self.player.damage_ticks > self.player.damage_duration:
+                self.player.tomando_dano = False
+
+        if not self.player.tiro_pronto:
+            if pygame.time.get_ticks() - self.player.ultimo_tiro > self.player.tiro_recarga:
+                self.player.tiro_pronto = True
+
 
 class SistemaInimigos(Sistema):
     def __init__(self, inimigos, player):
@@ -61,6 +74,7 @@ class SistemaInimigos(Sistema):
 
 class PlayerAsteroidSistema(SistemaPlayer):
     def tick(self):
+        self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.player.rect.x -= 5
@@ -72,8 +86,8 @@ class PlayerAsteroidSistema(SistemaPlayer):
             self.player.rect.y += 5
         if keys[pygame.K_SPACE]:
             self.shoot()
-        if self.player.tiro_pronto > 0:
-            self.player.tiro_pronto -= 1
+        if self.player.tiros_prontos > 0:
+            self.player.tiros_prontos -= 1
         self.update_bullets()
 
     def update_bullets(self):
@@ -82,10 +96,10 @@ class PlayerAsteroidSistema(SistemaPlayer):
             bullet.rect.y += bullet.dir[1] * bullet.speed
 
     def shoot(self):
-        if self.player.tiro_pronto == 0:
+        if self.player.tiros_prontos == 0:
             bullet = Bullet(self.player.rect.x, self.player.rect.y)
             self.adicionar_entidade(bullet)
-            self.player.tiro_pronto = 10
+            self.player.tiros_prontos = 10
 
 
 class SistemaInimigosAsteroid(SistemaInimigos):
@@ -123,6 +137,7 @@ class SistemaInimigosAsteroid(SistemaInimigos):
 
 class PlayerDinoSistema(SistemaPlayer):
     def tick(self):
+        self.recarga()
         if self.player.rect.x > 180:
             self.player.rect.x -= 18
             self.player.velocity = 4
@@ -133,7 +148,7 @@ class PlayerDinoSistema(SistemaPlayer):
             if keys[pygame.K_SPACE] and not self.player.is_jumping:
                 self.player.jump()
             if self.player.is_invincible:
-                if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+                if pygame.time.get_ticks() - self.player.invincible_ticks > self.player.invincible_duration:
                     self.player.is_invincible = False
 
 
@@ -172,6 +187,7 @@ class SistemaInimigosDino(SistemaInimigos):
 
 class PlayerFlappySistema(SistemaPlayer):
     def tick(self):
+        self.recarga()
         self.player.vel_x = 3.8
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
@@ -196,6 +212,7 @@ class SistemaInimigosFlappy(SistemaInimigos):
 
 class PlayerMarioSistema(SistemaPlayer):
     def tick(self):
+        self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.player.vel_x = -5
@@ -208,7 +225,7 @@ class PlayerMarioSistema(SistemaPlayer):
         if keys[pygame.K_SPACE] and not self.player.is_jumping:
             self.player.jump()
         if self.player.is_invincible:
-            if pygame.time.get_ticks() - self.player.invincible_ticks > 1200:
+            if pygame.time.get_ticks() - self.player.invincible_ticks > self.player.invincible_duration:
                 self.player.is_invincible = False
 
 
@@ -243,6 +260,7 @@ class SistemaInimigosMario(SistemaInimigos):
 
 class PlayerShooterSistema(SistemaPlayer):
     def tick(self):
+        self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.player.rect.x -= 5
@@ -282,6 +300,7 @@ class SistemaInimigosShooter(SistemaInimigos):
 
 class PlayerSpaceSistema(SistemaPlayer):
     def tick(self):
+        self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.player.rect.x -= 5
@@ -289,8 +308,8 @@ class PlayerSpaceSistema(SistemaPlayer):
             self.player.rect.x += 5
         if keys[pygame.K_SPACE]:
             self.shoot()
-        if self.player.tiro_pronto > 0:
-            self.player.tiro_pronto -= 1
+        if self.player.tiros_prontos > 0:
+            self.player.tiros_prontos -= 1
         self.update_bullets()
 
     def update_bullets(self):
@@ -298,10 +317,10 @@ class PlayerSpaceSistema(SistemaPlayer):
             bullet.rect.y -= 10
 
     def shoot(self):
-        if self.player.tiro_pronto == 0:
+        if self.player.tiros_prontos == 0:
             bullet = Bullet(self.player.rect.x, self.player.rect.y)
             self.adicionar_entidade(bullet)
-            self.player.tiro_pronto = 10
+            self.player.tiros_prontos = 10
 
 
 class InimigosSpaceSistema(SistemaInimigos):
