@@ -152,14 +152,17 @@ class InimigoAsteroid(Enemy):
 
 class PlayerDino(Player):
     def load_animation(self):
-        scale = (26 * self.multiplier, 40 * self.multiplier)
-        self.sprite_pulando = pygame.transform.scale(pygame.image.load('./assets/player/mario_pulando.png'), scale)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_1.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_2.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_3.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_4.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_5.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_6.png'), scale))
+        scale = (40 * self.multiplier, 40 * self.multiplier)
+        self.sprite_pulando = pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite1.png'), scale)
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite1.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite2.png'), scale))
+        self.sprite_dano = pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite2.png'), (60, 60))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_1.png'), scale))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_2.png'), scale))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_3.png'), scale))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_4.png'), scale))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_5.png'), scale))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_6.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
