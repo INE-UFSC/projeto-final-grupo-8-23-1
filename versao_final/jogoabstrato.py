@@ -28,19 +28,28 @@ class JogoAbstrato:
         for removed in list_removed:
             self.score += 5
             self.inimigos_sys.clear_removed()
-            # self.inimigos_sys.adicionar_entidade(self.inimigo())
+            # x, y = self.gen_inimigo_coords()
+            # self.inimigos_sys.adicionar_entidade(self.inimigo(x, y))
+
+    def gen_inimigo_coords(self):
+        for _ in range(1000):
+            x_novo = random.randint(0, 1150)
+            y_novo = random.randint(65, 500)
+            if not any(abs(x_novo - inimigo.rect.x) < 55 and abs(y_novo - inimigo.rect.y) < 55 for inimigo in self.inimigos)\
+                and not abs(x_novo - self.player.rect.x) < 150 and not abs(y_novo - self.player.rect.y) < 150:
+                break
+        return (x_novo, y_novo)
 
     def inicializar_entidades(self):
+        for inimigo in self.inimigos:
+            x, y = inimigo.get_coords()
+            conversao = self.inimigo(x, y - 5)
+            self.inimigos.remove(inimigo)
+            self.inimigos.append(conversao)
+
         for _ in range(5 - len(self.inimigos)):
-            for _ in range(1000):
-                x_novo = random.randint(0, 1150)
-                y_novo = random.randint(65, 500)
-                if not any(abs(x_novo - inimigo.rect.x) < 55 and abs(y_novo - inimigo.rect.y) < 55 for inimigo in self.inimigos)\
-                    and not abs(x_novo - self.player.rect.x) < 150 and not abs(y_novo - self.player.rect.y) < 150:
-                    break
-            else:
-                continue
-            self.inimigos.append(self.inimigo(x_novo, y_novo))
+            x, y = self.gen_inimigo_coords()
+            self.inimigos.append(self.inimigo(x, y))
 
         self.entidades.append(self.player)
         for inimigo in self.inimigos:

@@ -1,6 +1,5 @@
 import pygame
 import random
-import math
 
 
 #---------------------------------------------------INICIALIZAÇÃO---------------------------------------------------#
@@ -26,6 +25,9 @@ class Entity:
     def update(self):
         pass
 
+    def get_coords(self):
+        return (self.rect.x, self.rect.y)
+
 
 class Player(Entity, pygame.sprite.Sprite):
     def __init__(self, width, height, x, y, color):
@@ -34,11 +36,11 @@ class Player(Entity, pygame.sprite.Sprite):
         self.tiros_prontos = 0
         self.velocity = 0
         self.lives = 3
-        
+
         self.ultimo_tiro = 0
         self.tiro_recarga = 150
         self.tiro_pronto = True
-        
+
         self.damage_ticks = 0
         self.damage_duration = 400
         self.tomando_dano = False
@@ -64,7 +66,7 @@ class Player(Entity, pygame.sprite.Sprite):
             self.virado_esquerda = True
         else:
             self.virado_esquerda = False
-    
+
     def tomar_dano(self):
         self.lives -= 1
         self.tomando_dano = True
@@ -133,6 +135,7 @@ class PlayerAsteroid(Player):
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.rect.x, self.rect.y]
 
+
 class InimigoAsteroid(Enemy):
     def __init__(self, x, y, color):
         super().__init__(x, y, color, 2, 25, 21)
@@ -181,7 +184,6 @@ class PlayerDino(Player):
             self.image = self.blank
         if self.tomando_dano:
             self.image = self.sprite_dano
-        
 
 
 class DinoEnemy(Enemy):
@@ -377,7 +379,7 @@ class Bullet(Entity):
             self.vel_x = -speed
         else:
             self.vel_x = 0
-        
+
         if vel_y > 0:
             self.vel_y = speed
         elif vel_y < 0:
@@ -388,6 +390,7 @@ class Bullet(Entity):
         if self.vel_x == 0 and self.vel_y == 0:
             self.vel_x = 0
             self.vel_y = -speed
+
 
 class Platform(Entity, pygame.sprite.Sprite):
     def __init__(self, width, height, x, y):
