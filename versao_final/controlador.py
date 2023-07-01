@@ -116,7 +116,6 @@ class Controlador:
             result = menu.main()
             if result == 'start':
                 self.atualizar_entre_jogos()
-                print("Fui chamado")
                 while self.running:
                     self.screen.blit(self.background, (0, 0))
                     #self.screen.fill((0, 0, 0))
