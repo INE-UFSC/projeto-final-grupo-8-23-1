@@ -80,7 +80,7 @@ class Player(Entity, pygame.sprite.Sprite):
         self.is_jumping = True
 
     def jump_flappy(self):
-        self.velocity = -5
+        self.velocity = -4
         self.is_jumping = True
 
     def update(self):
@@ -366,19 +366,28 @@ class InimigoSpace(Enemy):
 
 
 class Bullet(Entity):
-    def __init__(self, x, y):
+    def __init__(self, x, y, vel_x, vel_y):
         super().__init__(5, 5, x, y, (255, 255, 0))
-        self.speed = 7
+        speed = 8
         self.pos = (x, y)
-        mx, my = pygame.mouse.get_pos()
-        self.dir = (mx - x, my - y)
-        length = math.hypot(*self.dir)
-        if length == 0.0:
-            self.dir = (0, -1)
-        else:
-            self.dir = (self.dir[0]/length, self.dir[1]/length)
-        self.angle = math.degrees(math.atan2(-self.dir[1], self.dir[0]))
 
+        if vel_x > 0:
+            self.vel_x = speed
+        elif vel_x < 0:
+            self.vel_x = -speed
+        else:
+            self.vel_x = 0
+        
+        if vel_y > 0:
+            self.vel_y = speed
+        elif vel_y < 0:
+            self.vel_y = -speed
+        else:
+            self.vel_y = 0
+
+        if self.vel_x == 0 and self.vel_y == 0:
+            self.vel_x = 0
+            self.vel_y = -speed
 
 class Platform(Entity, pygame.sprite.Sprite):
     def __init__(self, width, height, x, y):
