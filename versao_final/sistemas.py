@@ -77,13 +77,13 @@ class PlayerAsteroidSistema(SistemaPlayer):
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.player.rect.x -= 5
+            self.player.vel_x = -3
         if keys[pygame.K_d]:
-            self.player.rect.x += 5
+            self.player.vel_x = 3
         if keys[pygame.K_w]:
-            self.player.rect.y -= 5
+            self.player.vel_y = -3
         if keys[pygame.K_s]:
-            self.player.rect.y += 5
+            self.player.vel_y = 3
         if keys[pygame.K_SPACE]:
             self.shoot()
         if self.player.tiros_prontos > 0:
@@ -92,12 +92,12 @@ class PlayerAsteroidSistema(SistemaPlayer):
 
     def update_bullets(self):
         for bullet in self.get_entidades():
-            bullet.rect.x += bullet.dir[0] * bullet.speed
-            bullet.rect.y += bullet.dir[1] * bullet.speed
+            bullet.rect.x += bullet.vel_x
+            bullet.rect.y += bullet.vel_y
 
     def shoot(self):
         if self.player.tiros_prontos == 0:
-            bullet = Bullet(self.player.rect.x, self.player.rect.y)
+            bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)
             self.adicionar_entidade(bullet)
             self.player.tiros_prontos = 10
 
@@ -155,7 +155,7 @@ class PlayerDinoSistema(SistemaPlayer):
 class SistemaInimigosDino(SistemaInimigos):
     def tick(self):
         for enemy in self.get_entidades():
-            enemy.rect.x -= 3.5
+            enemy.rect.x -= 3
 
             entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
@@ -186,7 +186,7 @@ class SistemaInimigosDino(SistemaInimigos):
 class PlayerFlappySistema(SistemaPlayer):
     def tick(self):
         self.recarga()
-        self.player.vel_x = 3.8
+        self.player.vel_x = 3.5
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             self.player.jump_flappy()
@@ -256,13 +256,13 @@ class PlayerShooterSistema(SistemaPlayer):
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.player.rect.x -= 5
+            self.player.rect.x -= 4
         if keys[pygame.K_d]:
-            self.player.rect.x += 5
+            self.player.rect.x += 4
         if keys[pygame.K_w]:
-            self.player.rect.y -= 5
+            self.player.rect.y -= 4
         if keys[pygame.K_s]:
-            self.player.rect.y += 5
+            self.player.rect.y += 4
 
 
 class SistemaInimigosShooter(SistemaInimigos):
@@ -296,9 +296,9 @@ class PlayerSpaceSistema(SistemaPlayer):
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.player.rect.x -= 5
+            self.player.rect.x -= 4
         if keys[pygame.K_d]:
-            self.player.rect.x += 5
+            self.player.rect.x += 4
         if keys[pygame.K_SPACE]:
             self.shoot()
         if self.player.tiros_prontos > 0:
@@ -311,7 +311,7 @@ class PlayerSpaceSistema(SistemaPlayer):
 
     def shoot(self):
         if self.player.tiros_prontos == 0:
-            bullet = Bullet(self.player.rect.x, self.player.rect.y)
+            bullet = Bullet(self.player.rect.x, self.player.rect.y, 0, -1)
             self.adicionar_entidade(bullet)
             self.player.tiros_prontos = 10
 
@@ -377,6 +377,10 @@ class SistemaMovimento(Sistema):
                 entidade.vel_x = max(0, entidade.vel_x - entidade.acceleration)
             elif entidade.vel_x < 0:
                 entidade.vel_x = min(0, entidade.vel_x + entidade.acceleration)
+            if entidade.vel_y > 0:
+                entidade.vel_y = max(0, entidade.vel_y - entidade.acceleration)
+            elif entidade.vel_y < 0:
+                entidade.vel_y = min(0, entidade.vel_y + entidade.acceleration)
 
 
 class SistemaPlataformas(Sistema):
