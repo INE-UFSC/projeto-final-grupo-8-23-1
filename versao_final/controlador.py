@@ -103,7 +103,6 @@ class Controlador:
         pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
 
-
     def atualizar_contexto(self):
         self.score += self.temp_score
         self.score += 100
