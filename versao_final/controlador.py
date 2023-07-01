@@ -77,6 +77,7 @@ class Controlador:
         self.novo_jogo.set_lives(self.lives)
 
     def game_over_reset(self):
+        pygame.mixer_music.stop()
         self.jogos_disponiveis = list(self.jogos.values()).copy()
         gameover_screen = GameOver(self.screen, self.score + self.temp_score, self)
         self.running = False
@@ -86,6 +87,7 @@ class Controlador:
         self.jogo_atual = self.jogos[random.choice(list(self.jogos.keys()))]
         self.novo_jogo = self.jogo_atual(self.screen, [], self.player, [], self.plataforma)
         self.inicio_jogo = time.time()
+        self.atualizar_entre_jogos()
 
         self.novo_jogo.set_lives(3)
         self.num_fases = 0
@@ -97,6 +99,10 @@ class Controlador:
         self.novo_jogo = self.jogo_atual(self.screen, [], self.player, [], self.plataforma)
         self.novo_jogo.set_lives(self.lives)
         self.inicio_jogo = time.time()
+        pygame.mixer.music.load('assets/jogo.mp3')
+        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.play(-1)
+
 
     def atualizar_contexto(self):
         self.score += self.temp_score
@@ -109,10 +115,8 @@ class Controlador:
         while self.running:
             result = menu.main()
             if result == 'start':
-                pygame.mixer.music.load('assets/jogo.mp3')
-                pygame.mixer.music.set_volume(0.3)
-                pygame.mixer.music.play(-1)
                 self.atualizar_entre_jogos()
+                print("Fui chamado")
                 while self.running:
                     self.screen.blit(self.background, (0, 0))
                     #self.screen.fill((0, 0, 0))
