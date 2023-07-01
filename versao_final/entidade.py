@@ -350,8 +350,8 @@ class InimigoSpace(Enemy):
         super().__init__(x, y, color, 2, 25, 21)
 
     def load_animation(self):
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_laranja_voando_1.png'), self.scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_laranja_voando_2.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_invader_sprite1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/gumbas/gumba_invader_sprite2.png'), self.scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
