@@ -119,7 +119,7 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                     enemy_2.direction[0] *= -1
                     enemy_2.direction[1] *= -1
 
-            if self.player.rect.colliderect(enemy.rect) and pygame.key.get_pressed()[pygame.K_SPACE]:
+            if self.player.rect.colliderect(enemy.rect) and not self.player.is_invincible:
                 self.player.tomar_dano()
 
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
@@ -329,7 +329,7 @@ class InimigosSpaceSistema(SistemaInimigos):
             entidades_sem_1.remove(enemy)
             for enemy_2 in entidades_sem_1:
 
-                if enemy.rect.colliderect(enemy_2.rect):
+                if enemy.rect.colliderect(enemy_2.rect) :
                     if enemy.rect.y > enemy_2.rect.y:
                         enemy.rect.y += (abs(enemy.rect.y - enemy_2.rect.y) + 5)
                         enemy.direction[0] *= -1
@@ -337,7 +337,7 @@ class InimigosSpaceSistema(SistemaInimigos):
                         enemy.rect.y += (abs(enemy.rect.y - enemy_2.rect.y) + 5)
                         enemy.direction[0] *= -1
 
-            if self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 650:
+            if (self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 650) and not self.player.is_invincible:
                 self.player.tomar_dano()
                 self.remover_entidade(enemy)
                 self.removed.append(enemy)
