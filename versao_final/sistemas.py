@@ -1,8 +1,7 @@
 import pygame
 from entidade import *
 
-
-#---------------------------------------------------INICIALIZAÇÃO---------------------------------------------------#
+# ----INICIALIZAÇÃO---
 
 
 class Sistema:
@@ -77,12 +76,16 @@ class PlayerAsteroidSistema(SistemaPlayer):
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
+            self.player.rect.x -= 4
             self.player.vel_x = -3
         if keys[pygame.K_d]:
+            self.player.rect.x += 4
             self.player.vel_x = 3
         if keys[pygame.K_w]:
+            self.player.rect.y -= 4
             self.player.vel_y = -3
         if keys[pygame.K_s]:
+            self.player.rect.y += 4
             self.player.vel_y = 3
         if keys[pygame.K_SPACE]:
             self.shoot()
@@ -365,14 +368,11 @@ class SistemaMovimento(Sistema):
 
     def tick(self):
         for entidade in self.get_entidades():
-            for plataforma in self.plataformas.get_entidades():
-                if entidade.rect.colliderect(plataforma):
-                    entidade.rect.x -= entidade.vel_x
             entidade.rect.x += entidade.vel_x
             for plataforma in self.plataformas.get_entidades():
                 if entidade.rect.colliderect(plataforma):
-                    entidade.rect.y += entidade.vel_y
-            entidade.rect.y += entidade.vel_y
+                    entidade.rect.x -= entidade.vel_x
+                    break
             if entidade.vel_x > 0:
                 entidade.vel_x = max(0, entidade.vel_x - entidade.acceleration)
             elif entidade.vel_x < 0:
@@ -424,9 +424,13 @@ class SistemaGravidade(Sistema):
             entidade.velocity += self.gravidade
             for plataforma in self.__plataformas:
                 if entidade.rect.colliderect(plataforma):
-                    entidade.is_jumping = False
-                    entidade.rect.y = plataforma.rect.y - entidade.height
-                    entidade.velocity = 0
+                    # Check if collide is in platform bottom
+                    if entidade.rect.y + entidade.height > plataforma.rect.bottom:
+                        entidade.rect.y = plataforma.rect.bottom
+                    else:
+                        entidade.is_jumping = False
+                        entidade.rect.y = plataforma.rect.y - entidade.height
+                        entidade.velocity = 0
                     break
 
 
