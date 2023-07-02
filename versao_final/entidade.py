@@ -77,8 +77,12 @@ class Player(Entity, pygame.sprite.Sprite):
     def get_vidas(self):
         return self.lives
 
-    def jump(self):
-        self.velocity = -16
+    def jump_mario(self):
+        self.velocity = -18
+        self.is_jumping = True
+    
+    def jump_dino(self):
+        self.velocity = -15
         self.is_jumping = True
 
     def jump_flappy(self):

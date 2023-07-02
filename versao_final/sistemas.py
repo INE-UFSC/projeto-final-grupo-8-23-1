@@ -148,14 +148,14 @@ class PlayerDinoSistema(SistemaPlayer):
     def tick(self):
         self.recarga()
         if self.player.rect.x > 180:
-            self.player.rect.x -= 18
+            self.player.rect.x -= 15
             self.player.velocity = 4
             self.player.is_invincible = True
             self.player.invincible_ticks = pygame.time.get_ticks()
         else:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE] and not self.player.is_jumping:
-                self.player.jump()
+                self.player.jump_dino()
             if self.player.is_invincible:
                 if pygame.time.get_ticks() - self.player.invincible_ticks > self.player.invincible_duration:
                     self.player.is_invincible = False
@@ -164,7 +164,7 @@ class PlayerDinoSistema(SistemaPlayer):
 class SistemaInimigosDino(SistemaInimigos):
     def tick(self):
         for enemy in self.get_entidades():
-            enemy.rect.x -= 3
+            enemy.rect.x -= 2.8
 
             entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
@@ -182,7 +182,7 @@ class SistemaInimigosDino(SistemaInimigos):
 
             if self.player.rect.colliderect(enemy.rect):
                 if self.player.is_jumping:
-                    self.player.jump()
+                    self.player.jump_dino()
                     self.removed.append(enemy)
                     self.remover_entidade(enemy)
                 elif not self.player.is_invincible:
@@ -240,7 +240,7 @@ class PlayerMarioSistema(SistemaPlayer):
         if not(keys[pygame.K_a] or keys[pygame.K_d]):
             self.player.is_running = False
         if keys[pygame.K_SPACE] and not self.player.is_jumping:
-            self.player.jump()
+            self.player.jump_mario()
 
 
 class SistemaInimigosMario(SistemaInimigos):
@@ -260,7 +260,7 @@ class SistemaInimigosMario(SistemaInimigos):
                 enemy.direction[0] *= -1
             if self.player.rect.colliderect(enemy.rect):
                 if self.player.is_jumping:
-                    self.player.jump()
+                    self.player.jump_mario()
                     self.removed.append(enemy)
                     self.remover_entidade(enemy)
                 elif not self.player.is_invincible:
