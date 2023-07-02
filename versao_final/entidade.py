@@ -82,7 +82,7 @@ class Player(Entity, pygame.sprite.Sprite):
         return self.lives
 
     def jump_mario(self):
-        self.velocity = -18
+        self.velocity = -16
         self.is_jumping = True
     
     def jump_dino(self):
@@ -163,17 +163,13 @@ class InimigoAsteroid(Enemy):
 
 class PlayerDino(Player):
     def load_animation(self):
-        scale = (40 * self.multiplier, 40 * self.multiplier)
-        self.sprite_pulando = pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite1.png'), scale)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite1.png'), scale))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite2.png'), scale))
-        self.sprite_dano = pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite2.png'), (60, 60))
-        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_1.png'), scale))
-        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_2.png'), scale))
-        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_3.png'), scale))
-        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_4.png'), scale))
-        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_5.png'), scale))
-        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_andando_6.png'), scale))
+        scale = (32 * self.multiplier, 40 * self.multiplier)
+        self.sprite_pulando = pygame.transform.scale(pygame.image.load('./assets/player/dino_pulando.png'), scale)
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite1.png'), scale))
+        #self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_sprite2.png'), scale))
+        self.sprite_dano = pygame.transform.scale(pygame.image.load('./assets/player/mario_dano.png'), (60, 60))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_andando_1.png'), scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/dino_andando_2.png'), scale))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -181,7 +177,7 @@ class PlayerDino(Player):
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
-        self.current_sprite += 0.1
+        self.current_sprite += 0.04
         if self.is_jumping:
             self.image = self.sprite_pulando
         else:
@@ -310,7 +306,7 @@ class InimigoMario(Enemy):
 
 class PlayerShooter(Player):
     def load_animation(self):
-        scale = (39 * self.multiplier, 39 * self.multiplier)
+        scale = (40 * self.multiplier, 40 * self.multiplier)
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_mira_1.png'), scale))
         self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/player/mario_mira_2.png'), scale))
         self.current_sprite = 0
@@ -320,7 +316,7 @@ class PlayerShooter(Player):
         self.rect.topleft = [self.rect.x, self.rect.y]
 
     def update(self):
-        self.current_sprite += 0.1
+        self.current_sprite += 0.07
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
@@ -377,8 +373,9 @@ class InimigoSpace(Enemy):
 
 class Bullet(Entity):
     def __init__(self, x, y, vel_x, vel_y):
-        super().__init__(5, 5, x, y, (255, 255, 0))
-        speed = 8
+        self.scale = (20, 20)
+        super().__init__(20, 20, x, y, (255, 255, 0))
+        speed = 10
         self.pos = (x, y)
 
         if vel_x > 0:
@@ -398,6 +395,24 @@ class Bullet(Entity):
         if self.vel_x == 0 and self.vel_y == 0:
             self.vel_x = 0
             self.vel_y = -speed
+        
+    def load_animation(self):
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/fireball_gif-0.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/fireball_gif-1.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/fireball_gif-2.png'), self.scale))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('./assets/fireball_gif-3.png'), self.scale))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.rect.x, self.rect.y]
+
+    def update(self):
+        self.current_sprite += 0.2
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+
+        self.image = self.sprites[int(self.current_sprite)]
 
 
 class Platform(Entity, pygame.sprite.Sprite):

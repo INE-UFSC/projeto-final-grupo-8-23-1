@@ -35,6 +35,9 @@ class GameOver:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                elif event.type == pygame.KEYDOWN:
+                    Menu(self.screen).main()
+                    return True
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
                     if self.botao_menu.get_rect(topleft=(300, 270)).collidepoint(x, y):

@@ -16,7 +16,7 @@ class Mario(JogoAbstrato):
         self.sistemas.append(self.inimigos_sys)
 
         self.sistemas.append(PlayerMarioSistema(self.player))
-        self.sistemas.append(SistemaGravidade(self.player, self.plataformas, 0.9, self.inimigos_sys))
+        self.sistemas.append(SistemaGravidade(self.player, self.plataformas, 0.8, self.inimigos_sys))
         self.sistemas.append(SistemaPlayerBateParedeHorizontal(self.player))
 
         super().inicializar_sistemas()

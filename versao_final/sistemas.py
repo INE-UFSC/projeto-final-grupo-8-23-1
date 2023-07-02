@@ -77,16 +77,16 @@ class PlayerAsteroidSistema(SistemaPlayer):
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.player.rect.x -= 4
-            self.player.vel_x = -3
+            self.player.rect.x -= 2
+            self.player.vel_x = -1
         if keys[pygame.K_d]:
-            self.player.rect.x += 4
-            self.player.vel_x = 3
+            self.player.rect.x += 2
+            self.player.vel_x = 1
         if keys[pygame.K_w]:
-            self.player.rect.y -= 4
+            self.player.rect.y -= 3
             self.player.vel_y = -3
         if keys[pygame.K_s]:
-            self.player.rect.y += 4
+            self.player.rect.y += 2
             self.player.vel_y = 3
         if keys[pygame.K_SPACE]:
             self.shoot()
@@ -103,7 +103,7 @@ class PlayerAsteroidSistema(SistemaPlayer):
         if self.player.tiros_prontos == 0:
             bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)
             self.adicionar_entidade(bullet)
-            self.player.tiros_prontos = 10
+            self.player.tiros_prontos = 50
 
 
 class SistemaInimigosAsteroid(SistemaInimigos):
@@ -135,6 +135,7 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                 if enemy.rect.colliderect(plataforma):
                     enemy.direction[0] *= -1
                     enemy.direction[1] *= -1
+                    enemy.rect.y -= 1
             for bullet in self.bullets.get_entidades():
                 if bullet.rect.colliderect(enemy):
                     self.remover_entidade(enemy)
@@ -218,13 +219,13 @@ class SistemaInimigosFlappy(SistemaInimigos):
             for enemy_2 in entidades_sem_1:
                 if enemy.rect.colliderect(enemy_2.rect):
                     if enemy.rect.y > enemy_2.rect.y:
-                        enemy_2.rect.y -= 10
+                        enemy_2.rect.y -= 1
             if self.player.rect.colliderect(enemy.rect):
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
             for plataforma in self.plataformas:
                 if enemy.rect.colliderect(plataforma):
-                    enemy.rect.y -= 10
+                    enemy.rect.y -= 1
 
 
 #---------------------------------------------------MARIO---------------------------------------------------#
@@ -235,10 +236,10 @@ class PlayerMarioSistema(SistemaPlayer):
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.player.vel_x = -5
+            self.player.vel_x = -4
             self.player.animate_run()
         if keys[pygame.K_d]:
-            self.player.vel_x = 5
+            self.player.vel_x = 4
             self.player.animate_run()
         if not(keys[pygame.K_a] or keys[pygame.K_d]):
             self.player.is_running = False
@@ -313,6 +314,7 @@ class SistemaInimigosShooter(SistemaInimigos):
                 if enemy.rect.colliderect(plataforma):
                     enemy.direction[0] *= -1
                     enemy.direction[1] *= -1
+                    enemy.rect.y -= 1
 
 
 #---------------------------------------------------SPACE---------------------------------------------------#
@@ -341,7 +343,7 @@ class PlayerSpaceSistema(SistemaPlayer):
         if self.player.tiros_prontos == 0:
             bullet = Bullet(self.player.rect.x, self.player.rect.y, 0, -1)
             self.adicionar_entidade(bullet)
-            self.player.tiros_prontos = 100
+            self.player.tiros_prontos = 50
 
 
 class InimigosSpaceSistema(SistemaInimigos):
@@ -360,10 +362,7 @@ class InimigosSpaceSistema(SistemaInimigos):
 
                 if enemy.rect.colliderect(enemy_2.rect) :
                     if enemy.rect.y > enemy_2.rect.y:
-                        enemy.rect.y += (abs(enemy.rect.y - enemy_2.rect.y) + 5)
-                        enemy.direction[0] *= -1
-                    elif enemy.rect.x > enemy_2.rect.x:
-                        enemy.rect.y += (abs(enemy.rect.y - enemy_2.rect.y) + 5)
+                        enemy.rect.y += 10
                         enemy.direction[0] *= -1
 
             if (self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 650) and not self.player.is_invincible:
@@ -371,14 +370,19 @@ class InimigosSpaceSistema(SistemaInimigos):
                 self.remover_entidade(enemy)
                 self.removed.append(enemy)
 
-            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
+            if enemy.rect.x + enemy.rect.width > 1200:
                 enemy.direction[0] *= -1
                 enemy.rect.y += 50
+                enemy.rect.x -= 10
+            if enemy.rect.x < 0:
+                enemy.direction[0] *= -1
+                enemy.rect.y += 50
+                enemy.rect.x += 10
             
             for plataforma in self.plataformas:
                 if enemy.rect.colliderect(plataforma):
                     enemy.direction[0] *= -1
-                    enemy.direction[1] *= -1
+                    enemy.rect.y -= 2
 
             for bullet in self.bullets.get_entidades():
                 if bullet.rect.colliderect(enemy):
