@@ -56,10 +56,11 @@ class SistemaPlayer(Sistema):
 
 
 class SistemaInimigos(Sistema):
-    def __init__(self, inimigos, player):
+    def __init__(self, inimigos, player, plataformas):
         super().__init__(inimigos)
         self.player = player
         self.removed = []
+        self.plataformas = plataformas
 
     def check_removed(self):
         return self.removed
@@ -106,9 +107,10 @@ class PlayerAsteroidSistema(SistemaPlayer):
 
 
 class SistemaInimigosAsteroid(SistemaInimigos):
-    def __init__(self, inimigos, player, bullets):
+    def __init__(self, inimigos, player, plataformas, bullets):
+        self.plataformas = plataformas
         self.bullets = bullets
-        super().__init__(inimigos, player)
+        super().__init__(inimigos, player, plataformas)
 
     def tick(self):
         for enemy in self.get_entidades():
@@ -129,6 +131,10 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                 enemy.direction[0] *= -1
             if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
+            for plataforma in self.plataformas:
+                if enemy.rect.colliderect(plataforma):
+                    enemy.direction[0] *= -1
+                    enemy.direction[1] *= -1
             for bullet in self.bullets.get_entidades():
                 if bullet.rect.colliderect(enemy):
                     self.remover_entidade(enemy)
@@ -194,18 +200,28 @@ class PlayerFlappySistema(SistemaPlayer):
         if keys[pygame.K_SPACE]:
             self.player.jump_flappy()
 
-        if self.player.rect.y > 650 - self.player.height * self.player.multiplier:
-            self.player.tomar_dano()
-            self.player.rect.y = 200
-            self.player.velocity = 0
-
 
 class SistemaInimigosFlappy(SistemaInimigos):
     def tick(self):
+        for plataforma in self.plataformas:
+            if self.player.rect.colliderect(plataforma):
+                self.player.tomar_dano()
+                self.player.rect.y = 200
+                self.player.velocity = 0
+
         for enemy in self.get_entidades():
+            entidades_sem_1 = self.get_entidades().copy()
+            entidades_sem_1.remove(enemy)
+            for enemy_2 in entidades_sem_1:
+                if enemy.rect.colliderect(enemy_2.rect):
+                    if enemy.rect.y > enemy_2.rect.y:
+                        enemy_2.rect.y -= 10
             if self.player.rect.colliderect(enemy.rect):
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
+            for plataforma in self.plataformas:
+                if enemy.rect.colliderect(plataforma):
+                    enemy.rect.y -= 10
 
 
 #---------------------------------------------------MARIO---------------------------------------------------#
@@ -290,6 +306,11 @@ class SistemaInimigosShooter(SistemaInimigos):
             if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
                 enemy.direction[1] *= -1
 
+            for plataforma in self.plataformas:
+                if enemy.rect.colliderect(plataforma):
+                    enemy.direction[0] *= -1
+                    enemy.direction[1] *= -1
+
 
 #---------------------------------------------------SPACE---------------------------------------------------#
 
@@ -320,9 +341,10 @@ class PlayerSpaceSistema(SistemaPlayer):
 
 
 class InimigosSpaceSistema(SistemaInimigos):
-    def __init__(self, inimigos, player, bullets):
+    def __init__(self, inimigos, player, plataformas, bullets):
+        self.plataformas = plataformas
         self.bullets = bullets
-        super().__init__(inimigos, player)
+        super().__init__(inimigos, player, plataformas)
 
     def tick(self):
         for enemy in self.get_entidades():
@@ -348,6 +370,11 @@ class InimigosSpaceSistema(SistemaInimigos):
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
                 enemy.rect.y += 50
+            
+            for plataforma in self.plataformas:
+                if enemy.rect.colliderect(plataforma):
+                    enemy.direction[0] *= -1
+                    enemy.direction[1] *= -1
 
             for bullet in self.bullets.get_entidades():
                 if bullet.rect.colliderect(enemy):

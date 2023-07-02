@@ -14,7 +14,7 @@ class Space(JogoAbstrato):
         space = PlayerSpaceSistema(self.player)
         self.sistemas.append(space)
 
-        self.inimigos_sys = InimigosSpaceSistema(self.inimigos, self.player, space)
+        self.inimigos_sys = InimigosSpaceSistema(self.inimigos, self.player, self.plataformas, space)
         self.sistemas.append(self.inimigos_sys)
 
         self.sistemas.append(SistemaGravidade(self.player, self.plataformas, 2, []))

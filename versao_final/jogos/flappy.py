@@ -18,7 +18,7 @@ class Flappy(JogoAbstrato):
         return InimigoFlappy(x, y, (0, 255, 0))
 
     def inicializar_sistemas(self):
-        self.inimigos_sys = SistemaInimigosFlappy(self.inimigos, self.player)
+        self.inimigos_sys = SistemaInimigosFlappy(self.inimigos, self.player, self.plataformas)
         self.sistemas.append(self.inimigos_sys)
 
         self.sistemas.append(PlayerFlappySistema(self.player))

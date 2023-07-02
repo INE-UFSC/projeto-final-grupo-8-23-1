@@ -12,7 +12,7 @@ class Mario(JogoAbstrato):
         return InimigoMario(x, y, (255, 0, 0))
 
     def inicializar_sistemas(self):
-        self.inimigos_sys = SistemaInimigosMario(self.inimigos, self.player)
+        self.inimigos_sys = SistemaInimigosMario(self.inimigos, self.player, self.plataformas)
         self.sistemas.append(self.inimigos_sys)
 
         self.sistemas.append(PlayerMarioSistema(self.player))
