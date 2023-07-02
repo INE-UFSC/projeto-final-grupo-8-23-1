@@ -82,7 +82,7 @@ class Player(Entity, pygame.sprite.Sprite):
         return self.lives
 
     def jump_mario(self):
-        self.velocity = -16
+        self.velocity = -18
         self.is_jumping = True
     
     def jump_dino(self):

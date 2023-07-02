@@ -135,7 +135,6 @@ class SistemaInimigosAsteroid(SistemaInimigos):
                 if enemy.rect.colliderect(plataforma):
                     enemy.direction[0] *= -1
                     enemy.direction[1] *= -1
-                    enemy.rect.y -= 1
             for bullet in self.bullets.get_entidades():
                 if bullet.rect.colliderect(enemy):
                     self.remover_entidade(enemy)
@@ -314,7 +313,6 @@ class SistemaInimigosShooter(SistemaInimigos):
                 if enemy.rect.colliderect(plataforma):
                     enemy.direction[0] *= -1
                     enemy.direction[1] *= -1
-                    enemy.rect.y -= 1
 
 
 #---------------------------------------------------SPACE---------------------------------------------------#
