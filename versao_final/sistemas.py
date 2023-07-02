@@ -129,7 +129,7 @@ class SistemaInimigosAsteroid(SistemaInimigos):
 
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
-            if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
+            if enemy.rect.y + enemy.rect.height > 660 or enemy.rect.y < 65:
                 enemy.direction[1] *= -1
             for plataforma in self.plataformas:
                 if enemy.rect.colliderect(plataforma):
@@ -306,7 +306,7 @@ class SistemaInimigosShooter(SistemaInimigos):
 
             if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
                 enemy.direction[0] *= -1
-            if enemy.rect.y + enemy.rect.height > 650 or enemy.rect.y < 70:
+            if enemy.rect.y + enemy.rect.height > 660 or enemy.rect.y < 65:
                 enemy.direction[1] *= -1
 
             for plataforma in self.plataformas:
@@ -363,7 +363,7 @@ class InimigosSpaceSistema(SistemaInimigos):
                         enemy.rect.y += 10
                         enemy.direction[0] *= -1
 
-            if (self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 650) and not self.player.is_invincible:
+            if (self.player.rect.colliderect(enemy.rect) or enemy.rect.y + enemy.rect.height > 660) and not self.player.is_invincible:
                 self.player.tomar_dano()
                 self.remover_entidade(enemy)
                 self.removed.append(enemy)
