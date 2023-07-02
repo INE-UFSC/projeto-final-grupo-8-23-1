@@ -317,6 +317,7 @@ class SistemaInimigosShooter(SistemaInimigos):
 
 class PlayerSpaceSistema(SistemaPlayer):
     def tick(self):
+        self.player.rect.y = 600
         self.recarga()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
@@ -337,7 +338,7 @@ class PlayerSpaceSistema(SistemaPlayer):
         if self.player.tiros_prontos == 0:
             bullet = Bullet(self.player.rect.x, self.player.rect.y, 0, -1)
             self.adicionar_entidade(bullet)
-            self.player.tiros_prontos = 10
+            self.player.tiros_prontos = 100
 
 
 class InimigosSpaceSistema(SistemaInimigos):
@@ -348,7 +349,7 @@ class InimigosSpaceSistema(SistemaInimigos):
 
     def tick(self):
         for enemy in self.get_entidades():
-            enemy.rect.x += enemy.direction[0]*2
+            enemy.rect.x += enemy.direction[0]*1.8
 
             entidades_sem_1 = self.get_entidades().copy()
             entidades_sem_1.remove(enemy)
