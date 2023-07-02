@@ -24,6 +24,5 @@ class Flappy(JogoAbstrato):
         self.sistemas.append(PlayerFlappySistema(self.player))
         self.sistemas.append(SistemaGravidade(self.player, self.plataformas, 0.15))
         self.sistemas.append(SistemaPlayerTrocaLadoHorizontal(self.player))
-        self.sistemas.append(SistemaPlayerBateParedeVertical(self.player))
 
         super().inicializar_sistemas()

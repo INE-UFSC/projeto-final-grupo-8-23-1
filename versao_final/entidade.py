@@ -49,6 +49,10 @@ class Player(Entity, pygame.sprite.Sprite):
         self.invincible_duration = 1000
         self.is_invincible = True
 
+        self.morte_ticks = 0
+        self.morte_duration = 2000
+        self.morrendo = False
+
         self.is_running = False
         self.is_jumping = False
         self.virado_esquerda = False

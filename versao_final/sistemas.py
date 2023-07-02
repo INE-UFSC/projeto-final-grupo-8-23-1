@@ -196,6 +196,9 @@ class PlayerFlappySistema(SistemaPlayer):
     def tick(self):
         self.recarga()
         self.player.vel_x = 3.5
+        if self.player.rect.y < 65:
+            self.player.rect.y = 65
+            self.player.velocity = 0
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             self.player.jump_flappy()
@@ -472,10 +475,10 @@ class SistemaPlayerTrocaLadoHorizontal(SistemaPlayer):
 
 class SistemaPlayerTrocaLadoVertical(SistemaPlayer):
     def tick(self):
-        if self.player.rect.y < 70:  # altura da hud
-            self.player.rect.y = 650 - self.player.height
-        elif self.player.rect.y > (650 - self.player.height):  # altura plataforma
-            self.player.rect.y = 70
+        if self.player.rect.y < 65:  # altura da hud
+            self.player.rect.y = 660 - self.player.height
+        elif self.player.rect.y > (660 - self.player.height):  # altura plataforma
+            self.player.rect.y = 65
 
 
 class SistemaPlayerBateParedeHorizontal(SistemaPlayer):
@@ -488,8 +491,7 @@ class SistemaPlayerBateParedeHorizontal(SistemaPlayer):
 
 class SistemaPlayerBateParedeVertical(SistemaPlayer):
     def tick(self):
-        if self.player.rect.y < 60:
-            self.player.rect.y = 60
-            self.player.velocity = 0
-        elif self.player.rect.y > (650 - self.player.height):
-            self.player.rect.y = 650 - self.player.height
+        if self.player.rect.y < 65:
+            self.player.rect.y = 65
+        elif self.player.rect.y > (660 - self.player.height):
+            self.player.rect.y = 660 - self.player.height
