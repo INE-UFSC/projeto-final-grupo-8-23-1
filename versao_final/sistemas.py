@@ -103,7 +103,7 @@ class PlayerAsteroidSistema(SistemaPlayer):
         if self.player.tiros_prontos == 0:
             bullet = Bullet(self.player.rect.x, self.player.rect.y, self.player.vel_x, self.player.vel_y)
             self.adicionar_entidade(bullet)
-            self.player.tiros_prontos = 50
+            self.player.tiros_prontos = 35
 
 
 class SistemaInimigosAsteroid(SistemaInimigos):
@@ -127,10 +127,19 @@ class SistemaInimigosAsteroid(SistemaInimigos):
             if self.player.rect.colliderect(enemy.rect) and not self.player.is_invincible:
                 self.player.tomar_dano()
 
-            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
+            if enemy.rect.x + enemy.rect.width > 1200:
                 enemy.direction[0] *= -1
-            if enemy.rect.y + enemy.rect.height > 660 or enemy.rect.y < 65:
+                enemy.rect.x = 1200 - enemy.rect.width - 1
+            if enemy.rect.x < 0:
+                enemy.direction[0] *= -1
+                enemy.rect.x = 1
+            if enemy.rect.y + enemy.rect.height > 680:
                 enemy.direction[1] *= -1
+                enemy.rect.y > 680 - enemy.rect.height
+            if enemy.rect.y < 65:
+                enemy.direction[1] *= -1
+                enemy.rect.y = 66
+
             for plataforma in self.plataformas:
                 if enemy.rect.colliderect(plataforma):
                     enemy.direction[0] *= -1
@@ -203,6 +212,10 @@ class PlayerFlappySistema(SistemaPlayer):
         if keys[pygame.K_SPACE]:
             self.player.jump_flappy()
 
+        if self.player.rect.y + self.player.rect.height > 650:
+            self.player.tomar_dano()
+            self.player.rect.y = 200
+            self.player.velocity = 0
 
 class SistemaInimigosFlappy(SistemaInimigos):
     def tick(self):
@@ -304,10 +317,18 @@ class SistemaInimigosShooter(SistemaInimigos):
                 self.removed.append(enemy)
                 self.remover_entidade(enemy)
 
-            if enemy.rect.x + enemy.rect.width > 1200 or enemy.rect.x < 0:
+            if enemy.rect.x + enemy.rect.width > 1200:
                 enemy.direction[0] *= -1
-            if enemy.rect.y + enemy.rect.height > 660 or enemy.rect.y < 65:
+                enemy.rect.x = 1200 - enemy.rect.width - 1
+            if enemy.rect.x < 0:
+                enemy.direction[0] *= -1
+                enemy.rect.x = 1
+            if enemy.rect.y + enemy.rect.height > 680:
                 enemy.direction[1] *= -1
+                enemy.rect.y > 680 - enemy.rect.height
+            if enemy.rect.y < 65:
+                enemy.direction[1] *= -1
+                enemy.rect.y = 66
 
             for plataforma in self.plataformas:
                 if enemy.rect.colliderect(plataforma):

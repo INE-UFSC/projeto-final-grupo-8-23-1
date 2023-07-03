@@ -19,8 +19,7 @@ class Controlador:
     def __init__(self, screen):
         self.novo_jogo = None
         pygame.display.set_caption("RetroVerse")
-        #self.jogos = {'Ateroid': Asteroid, 'Dino':Dino, 'Flappy': Flappy, 'Mario': Mario, 'Shooter': Shooter, 'Space': Space}
-        self.jogos = {'Asteroid': Asteroid, 'Dino':Dino, 'Mario': Mario, 'Shooter': Shooter, 'Space': Space} #'Flappy': Flappy}
+        self.jogos = {'Asteroid': Asteroid, 'Dino':Dino, 'Mario': Mario, 'Shooter': Shooter, 'Space': Space, 'Flappy': Flappy}
         self.jogo_atual = random.choice(list(self.jogos.values()))
         self.screen = screen
         self.hud = Hud()
@@ -32,8 +31,6 @@ class Controlador:
         self.jogos_disponiveis = list(self.jogos.values()).copy()
         self.inicio_jogo = time.time()
         pygame.mixer.init()
-        # pygame.mixer.music.load("./musica/musica")
-        # pygame.mixer.music.play(-1)
         self.lives = 3
         self.tempo_na_fase = 0
         self.score = 0

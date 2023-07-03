@@ -9,7 +9,7 @@ class Shooter(JogoAbstrato):
         self.player = PlayerShooter(player.width, player.height, player.rect.x, player.rect.y, player.color)
 
     def inimigo(self, x, y):
-        return InimigoShooter(x, y, (0, 255, 0))
+        return InimigoShooter(x, y - 8, (0, 255, 0))
 
     def inicializar_sistemas(self):
         self.inimigos_sys = SistemaInimigosShooter(self.inimigos, self.player, self.plataformas)

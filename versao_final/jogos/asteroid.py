@@ -6,7 +6,7 @@ from entidade import InimigoAsteroid, PlayerAsteroid
 
 class Asteroid(JogoAbstrato):
     def inimigo(self, x, y):
-        return InimigoAsteroid(x, y, (255, 0, 255))
+        return InimigoAsteroid(x, y - 8, (255, 0, 255))
 
     def trocar_player(self, player):
         self.player = PlayerAsteroid(player.width, player.height, player.rect.x, player.rect.y, player.color)
